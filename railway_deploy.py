@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-RENDER DEPLOYMENT - ПОЛНАЯ НЕЗАВИСИМОСТЬ
-Работает без Replit, 24/7, полностью бесплатно
-ОБНОВЛЕННАЯ ЛОГИКА ОБРАБОТКИ МАРШРУТОВ
+YukMarkazi Bot - RENDER STARTER ПЛАН
+Чистая версия для платного плана Render ($7/мес)
+Без anti-sleep системы - работает стабильно 24/7
 """
 import os
 import sys
@@ -15,8 +16,18 @@ from datetime import datetime
 from flask import Flask
 import requests
 
-# Настройки
-BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
+# Настройка логирования
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] %(message)s',
+    handlers=[
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+logger = logging.getLogger(__name__)
+
+# Конфигурация
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
 MAIN_GROUP_ID = -1002259378109
 ADMIN_USER_ID = 8101326669
 API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}"
@@ -274,99 +285,59 @@ SERVICE_TOPICS = {
     'yangiliklar': 101359 # Yangiliklar
 }
 
-# Логирование
-logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(message)s')
-logger = logging.getLogger(__name__)
-
 # Глобальные переменные
-message_count = 0
 last_update_id = 0
+message_count = 0
 bot_start_time = datetime.now()
 
 def send_message(chat_id, text, message_thread_id=None):
     """Отправка сообщения"""
-    global message_count
     try:
-        data = {'chat_id': chat_id, 'text': text}
+        data = {
+            'chat_id': chat_id,
+            'text': text,
+            'parse_mode': 'HTML'
+        }
+        
         if message_thread_id:
             data['message_thread_id'] = message_thread_id
             
-        response = requests.post(f"{API_URL}/sendMessage", json=data, timeout=10)
-        success = response.json().get('ok', False)
-        
-        if success:
-            message_count += 1
-            logger.info(f"✅ Сообщение {message_count} отправлено в топик {message_thread_id}")
-        
-        return success
+        response = requests.post(f"{API_URL}/sendMessage", data=data, timeout=10)
+        return response.status_code == 200
     except Exception as e:
         logger.error(f"❌ Ошибка отправки: {e}")
         return False
 
-def extract_phone_number(text):
-    """Извлечение номера телефона из текста"""
-    phone_patterns = [
-        r'\b(\+?998)?[-\s]?(\d{2})[-\s]?(\d{3})[-\s]?(\d{2})[-\s]?(\d{2})\b',
-        r'\b(\d{9})\b',
-        r'\b(\d{2}[-\s]?\d{3}[-\s]?\d{2}[-\s]?\d{2})\b'
+def extract_route_info(text):
+    """Извлечение маршрута из текста"""
+    patterns = [
+        r'([А-ЯЁA-ZЎҒҚХ][а-яёa-zўғқх\'\s]+)\s*[-—–]\s*([А-ЯЁA-ZЎҒҚХ][а-яёa-zўғқх\'\s]+)',
+        r'([А-ЯЁA-ZЎҒҚХ][а-яёa-zўғқх\'\s]+)\s+([А-ЯЁA-ZЎҒҚХ][а-яёa-zўғқх\'\s]+)',
     ]
     
-    for pattern in phone_patterns:
+    for pattern in patterns:
         match = re.search(pattern, text)
         if match:
-            return match.group(0)
-    return "Ko'rsatilmagan"
-
-def extract_route_and_cargo(text):
-    """Извлечение маршрута и груза из текста"""
-    # Поиск маршрута (ГОРОД - ГОРОД)
-    route_pattern = r'([A-Z][A-Za-z]+)\s*[-–]\s*([A-Z][A-Za-z]+)'
-    route_match = re.search(route_pattern, text.upper())
+            from_city = match.group(1).strip()
+            to_city = match.group(2).strip()
+            return from_city, to_city
     
-    if route_match:
-        from_city = route_match.group(1).lower()
-        to_city = route_match.group(2).lower()
-        
-        # Остальной текст без маршрута
-        cargo_text = text.replace(route_match.group(0), '').strip()
-        
-        return from_city, to_city, cargo_text
-    
-    return None, None, text
-
-def format_cargo_text(cargo_text):
-    """Форматирование текста груза"""
-    # Убираем лишние пробелы и переводы строк
-    lines = [line.strip() for line in cargo_text.split('\n') if line.strip()]
-    
-    # Первая строка - тип транспорта/груза
-    transport_type = "Transport"
-    cargo_description = ""
-    
-    if lines:
-        first_line = lines[0]
-        if any(word in first_line.upper() for word in ['ISUZU', 'KAMAZ', 'GAZEL', 'TRUCK']):
-            transport_type = first_line.title()
-            cargo_description = ' '.join(lines[1:]) if len(lines) > 1 else ""
-        else:
-            cargo_description = ' '.join(lines)
-    
-    return transport_type, cargo_description
+    return None, None
 
 def process_message(message):
     """Обработка сообщения"""
+    global message_count
+    
     try:
-        if not message.get('text'):
+        if message.get('chat', {}).get('id') != MAIN_GROUP_ID:
             return
             
-        text = message['text']
-        chat_id = message['chat']['id']
-        
-        if chat_id != MAIN_GROUP_ID:
+        text = message.get('text', '')
+        if not text or len(text) < 10:
             return
-        
-        # Извлечение маршрута и груза
-        from_city, to_city, cargo_text = extract_route_and_cargo(text)
+            
+        # Извлечение маршрута
+        from_city, to_city = extract_route_info(text)
         
         if not from_city or not to_city:
             return
@@ -395,32 +366,21 @@ def process_message(message):
         if not topic_keyword:
             # Попробуем по всему тексту
             topic_keyword = find_region_by_text(text)
-                    
+            
         if not topic_keyword:
             return
             
-        # Получение информации о пользователе
-        sender_name = message.get('from', {}).get('first_name', 'Anonim')
-        sender_username = message.get('from', {}).get('username')
-        sender_link = f"https://t.me/{sender_username}" if sender_username else sender_name
-        
-        # Извлечение телефона
-        phone = extract_phone_number(text)
-        
-        # Форматирование груза
-        transport_type, cargo_description = format_cargo_text(cargo_text)
+        # Извлечение информации
+        user = message.get('from', {})
+        user_name = user.get('first_name', 'Anonim')
+        user_link = f"tg://user?id={user.get('id')}" if user.get('id') else ""
         
         # Форматирование сообщения
-        formatted_text = f"""{from_city.upper()} - {to_city.upper()}
+        formatted_text = f"""🚛 {from_city.upper()} - {to_city.upper()}
 
-🚛 {transport_type}
+{text}
 
-💬 {cargo_description}
-
-☎️ {phone}
-
-👤 {sender_link}
-
+👤 Yuboruvchi: <a href="{user_link}">{user_name}</a>
 #{to_city.upper()}
 ➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 Boshqa yuklar: @logistika_marka"""
@@ -430,55 +390,41 @@ Boshqa yuklar: @logistika_marka"""
         success = send_message(MAIN_GROUP_ID, formatted_text, topic_id)
         
         if success:
-            logger.info(f"🎯 {from_city} -> {to_city} ({topic_keyword}): {transport_type}")
+            message_count += 1
+            logger.info(f"✅ Сообщение {message_count} отправлено в {topic_keyword} ({topic_id})")
         
     except Exception as e:
         logger.error(f"❌ Ошибка обработки: {e}")
 
 def handle_admin_command(message):
     """Обработка команд админа"""
-    try:
-        if message.get('from', {}).get('id') != ADMIN_USER_ID:
-            return
-            
-        text = message.get('text', '')
-        user_id = message['from']['id']
+    text = message.get('text', '').lower()
+    
+    if 'статус' in text or 'status' in text:
+        uptime = datetime.now() - bot_start_time
+        hours = int(uptime.total_seconds() // 3600)
+        minutes = int((uptime.total_seconds() % 3600) // 60)
         
-        if text == '/status':
-            uptime = datetime.now() - bot_start_time
-            hours = int(uptime.total_seconds() // 3600)
-            minutes = int((uptime.total_seconds() % 3600) // 60)
-            
-            status = f"""🟢 RENDER BOT АКТИВЕН
+        status = f"""🟢 RENDER STARTER BOT АКТИВЕН
 📊 Обработано: {message_count} сообщений
 ⏰ Время работы: {hours}ч {minutes}м
 📋 Регионов: {len(REGION_KEYWORDS)} ({sum(len(data['keywords']) for data in REGION_KEYWORDS.values())} ключевых слов)
 🔄 Update: {last_update_id}
-🚀 Платформа: Render.com (БЕСПЛАТНО!)
-💰 Стоимость: $0"""
-            send_message(user_id, status)
-            
-    except Exception as e:
-        logger.error(f"❌ Ошибка команды: {e}")
+🚀 Платформа: Render.com STARTER ($7/мес)
+💰 Стоимость: $7/месяц - СТАБИЛЬНО 24/7"""
+        
+        send_message(ADMIN_USER_ID, status)
 
 def get_updates():
-    """Получение обновлений от Telegram"""
-    global last_update_id
+    """Получение обновлений"""
     try:
-        params = {
-            'offset': last_update_id + 1,
-            'timeout': 30,
-            'allowed_updates': ['message']
-        }
-        
+        params = {'offset': last_update_id + 1, 'timeout': 30}
         response = requests.get(f"{API_URL}/getUpdates", params=params, timeout=35)
         
         if response.status_code == 200:
             data = response.json()
-            if data.get('ok'):
-                return data.get('result', [])
+            return data.get('result', [])
         return []
-        
     except Exception as e:
         logger.error(f"❌ Ошибка получения: {e}")
         return []
@@ -487,10 +433,10 @@ def bot_main_loop():
     """Основной цикл бота"""
     global last_update_id
     
-    logger.info("🚀 RENDER BOT ЗАПУЩЕН")
+    logger.info("🚀 RENDER STARTER BOT ЗАПУЩЕН")
     
     # Уведомление админу
-    send_message(ADMIN_USER_ID, "🚀 RENDER BOT ЗАПУЩЕН - ПОЛНАЯ НЕЗАВИСИМОСТЬ И БЕСПЛАТНО!")
+    send_message(ADMIN_USER_ID, "🚀 RENDER STARTER BOT ЗАПУЩЕН - ПЛАТНЫЙ ПЛАН, ПОЛНАЯ СТАБИЛЬНОСТЬ!")
     
     while True:
         try:
@@ -516,16 +462,16 @@ def bot_main_loop():
             
         time.sleep(1)
 
-# Flask приложение для Render
+# Flask приложение
 app = Flask(__name__)
 
 @app.route('/')
-@app.route('/health')
 def health():
     uptime = datetime.now() - bot_start_time
     return {
-        'status': 'running',
-        'platform': 'Render.com',
+        'status': 'healthy',
+        'service': 'YukMarkazi Bot',
+        'plan': 'Render Starter ($7/month)',
         'uptime_seconds': int(uptime.total_seconds()),
         'messages_processed': message_count,
         'last_update_id': last_update_id,
@@ -534,17 +480,45 @@ def health():
 
 @app.route('/ping')
 def ping():
-    return 'pong'
+    return {
+        'status': 'pong',
+        'time': datetime.now().isoformat(),
+        'uptime': int((datetime.now() - bot_start_time).total_seconds()),
+        'messages': message_count
+    }
 
 def run_web_server():
-    """Веб-сервер для Render health checks"""
+    """Запуск веб-сервера"""
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
 
-if __name__ == "__main__":
+def main():
+    """Главная функция"""
+    if not BOT_TOKEN:
+        logger.error("❌ BOT_TOKEN не найден!")
+        sys.exit(1)
+    
+    logger.info("🚀 Запуск YukMarkazi Bot на Render Starter")
+    
     # Запуск веб-сервера в отдельном потоке
     web_thread = threading.Thread(target=run_web_server, daemon=True)
     web_thread.start()
     
-    # Основной цикл бота
-    bot_main_loop()
+    # Обработка сигналов
+    def signal_handler(signum, frame):
+        logger.info("🛑 Получен сигнал остановки")
+        send_message(ADMIN_USER_ID, "🛑 RENDER STARTER BOT ОСТАНОВЛЕН")
+        sys.exit(0)
+    
+    signal.signal(signal.SIGTERM, signal_handler)
+    signal.signal(signal.SIGINT, signal_handler)
+    
+    # Запуск основного цикла бота
+    try:
+        bot_main_loop()
+    except KeyboardInterrupt:
+        logger.info("🛑 Бот остановлен")
+        send_message(ADMIN_USER_ID, "🛑 RENDER STARTER BOT ОСТАНОВЛЕН")
+
+if __name__ == "__main__":
+    main()
