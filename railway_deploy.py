@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-YukMarkazi Bot - RENDER STARTER ПЛАН
-Чистая версия для платного плана Render ($7/мес)
-Без anti-sleep системы - работает стабильно 24/7
+RENDER DEPLOYMENT - ПОЛНАЯ НЕЗАВИСИМОСТЬ
+Работает без Replit, 24/7, полностью бесплатно
+ОБНОВЛЕННАЯ ЛОГИКА ОБРАБОТКИ МАРШРУТОВ
 """
 import os
 import sys
@@ -15,19 +14,10 @@ import re
 from datetime import datetime
 from flask import Flask
 import requests
+import schedule
 
-# Настройка логирования
-logging.basicConfig(
-    level=logging.INFO,
-    format='[%(asctime)s] %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout)
-    ]
-)
-logger = logging.getLogger(__name__)
-
-# Конфигурация
-BOT_TOKEN = os.environ.get('BOT_TOKEN')
+# Настройки
+BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 MAIN_GROUP_ID = -1002259378109
 ADMIN_USER_ID = 8101326669
 API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}"
@@ -39,7 +29,7 @@ REGION_KEYWORDS = {
         'topic_id': 101387,
         'keywords': [
             # Латиница
-            'andijon', 'andijan', 'asaka', 'baliqchi', 'boz', 'buloqboshi', 'izboskan', 
+            'andijon', 'andijan', 'andijondan', 'andijonega', 'asaka', 'asakadan', 'asakaga', 'baliqchi', 'boz', 'buloqboshi', 'izboskan', 
             'jalaquduq', 'marhamat', 'oltinko\'l', 'oltinkol', 'paxtaobod', 'qo\'rg\'ontepa',
             'qorgontepa', 'shahrixon', 'ulug\'nor', 'ulugnor', 'xo\'jaobod', 'xojaobod',
             # Кирилица узбекская
@@ -55,7 +45,7 @@ REGION_KEYWORDS = {
         'topic_id': 101372,
         'keywords': [
             # Латиница
-            'buxoro', 'bukhara', 'alat', 'g\'ijduvon', 'gijduvon', 'jondor', 'kogon', 'qorako\'l',
+            'buxoro', 'bukhara', 'buxorodan', 'buxoroga', 'bukharadan', 'bukharaga', 'alat', 'g\'ijduvon', 'gijduvon', 'jondor', 'kogon', 'qorako\'l',
             'qarakol', 'qorovulbozor', 'romitan', 'shofirkon', 'vobkent', 'peshku',
             # Кирилица узбекская  
             'бухоро', 'алат', 'ғиждувон', 'жондор', 'когон', 'қоракўл', 'қоровулбозор',
@@ -70,7 +60,7 @@ REGION_KEYWORDS = {
         'topic_id': 101382,
         'keywords': [
             # Латиница
-            'farg\'ona', 'fargona', 'fergana', 'beshariq', 'bog\'dod', 'bogdod', 'buvayda',
+            'farg\'ona', 'fargona', 'fergana', 'fargonodan', 'fargonega', 'farganaga', 'фаргонага', 'фергонага', 'beshariq', 'bog\'dod', 'bogdod', 'buvayda',
             'dang\'ara', 'dangara', 'farg\'ona', 'furqat', 'oltiariq', 'qo\'shtepa', 'qoshtepa',
             'quva', 'rishton', 'so\'x', 'sox', 'toshloq', 'uchko\'prik', 'uchkoprik', 'uzbekiston',
             'yozyovon', 'qo\'qon', 'qoqon', 'quqon', 'kokand',
@@ -223,7 +213,7 @@ REGION_KEYWORDS = {
         'topic_id': 101362,
         'keywords': [
             # Латиница
-            'toshkent', 'tashkent', 'bekobod', 'bo\'stonliq', 'bostonliq', 'bo\'ka', 'boka',
+            'toshkent', 'tashkent', 'toshkentdan', 'toshkentga', 'tashkentdan', 'tashkentga', 'bekobod', 'bo\'stonliq', 'bostonliq', 'bo\'ka', 'boka',
             'chinoz', 'qibray', 'oqqo\'rg\'on', 'oqqorgon', 'olmaliq', 'ohangaron', 'parkent',
             'piskent', 'quyi chirchiq', 'yuqori chirchiq', 'yangiyul', 'yangiyo\'l', 'zangota',
             'g\'azalkent', 'gazalkent',
@@ -259,7 +249,7 @@ REGION_KEYWORDS = {
         'topic_id': 101367,
         'keywords': [
             # Латиница
-            'russia', 'rossiya', 'moskva', 'spb', 'piter', 'kazan', 'novosibirsk', 'ufa', 'astana',
+            'russia', 'rossiya', 'moskva', 'moskvadan', 'moskvaga', 'spb', 'piter', 'kazan', 'novosibirsk', 'ufa', 'astana',
             'almaty', 'bishkek', 'dushanbe', 'tehran', 'istanbul', 'ankara', 'baku', 'tbilisi',
             'kiyev', 'minsk', 'riga', 'tallin', 'vilnyus', 'prayga', 'berlin', 'parej', 'london',
             'xitoy', 'china', 'urumchi', 'beijing', 'eron', 'iran', 'afg\'oniston', 'afganistan',
@@ -270,10 +260,11 @@ REGION_KEYWORDS = {
             'хитой', 'урумчи', 'пекин', 'эрон', 'афғонистон', 'покистон', 'ҳиндистон', 'туркия',
             'германия',
             # Русский
-            'россия', 'москва', 'спб', 'питер', 'казань', 'новосибирск', 'уфа', 'астана',
+            'россия', 'москва', 'масква', 'маскавдан', 'масквадан', 'москвадан', 'москвага', 'спб', 'питер', 'казань', 'новосибирск', 'уфа', 'астана',
             'алматы', 'бишкек', 'душанбе', 'тегеран', 'стамбул', 'анкара', 'баку', 'тбилиси',
             'киев', 'минск', 'рига', 'таллин', 'вильнюс', 'прага', 'берлин', 'париж', 'лондон',
-            'китай', 'урумчи', 'пекин', 'иран', 'афганистан', 'пакистан', 'индия', 'турция', 'германия'
+            'китай', 'урумчи', 'пекин', 'иран', 'афганистан', 'пакистан', 'индия', 'турция', 'германия',
+            'петропавловск', 'ульяновск', 'арысь'
         ]
     }
 }
@@ -285,59 +276,99 @@ SERVICE_TOPICS = {
     'yangiliklar': 101359 # Yangiliklar
 }
 
+# Логирование
+logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(message)s')
+logger = logging.getLogger(__name__)
+
 # Глобальные переменные
-last_update_id = 0
 message_count = 0
+last_update_id = 0
 bot_start_time = datetime.now()
 
 def send_message(chat_id, text, message_thread_id=None):
     """Отправка сообщения"""
+    global message_count
     try:
-        data = {
-            'chat_id': chat_id,
-            'text': text,
-            'parse_mode': 'HTML'
-        }
-        
+        data = {'chat_id': chat_id, 'text': text}
         if message_thread_id:
             data['message_thread_id'] = message_thread_id
             
-        response = requests.post(f"{API_URL}/sendMessage", data=data, timeout=10)
-        return response.status_code == 200
+        response = requests.post(f"{API_URL}/sendMessage", json=data, timeout=10)
+        success = response.json().get('ok', False)
+        
+        if success:
+            message_count += 1
+            logger.info(f"✅ Сообщение {message_count} отправлено в топик {message_thread_id}")
+        
+        return success
     except Exception as e:
         logger.error(f"❌ Ошибка отправки: {e}")
         return False
 
-def extract_route_info(text):
-    """Извлечение маршрута из текста"""
-    patterns = [
-        r'([А-ЯЁA-ZЎҒҚХ][а-яёa-zўғқх\'\s]+)\s*[-—–]\s*([А-ЯЁA-ZЎҒҚХ][а-яёa-zўғқх\'\s]+)',
-        r'([А-ЯЁA-ZЎҒҚХ][а-яёa-zўғқх\'\s]+)\s+([А-ЯЁA-ZЎҒҚХ][а-яёa-zўғқх\'\s]+)',
+def extract_phone_number(text):
+    """Извлечение номера телефона из текста"""
+    phone_patterns = [
+        r'\b(\+?998)?[-\s]?(\d{2})[-\s]?(\d{3})[-\s]?(\d{2})[-\s]?(\d{2})\b',
+        r'\b(\d{9})\b',
+        r'\b(\d{2}[-\s]?\d{3}[-\s]?\d{2}[-\s]?\d{2})\b'
     ]
     
-    for pattern in patterns:
+    for pattern in phone_patterns:
         match = re.search(pattern, text)
         if match:
-            from_city = match.group(1).strip()
-            to_city = match.group(2).strip()
-            return from_city, to_city
+            return match.group(0)
+    return "Ko'rsatilmagan"
+
+def extract_route_and_cargo(text):
+    """Извлечение маршрута и груза из текста"""
+    # Поиск маршрута (ГОРОД - ГОРОД)
+    route_pattern = r'([A-Z][A-Za-z]+)\s*[-–]\s*([A-Z][A-Za-z]+)'
+    route_match = re.search(route_pattern, text.upper())
     
-    return None, None
+    if route_match:
+        from_city = route_match.group(1).lower()
+        to_city = route_match.group(2).lower()
+        
+        # Остальной текст без маршрута
+        cargo_text = text.replace(route_match.group(0), '').strip()
+        
+        return from_city, to_city, cargo_text
+    
+    return None, None, text
+
+def format_cargo_text(cargo_text):
+    """Форматирование текста груза"""
+    # Убираем лишние пробелы и переводы строк
+    lines = [line.strip() for line in cargo_text.split('\n') if line.strip()]
+    
+    # Первая строка - тип транспорта/груза
+    transport_type = "Transport"
+    cargo_description = ""
+    
+    if lines:
+        first_line = lines[0]
+        if any(word in first_line.upper() for word in ['ISUZU', 'KAMAZ', 'GAZEL', 'TRUCK']):
+            transport_type = first_line.title()
+            cargo_description = ' '.join(lines[1:]) if len(lines) > 1 else ""
+        else:
+            cargo_description = ' '.join(lines)
+    
+    return transport_type, cargo_description
 
 def process_message(message):
     """Обработка сообщения"""
-    global message_count
-    
     try:
-        if message.get('chat', {}).get('id') != MAIN_GROUP_ID:
+        if not message.get('text'):
             return
             
-        text = message.get('text', '')
-        if not text or len(text) < 10:
+        text = message['text']
+        chat_id = message['chat']['id']
+        
+        if chat_id != MAIN_GROUP_ID:
             return
-            
-        # Извлечение маршрута
-        from_city, to_city = extract_route_info(text)
+        
+        # Извлечение маршрута и груза
+        from_city, to_city, cargo_text = extract_route_and_cargo(text)
         
         if not from_city or not to_city:
             return
@@ -356,31 +387,50 @@ def process_message(message):
                         return region_key
             return None
         
-        # Определение топика по городу отправления (приоритет)
-        topic_keyword = find_region_by_text(from_city)
+        # ПРИОРИТЕТ: международные направления
+        from_city_region = find_region_by_text(from_city)
+        to_city_region = find_region_by_text(to_city)
         
-        if not topic_keyword:
-            # Попробуем по городу назначения
-            topic_keyword = find_region_by_text(to_city)
-            
-        if not topic_keyword:
-            # Попробуем по всему тексту
+        topic_keyword = None
+        
+        # Если отправление из-за границы или назначение за границу - в xalqaro
+        if from_city_region == 'xalqaro' or to_city_region == 'xalqaro':
+            topic_keyword = 'xalqaro'
+        # Иначе приоритет по отправлению
+        elif from_city_region:
+            topic_keyword = from_city_region
+        # Затем по назначению
+        elif to_city_region:
+            topic_keyword = to_city_region
+        # В крайнем случае по всему тексту
+        else:
             topic_keyword = find_region_by_text(text)
-            
+                    
         if not topic_keyword:
             return
             
-        # Извлечение информации
-        user = message.get('from', {})
-        user_name = user.get('first_name', 'Anonim')
-        user_link = f"tg://user?id={user.get('id')}" if user.get('id') else ""
+        # Получение информации о пользователе
+        sender_name = message.get('from', {}).get('first_name', 'Anonim')
+        sender_username = message.get('from', {}).get('username')
+        sender_link = f"https://t.me/{sender_username}" if sender_username else sender_name
+        
+        # Извлечение телефона
+        phone = extract_phone_number(text)
+        
+        # Форматирование груза
+        transport_type, cargo_description = format_cargo_text(cargo_text)
         
         # Форматирование сообщения
-        formatted_text = f"""🚛 {from_city.upper()} - {to_city.upper()}
+        formatted_text = f"""{from_city.upper()} - {to_city.upper()}
 
-{text}
+🚛 {transport_type}
 
-👤 Yuboruvchi: <a href="{user_link}">{user_name}</a>
+💬 {cargo_description}
+
+☎️ {phone}
+
+👤 {sender_link}
+
 #{to_city.upper()}
 ➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 Boshqa yuklar: @logistika_marka"""
@@ -390,53 +440,116 @@ Boshqa yuklar: @logistika_marka"""
         success = send_message(MAIN_GROUP_ID, formatted_text, topic_id)
         
         if success:
-            message_count += 1
-            logger.info(f"✅ Сообщение {message_count} отправлено в {topic_keyword} ({topic_id})")
+            logger.info(f"🎯 {from_city} -> {to_city} ({topic_keyword}): {transport_type}")
         
     except Exception as e:
         logger.error(f"❌ Ошибка обработки: {e}")
 
 def handle_admin_command(message):
     """Обработка команд админа"""
-    text = message.get('text', '').lower()
-    
-    if 'статус' in text or 'status' in text:
-        uptime = datetime.now() - bot_start_time
-        hours = int(uptime.total_seconds() // 3600)
-        minutes = int((uptime.total_seconds() % 3600) // 60)
+    try:
+        if message.get('from', {}).get('id') != ADMIN_USER_ID:
+            return
+            
+        text = message.get('text', '')
+        user_id = message['from']['id']
         
-        status = f"""🟢 RENDER STARTER BOT АКТИВЕН
+        if text == '/status':
+            uptime = datetime.now() - bot_start_time
+            hours = int(uptime.total_seconds() // 3600)
+            minutes = int((uptime.total_seconds() % 3600) // 60)
+            
+            status = f"""🟢 RENDER BOT АКТИВЕН
 📊 Обработано: {message_count} сообщений
 ⏰ Время работы: {hours}ч {minutes}м
 📋 Регионов: {len(REGION_KEYWORDS)} ({sum(len(data['keywords']) for data in REGION_KEYWORDS.values())} ключевых слов)
 🔄 Update: {last_update_id}
-🚀 Платформа: Render.com STARTER ($7/мес)
-💰 Стоимость: $7/месяц - СТАБИЛЬНО 24/7"""
-        
-        send_message(ADMIN_USER_ID, status)
+🚀 Платформа: Render.com (БЕСПЛАТНО!)
+💰 Стоимость: $0"""
+            send_message(user_id, status)
+            
+    except Exception as e:
+        logger.error(f"❌ Ошибка команды: {e}")
 
 def get_updates():
-    """Получение обновлений"""
+    """Получение обновлений от Telegram"""
+    global last_update_id
     try:
-        params = {'offset': last_update_id + 1, 'timeout': 30}
+        params = {
+            'offset': last_update_id + 1,
+            'timeout': 30,
+            'allowed_updates': ['message']
+        }
+        
         response = requests.get(f"{API_URL}/getUpdates", params=params, timeout=35)
         
         if response.status_code == 200:
             data = response.json()
-            return data.get('result', [])
+            if data.get('ok'):
+                return data.get('result', [])
         return []
+        
     except Exception as e:
         logger.error(f"❌ Ошибка получения: {e}")
         return []
+
+def keep_alive_ping():
+    """Пинг для поддержания активности"""
+    try:
+        # Самопинг для предотвращения засыпания
+        response = requests.get("https://yukmarkazi-bot.onrender.com/ping", timeout=5)
+        logger.info(f"🏓 Keep-alive ping: {response.status_code}")
+    except Exception as e:
+        logger.info(f"🏓 Keep-alive ping failed: {e}")
+
+def admin_hourly_report():
+    """Ежечасный отчет админу"""
+    try:
+        uptime = datetime.now() - bot_start_time
+        hours = int(uptime.total_seconds() // 3600)
+        
+        report = f"""⏰ HOURLY REPORT
+🟢 Render Bot Online
+📊 Messages: {message_count}
+⏰ Uptime: {hours}h
+🌐 Platform: Render.com FREE"""
+        
+        send_message(ADMIN_USER_ID, report)
+    except Exception as e:
+        logger.error(f"❌ Ошибка отчета: {e}")
+
+def schedule_tasks():
+    """Планировщик задач"""
+    # Пинг каждые 10 минут (предотвращает 15-минутное засыпание)
+    schedule.every(10).minutes.do(keep_alive_ping)
+    
+    # Ежечасный отчет админу
+    schedule.every().hour.do(admin_hourly_report)
+
+def run_scheduler():
+    """Запуск планировщика в отдельном потоке"""
+    while True:
+        schedule.run_pending()
+        time.sleep(60)  # Проверка каждую минуту
 
 def bot_main_loop():
     """Основной цикл бота"""
     global last_update_id
     
-    logger.info("🚀 RENDER STARTER BOT ЗАПУЩЕН")
+    logger.info("🚀 RENDER BOT ЗАПУЩЕН С KEEP-ALIVE")
+    
+    # Настройка планировщика
+    schedule_tasks()
+    
+    # Запуск планировщика в отдельном потоке
+    scheduler_thread = threading.Thread(target=run_scheduler, daemon=True)
+    scheduler_thread.start()
     
     # Уведомление админу
-    send_message(ADMIN_USER_ID, "🚀 RENDER STARTER BOT ЗАПУЩЕН - ПЛАТНЫЙ ПЛАН, ПОЛНАЯ СТАБИЛЬНОСТЬ!")
+    send_message(ADMIN_USER_ID, "🚀 RENDER BOT ЗАПУЩЕН - ANTI-SLEEP СИСТЕМА АКТИВНА!")
+    
+    # Первый пинг сразу
+    keep_alive_ping()
     
     while True:
         try:
@@ -462,16 +575,16 @@ def bot_main_loop():
             
         time.sleep(1)
 
-# Flask приложение
+# Flask приложение для Render
 app = Flask(__name__)
 
 @app.route('/')
+@app.route('/health')
 def health():
     uptime = datetime.now() - bot_start_time
     return {
-        'status': 'healthy',
-        'service': 'YukMarkazi Bot',
-        'plan': 'Render Starter ($7/month)',
+        'status': 'running',
+        'platform': 'Render.com',
         'uptime_seconds': int(uptime.total_seconds()),
         'messages_processed': message_count,
         'last_update_id': last_update_id,
@@ -487,38 +600,24 @@ def ping():
         'messages': message_count
     }
 
+@app.route('/keep-alive')
+def keep_alive():
+    return {
+        'status': 'alive',
+        'platform': 'Render.com',
+        'anti_sleep': True,
+        'time': datetime.now().isoformat()
+    }
+
 def run_web_server():
-    """Запуск веб-сервера"""
+    """Веб-сервер для Render health checks"""
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
 
-def main():
-    """Главная функция"""
-    if not BOT_TOKEN:
-        logger.error("❌ BOT_TOKEN не найден!")
-        sys.exit(1)
-    
-    logger.info("🚀 Запуск YukMarkazi Bot на Render Starter")
-    
+if __name__ == "__main__":
     # Запуск веб-сервера в отдельном потоке
     web_thread = threading.Thread(target=run_web_server, daemon=True)
     web_thread.start()
     
-    # Обработка сигналов
-    def signal_handler(signum, frame):
-        logger.info("🛑 Получен сигнал остановки")
-        send_message(ADMIN_USER_ID, "🛑 RENDER STARTER BOT ОСТАНОВЛЕН")
-        sys.exit(0)
-    
-    signal.signal(signal.SIGTERM, signal_handler)
-    signal.signal(signal.SIGINT, signal_handler)
-    
-    # Запуск основного цикла бота
-    try:
-        bot_main_loop()
-    except KeyboardInterrupt:
-        logger.info("🛑 Бот остановлен")
-        send_message(ADMIN_USER_ID, "🛑 RENDER STARTER BOT ОСТАНОВЛЕН")
-
-if __name__ == "__main__":
-    main()
+    # Основной цикл бота
+    bot_main_loop()
