@@ -25,7 +25,7 @@ ADMIN_USER_ID = int(os.environ.get('ADMIN_USER_ID', '8101326669'))
 BOT_USERNAME  = os.getenv("BOT_USERNAME", "yukmarkazi_bot")  # без @
 API_URL       = f"https://api.telegram.org/bot{BOT_TOKEN}" if BOT_TOKEN else None
 
-# ========== REGION_KEYWORDS (полностью) ==========
+# ========== REGION_KEYWORDS ==========
 REGION_KEYWORDS = {
     'toshkent': {
         'topic_id': 101362,
@@ -104,12 +104,6 @@ REGION_KEYWORDS = {
     }
 }
 
-SPECIAL_TOPICS = {
-    'fura_bozor': 101361,
-    'reklama': 101360,
-    'yangiliklar': 101359
-}
-
 # ========== Логирование ==========
 def init_logging():
     level = logging.DEBUG if os.getenv("DEBUG") else logging.INFO
@@ -129,7 +123,6 @@ def normalize_text(text: str) -> str:
     text = unicodedata.normalize('NFKD', text)
     text = ''.join(ch for ch in text if unicodedata.category(ch) != 'Mn')
     return text.lower().strip()
-
 
 def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
     global message_count
@@ -153,27 +146,20 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
     except Exception:
         return False
 
-
 def author_button(sender: dict) -> dict:
     uid   = sender["id"]
     name  = sender.get("first_name", "Аноним")
     un    = sender.get("username")
-
-    # 1. Если есть username — прямая ссылка
     if un:
         url = f"https://t.me/{un}"
     else:
-        # 2. Если нет — бот перенаправит
         url = f"https://t.me/{BOT_USERNAME}?start=user_{uid}"
-
     text = f"👤 Aloqaga_chiqish"
     if un:
         text += f" @{un}"
-
     return {
         "inline_keyboard": [[{"text": text, "url": url}]]
     }
-
 
 def handle_admin_command(message):
     text = (message.get('text') or '').lower()
@@ -185,17 +171,14 @@ def handle_admin_command(message):
         h, m = divmod(int(uptime.total_seconds() // 60), 60)
         send_message(chat_id, f"🤖 Активен. Сообщений: {message_count}. Uptime {h}ч {m}м")
 
-
 PHONE_REGEX = re.compile(
     r'(?:(?:\+?998|998)?[\s\-]?)?(?:\(?\d{2}\)?[\s\-]?){4}\d{2}'
 )
 ROUTE_REGEX = re.compile(r'([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_➢]{1,3}([A-Za-z\u0130\u0131\'\w\-]+)', re.IGNORECASE)
 
-
 def extract_phone_number(text):
     m = PHONE_REGEX.search(text)
     return m.group().strip() if m else "Телефон не указан"
-
 
 def extract_route_and_cargo(text):
     match = ROUTE_REGEX.search(text)
@@ -206,40 +189,33 @@ def extract_route_and_cargo(text):
         return fr.lower(), to.lower(), cargo
     return None, None, text
 
-
 def format_cargo_text(cargo_text):
     keywords = [
         'фура', 'fura', 'isuzu', 'kamaz', 'man', 'daf', 'scania', 'volvo',
         'тент', 'контейнер', 'реф', 'ref', 'refrigerator'
     ]
-
     text = cargo_text.lower()
     match = re.search('|'.join(keywords), text)
     transport = match.group(0).title() if match else "Транспорт"
-
     clean_desc = re.sub('|'.join(keywords), '', text, flags=re.I).strip()
     desc = clean_desc or "—"
     return transport, desc
-
 
 def ask_admin_topic(message, from_city, to_city):
     text = message.get('text', '')
     user = message.get('from', {})
     user_data = f"{user.get('id')}:{user.get('first_name', '')}:{user.get('username', '')}"
     safe_data = f"{text}|||{user_data}".replace(":", "%3A")
-
     kb = [
         [{"text": k.upper(), "callback_data": f"route:{k}:{safe_data}"}]
         for k in REGION_KEYWORDS
     ]
     kb.append([{"text": "❌ Отмена", "callback_data": "route:cancel"}])
-
     requests.post(f"{API_URL}/sendMessage", json={
         "chat_id": ADMIN_USER_ID,
         "text": f"⚠️ Неопознанный маршрут:\n{from_city} → {to_city}",
         "reply_markup": {"inline_keyboard": kb}
     }, timeout=10)
-
 
 def process_message(message):
     global last_update_id
@@ -247,13 +223,11 @@ def process_message(message):
         text = message.get('text', '')
         chat_id = message['chat']['id']
         user_id = message['from']['id']
-
         if chat_id == ADMIN_USER_ID:
             handle_admin_command(message)
             return
         if chat_id != MAIN_GROUP_ID:
             return
-
         from_city, to_city, cargo_text = extract_route_and_cargo(text)
         if not from_city or not to_city:
             return
@@ -270,7 +244,6 @@ def process_message(message):
 
         from_reg = find_region(from_city)
         to_reg = find_region(to_city)
-
         if from_reg is None:
             ask_admin_topic(message, from_city, to_city)
             return
@@ -292,10 +265,8 @@ def process_message(message):
 
         send_message(MAIN_GROUP_ID, msg, topic_id,
                      reply_markup=author_button(sender))
-
     except Exception:
         logging.exception("process_message error")
-
 
 def handle_callback(update):
     try:
@@ -304,7 +275,6 @@ def handle_callback(update):
         user_id = query['from']['id']
         if user_id != ADMIN_USER_ID:
             return
-
         if not data.startswith("route:"):
             return
 
@@ -330,9 +300,9 @@ def handle_callback(update):
             return
 
         topic_key = action
-                topic_id = REGION_KEYWORDS[topic_key]['topic_id']
+        topic_id = REGION_KEYWORDS[topic_key]['topic_id']
 
-        text = original_text  # ← добавили переменную
+        text = original_text  # переменная была потеряна
 
         phone = extract_phone_number(text)
 
@@ -363,7 +333,6 @@ def handle_callback(update):
     except Exception:
         logging.exception("callback error")
 
-
 def get_updates():
     global last_update_id, stop_polling
     if not BOT_TOKEN or stop_polling:
@@ -379,7 +348,6 @@ def get_updates():
         return data.get('result', []) if data.get('ok') else []
     except Exception:
         return []
-
 
 def bot_main_loop():
     global last_update_id
@@ -398,9 +366,7 @@ def bot_main_loop():
             time.sleep(5)
         time.sleep(1)
 
-
 app = Flask(__name__)
-
 
 @app.route('/')
 def home():
@@ -408,11 +374,9 @@ def home():
     h, m = divmod(int(uptime.total_seconds() // 60), 60)
     return f"<h1>YukMarkazi Bot – {bot_status}</h1><p>Сообщений: {message_count}</p><p>Uptime: {h}ч {m}м</p>"
 
-
 @app.route('/health')
 def health():
     return {'status': bot_status.lower(), 'messages': message_count}
-
 
 @app.route('/telegram', methods=['POST'])
 def telegram_webhook():
@@ -426,7 +390,6 @@ def telegram_webhook():
     except Exception:
         logger.exception("Webhook error")
         return jsonify(ok=False), 500
-
 
 if __name__ == '__main__':
     init_logging()
