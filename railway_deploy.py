@@ -337,6 +337,21 @@ def health():
     return {'status': bot_status.lower(), 'messages': message_count}
 
 # ========== Запуск ==========
+@app.route('/telegram', methods=['POST'])
+def telegram_webhook():
+    """
+    Получает обновления от Telegram через Webhook
+    """
+    try:
+        update = request.get_json(force=True)
+        if 'message' in update:
+            process_message(update['message'])
+        if 'callback_query' in update:
+            handle_callback(update)
+        return jsonify(ok=True), 200
+    except Exception:
+        logger.exception("Webhook error")
+        return jsonify(ok=False), 500
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
     signal.signal(signal.SIGTERM, lambda *a: sys.exit(0))
