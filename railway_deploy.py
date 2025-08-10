@@ -155,17 +155,23 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
 
 
 def author_button(sender: dict) -> dict:
-    uid = sender["id"]
-    name = sender.get("first_name", "Аноним")
-    un = sender.get("username")
-    text = "👤 Aloqaga_chiqish"
+    uid   = sender["id"]
+    name  = sender.get("first_name", "Аноним")
+    un    = sender.get("username")
+
+    # 1. Если есть username — прямая ссылка
+    if un:
+        url = f"https://t.me/{un}"
+    else:
+        # 2. Если нет — бот перенаправит
+        url = f"https://t.me/{BOT_USERNAME}?start=user_{uid}"
+
+    text = f"👤 Aloqaga_chiqish"
     if un:
         text += f" @{un}"
+
     return {
-        "inline_keyboard": [[{
-            "text": text,
-            "url": f"https://t.me/{BOT_USERNAME}?start=user_{uid}"
-        }]]
+        "inline_keyboard": [[{"text": text, "url": url}]]
     }
 
 
@@ -180,7 +186,9 @@ def handle_admin_command(message):
         send_message(chat_id, f"🤖 Активен. Сообщений: {message_count}. Uptime {h}ч {m}м")
 
 
-PHONE_REGEX = re.compile(r'(?:\+?998[-\s]?)?(?:\d{2}[-\s]?){4}\d{2}')
+PHONE_REGEX = re.compile(
+    r'(?:(?:\+?998|998)?[\s\-]?)?(?:\(?\d{2}\)?[\s\-]?){4}\d{2}'
+)
 ROUTE_REGEX = re.compile(r'([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_➢]{1,3}([A-Za-z\u0130\u0131\'\w\-]+)', re.IGNORECASE)
 
 
