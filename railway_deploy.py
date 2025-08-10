@@ -177,14 +177,63 @@ def handle_admin_command(message):
         h, m = divmod(int(uptime.total_seconds() // 60), 60)
         send_message(chat_id, f"🤖 Активен. Сообщений: {message_count}. Uptime {h}ч {m}м")
 
-def ask_admin_topic(message, from_city, to_city):
-    kb = [[{"text": k.upper(), "callback_data": f"route:{k}:{message['message_id']}"}] for k in REGION_KEYWORDS]
-    kb.append([{"text": "❌ Отмена", "callback_data": "route:cancel"}])
-    requests.post(f"{API_URL}/sendMessage", json={
-        "chat_id": ADMIN_USER_ID,
-        "text": f"⚠️ Неопознанный маршрут:\n{from_city} → {to_city}\n\nВыберите топик для пересылки:",
-        "reply_markup": {"inline_keyboard": kb}
-    }, timeout=10)
+def handle_callback(update):
+    try:
+        query = update['callback_query']
+        data = query['data']
+        user_id = query['from']['id']
+        if user_id != ADMIN_USER_ID:
+            return
+
+        if not data.startswith("route:"):
+            return
+
+        parts = data.split(":", 2)
+        action = parts[1]
+        payload = parts[2].replace("%3A", ":")  # раскейпим
+        original_text, user_info = payload.split("|||", 1)
+        uid, name, username = user_info.split(":", 2)
+
+        if action == "cancel":
+            requests.post(f"{API_URL}/answerCallbackQuery", json={
+                "callback_query_id": query['id'],
+                "text": "❌ Отменено"
+            })
+            return
+
+        from_city, to_city, cargo_text = extract_route_and_cargo(original_text)
+        if not from_city or not to_city:
+            requests.post(f"{API_URL}/answerCallbackQuery", json={
+                "callback_query_id": query['id'],
+                "text": "⚠️ Не удалось распознать маршрут"
+            })
+            return
+
+        topic_key = action
+        topic_id = REGION_KEYWORDS[topic_key]['topic_id']
+
+        phone = extract_phone_number(original_text)
+        transport, desc = format_cargo_text(cargo_text)
+
+        link = f"https://t.me/{username}" if username else name
+
+        msg = f"""{from_city.upper()} - {to_city.upper()}
+🚛 {transport}
+💬 {desc}
+☎️ {phone}
+👤 {link}
+#{to_city.upper()}
+➖➖➖➖➖➖➖➖➖➖➖➖➖➖
+Другие грузы: @logistika_marka"""
+
+        send_message(MAIN_GROUP_ID, msg, topic_id)
+
+        requests.post(f"{API_URL}/answerCallbackQuery", json={
+            "callback_query_id": query['id'],
+            "text": f"✅ Отправлено в топик {topic_key}"
+        })
+    except Exception:
+        logging.exception("callback error")
 
 # ========== Парсеры ==========
 PHONE_REGEX = re.compile(r'(?:\+?998[-\s]?)?(?:\d{2}[-\s]?){4}\d{2}')
