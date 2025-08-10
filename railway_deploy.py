@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-railway_deploy.py – полностью готовый, улучшенный файл
-- при неопознанном маршруте – инлайн-кнопки админу
-- callback-обработка пересылки + кнопка Aloqaga_chiqish
+railway_deploy.py – улучшенный файл
+- инлайн-кнопки админу при неопознанном маршруте
+- кнопка «👤 Aloqaga_chiqish» с @username или без
 """
 import os
 import sys
@@ -19,11 +19,12 @@ from flask import Flask, request, jsonify
 import requests
 
 # ========== Настройки ==========
-BOT_TOKEN   = os.environ.get('TELEGRAM_BOT_TOKEN')
+BOT_TOKEN     = os.environ.get('TELEGRAM_BOT_TOKEN')
 MAIN_GROUP_ID = int(os.environ.get('MAIN_GROUP_ID', '-1002259378109'))
 ADMIN_USER_ID = int(os.environ.get('ADMIN_USER_ID', '8101326669'))
 BOT_USERNAME  = os.getenv("BOT_USERNAME", "yukmarkazi_bot")  # без @
-API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}" if BOT_TOKEN else None
+API_URL       = f"https://api.telegram.org/bot{BOT_TOKEN}" if BOT_TOKEN else None
+
 # ========== REGION_KEYWORDS (полностью) ==========
 REGION_KEYWORDS = {
     'toshkent': {
@@ -154,10 +155,10 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
 
 
 def author_button(sender: dict) -> dict:
-    uid   = sender["id"]
-    name  = sender.get("first_name", "Аноним")
-    un    = sender.get("username")
-    text  = "👤 Aloqaga_chiqish"
+    uid = sender["id"]
+    name = sender.get("first_name", "Аноним")
+    un = sender.get("username")
+    text = "👤 Aloqaga_chiqish"
     if un:
         text += f" @{un}"
     return {
@@ -166,6 +167,7 @@ def author_button(sender: dict) -> dict:
             "url": f"https://t.me/{BOT_USERNAME}?start=user_{uid}"
         }]]
     }
+
 
 def handle_admin_command(message):
     text = (message.get('text') or '').lower()
@@ -177,26 +179,32 @@ def handle_admin_command(message):
         h, m = divmod(int(uptime.total_seconds() // 60), 60)
         send_message(chat_id, f"🤖 Активен. Сообщений: {message_count}. Uptime {h}ч {m}м")
 
+
 PHONE_REGEX = re.compile(r'(?:\+?998[-\s]?)?(?:\d{2}[-\s]?){4}\d{2}')
 ROUTE_REGEX = re.compile(r'([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_➢]{1,3}([A-Za-z\u0130\u0131\'\w\-]+)', re.IGNORECASE)
+
 
 def extract_phone_number(text):
     m = PHONE_REGEX.search(text)
     return m.group().strip() if m else "Телефон не указан"
 
+
 def extract_route_and_cargo(text):
     match = ROUTE_REGEX.search(text)
     if match:
-        fr, to = match.group(1).strip(), match.group(2).strip()
+        fr = match.group(1).strip()
+        to = match.group(2).strip()
         cargo = text.replace(match.group(0), '').strip()
         return fr.lower(), to.lower(), cargo
     return None, None, text
 
+
 def format_cargo_text(cargo_text):
     lines = [l.strip() for l in cargo_text.splitlines() if l.strip()]
-    transport = lines[0].title() if lines and any(w in lines[0].upper() for w in ['FURA','ISUZU','KAMAZ']) else "Транспорт"
+    transport = lines[0].title() if lines and any(w in lines[0].upper() for w in ['FURA', 'ISUZU', 'KAMAZ']) else "Транспорт"
     desc = " ".join(lines[1:] if transport != "Транспорт" else lines)
     return transport, desc
+
 
 def ask_admin_topic(message, from_city, to_city):
     text = message.get('text', '')
@@ -215,7 +223,9 @@ def ask_admin_topic(message, from_city, to_city):
         "text": f"⚠️ Неопознанный маршрут:\n{from_city} → {to_city}",
         "reply_markup": {"inline_keyboard": kb}
     }, timeout=10)
-    def process_message(message):
+
+
+def process_message(message):
     global last_update_id
     try:
         text = message.get('text', '')
@@ -269,6 +279,7 @@ def ask_admin_topic(message, from_city, to_city):
 
     except Exception:
         logging.exception("process_message error")
+
 
 def handle_callback(update):
     try:
@@ -329,6 +340,7 @@ def handle_callback(update):
     except Exception:
         logging.exception("callback error")
 
+
 def get_updates():
     global last_update_id, stop_polling
     if not BOT_TOKEN or stop_polling:
@@ -344,6 +356,7 @@ def get_updates():
         return data.get('result', []) if data.get('ok') else []
     except Exception:
         return []
+
 
 def bot_main_loop():
     global last_update_id
@@ -362,7 +375,9 @@ def bot_main_loop():
             time.sleep(5)
         time.sleep(1)
 
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def home():
@@ -370,9 +385,11 @@ def home():
     h, m = divmod(int(uptime.total_seconds() // 60), 60)
     return f"<h1>YukMarkazi Bot – {bot_status}</h1><p>Сообщений: {message_count}</p><p>Uptime: {h}ч {m}м</p>"
 
+
 @app.route('/health')
 def health():
     return {'status': bot_status.lower(), 'messages': message_count}
+
 
 @app.route('/telegram', methods=['POST'])
 def telegram_webhook():
@@ -386,6 +403,7 @@ def telegram_webhook():
     except Exception:
         logger.exception("Webhook error")
         return jsonify(ok=False), 500
+
 
 if __name__ == '__main__':
     init_logging()
