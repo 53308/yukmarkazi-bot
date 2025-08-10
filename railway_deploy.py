@@ -15,7 +15,7 @@ import re
 import unicodedata
 import traceback
 from datetime import datetime
-from flask import Flask
+from flask import Flask, request, jsonify
 import requests
 
 # ========== Настройки ==========
