@@ -188,7 +188,7 @@ def ask_admin_topic(message, from_city, to_city):
 
 # ========== Парсеры ==========
 PHONE_REGEX = re.compile(r'(?:\+?998[-\s]?)?(?:\d{2}[-\s]?){4}\d{2}')
-ROUTE_REGEX = re.compile(r'([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_]{1,3}([A-Za-z\u0130\u0131\'\w\-]+)', re.IGNORECASE)
+ROUTE_REGEX = re.compile(r'([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_➢]{1,3}([A-Za-z\u0130\u0131\'\w\-]+)', re.IGNORECASE)
 
 def extract_phone_number(text):
     m = PHONE_REGEX.search(text)
