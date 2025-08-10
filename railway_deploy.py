@@ -128,12 +128,18 @@ def normalize_text(text: str) -> str:
     text = unicodedata.normalize('NFKD', text)
     text = ''.join(ch for ch in text if unicodedata.category(ch) != 'Mn')
     return text.lower().strip()
-    def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
+
+
+def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
     global message_count
     if not BOT_TOKEN:
         return False
     try:
-        data = {'chat_id': chat_id, 'text': text, 'parse_mode': 'HTML'}
+        data = {
+            'chat_id': chat_id,
+            'text': text,
+            'parse_mode': 'HTML'
+        }
         if message_thread_id is not None:
             data['message_thread_id'] = int(message_thread_id)
         if reply_markup is not None:
@@ -145,7 +151,8 @@ def normalize_text(text: str) -> str:
         return False
     except Exception:
         return False
-        # ========== Кнопка автора и админ-функции ==========
+
+
 def author_button(sender: dict) -> dict:
     uid   = sender["id"]
     name  = sender.get("first_name", "Аноним")
