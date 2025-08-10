@@ -3,7 +3,7 @@
 """
 railway_deploy.py – полностью готовый, улучшенный файл
 - при неопознанном маршруте – инлайн-кнопки админу
-- callback-обработка пересылки
+- callback-обработка пересылки + кнопка Aloqaga_chiqish
 """
 import os
 import sys
@@ -19,9 +19,10 @@ from flask import Flask, request, jsonify
 import requests
 
 # ========== Настройки ==========
-BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
+BOT_TOKEN   = os.environ.get('TELEGRAM_BOT_TOKEN')
 MAIN_GROUP_ID = int(os.environ.get('MAIN_GROUP_ID', '-1002259378109'))
 ADMIN_USER_ID = int(os.environ.get('ADMIN_USER_ID', '8101326669'))
+BOT_USERNAME  = os.getenv("BOT_USERNAME", "yukmarkazi_bot")  # без @
 API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}" if BOT_TOKEN else None
 # ========== REGION_KEYWORDS (полностью) ==========
 REGION_KEYWORDS = {
@@ -43,51 +44,35 @@ REGION_KEYWORDS = {
     },
     'andijon': {
         'topic_id': 101387,
-        'keywords': [
-            'andijon', 'andijan', 'андижан', 'asaka', 'асака', 'marhamat', 'мархамат'
-        ]
+        'keywords': ['andijon', 'andijan', 'андижан', 'asaka', 'асака', 'marhamat', 'мархамат']
     },
     'buxoro': {
         'topic_id': 101372,
-        'keywords': [
-            'buxoro', 'bukhara', 'бухара', 'alat', 'алат', "g'ijduvon", 'гиждуван', 'kogon', 'когон'
-        ]
+        'keywords': ['buxoro', 'bukhara', 'бухара', 'alat', 'алат', "g'ijduvon", 'гиждуван', 'kogon', 'когон']
     },
     'namangan': {
         'topic_id': 101383,
-        'keywords': [
-            'namangan', 'наманган', 'chortoq', 'чартак', 'yangiqorgon', 'янгикурган'
-        ]
+        'keywords': ['namangan', 'наманган', 'chortoq', 'чартак', 'yangiqorgon', 'янгикурган']
     },
     'samarqand': {
         'topic_id': 101369,
-        'keywords': [
-            'samarqand', 'samarkand', 'самарканд', 'urgut', 'ургут', 'kattaqorgon', 'каттакурган'
-        ]
+        'keywords': ['samarqand', 'samarkand', 'самарканд', 'urgut', 'ургут', 'kattaqorgon', 'каттакурган']
     },
     'qashqadaryo': {
         'topic_id': 101380,
-        'keywords': [
-            'qarshi', 'карши', 'shahrisabz', 'шахрисабз', 'koson', 'косон', 'guzar', 'гузар'
-        ]
+        'keywords': ['qarshi', 'карши', 'shahrisabz', 'шахрисабз', 'koson', 'косон', 'guzar', 'гузар']
     },
     'navoiy': {
         'topic_id': 101379,
-        'keywords': [
-            'navoiy', 'navoi', 'навои', 'zarafshon', 'зарафшан', 'karmana', 'кармана'
-        ]
+        'keywords': ['navoiy', 'navoi', 'навои', 'zarafshon', 'зарафшан', 'karmana', 'кармана']
     },
     'sirdaryo': {
         'topic_id': 101378,
-        'keywords': [
-            'guliston', 'гулистан', 'shirin', 'ширин', 'boyovut', 'баяут'
-        ]
+        'keywords': ['guliston', 'гулистан', 'shirin', 'ширин', 'boyovut', 'баяут']
     },
     'jizzax': {
         'topic_id': 101377,
-        'keywords': [
-            'jizzax', 'джизак', 'gallaaral', 'галляарал', 'pakhtakor', 'пахтакор', 'zomin', 'зомин'
-        ]
+        'keywords': ['jizzax', 'джизак', 'gallaaral', 'галляарал', 'pakhtakor', 'пахтакор', 'zomin', 'зомин']
     },
     'nukus': {
         'topic_id': 101376,
@@ -99,27 +84,22 @@ REGION_KEYWORDS = {
     },
     'xorazm': {
         'topic_id': 101660,
-        'keywords': [
-            'xorazm', 'xorezm', 'хорезм', 'xiva', 'khiva', 'хива', 'shovot', 'шават'
-        ]
+        'keywords': ['xorazm', 'xorezm', 'хорезм', 'xiva', 'khiva', 'хива', 'shovot', 'шават']
     },
     'qoraqalpoq': {
         'topic_id': 101381,
-        'keywords': [
-            'qoraqalpoq', 'каракалпакстан', 'turtkul', 'турткуль', 'khojeli', 'ходжейли'
-        ]
+        'keywords': ['qoraqalpoq', 'каракалпакстан', 'turtkul', 'турткуль', 'khojeli', 'ходжейли']
     },
     'xalqaro': {
         'topic_id': 101367,
         'keywords': [
-            'russia', 'россия', 'moskva', 'москва', 'spb', 'питер', 'kazakhstan', 'казахстан', 'turkey', 'стамбул', 'china', 'китай', 'dubai', 'дубай'
+            'russia', 'россия', 'moskva', 'москва', 'spb', 'питер', 'kazakhstan', 'казахстан',
+            'turkey', 'стамбул', 'china', 'китай', 'dubai', 'дубай'
         ]
     },
     'surxondaryo': {
         'topic_id': 101363,
-        'keywords': [
-            'termiz', 'термез', 'denov', 'денау', 'boysun', 'байсун'
-        ]
+        'keywords': ['termiz', 'термез', 'denov', 'денау', 'boysun', 'байсун']
     }
 }
 
@@ -128,6 +108,7 @@ SPECIAL_TOPICS = {
     'reklama': 101360,
     'yangiliklar': 101359
 }
+
 # ========== Логирование ==========
 def init_logging():
     level = logging.DEBUG if os.getenv("DEBUG") else logging.INFO
@@ -140,7 +121,6 @@ bot_start_time = datetime.now()
 bot_status = "АКТИВЕН"
 stop_polling = False
 
-# ========== Helper: нормализация текста ==========
 def normalize_text(text: str) -> str:
     if not text:
         return ""
@@ -148,16 +128,16 @@ def normalize_text(text: str) -> str:
     text = unicodedata.normalize('NFKD', text)
     text = ''.join(ch for ch in text if unicodedata.category(ch) != 'Mn')
     return text.lower().strip()
-
-# ========== Отправка сообщений ==========
-def send_message(chat_id, text, message_thread_id=None):
+    def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
     global message_count
     if not BOT_TOKEN:
         return False
     try:
-        data = {'chat_id': chat_id, 'text': text}
+        data = {'chat_id': chat_id, 'text': text, 'parse_mode': 'HTML'}
         if message_thread_id is not None:
             data['message_thread_id'] = int(message_thread_id)
+        if reply_markup is not None:
+            data['reply_markup'] = reply_markup
         resp = requests.post(f"{API_URL}/sendMessage", json=data, timeout=10)
         if resp.json().get('ok'):
             message_count += 1
@@ -165,8 +145,21 @@ def send_message(chat_id, text, message_thread_id=None):
         return False
     except Exception:
         return False
+        # ========== Кнопка автора и админ-функции ==========
+def author_button(sender: dict) -> dict:
+    uid   = sender["id"]
+    name  = sender.get("first_name", "Аноним")
+    un    = sender.get("username")
+    text  = "👤 Aloqaga_chiqish"
+    if un:
+        text += f" @{un}"
+    return {
+        "inline_keyboard": [[{
+            "text": text,
+            "url": f"https://t.me/{BOT_USERNAME}?start=user_{uid}"
+        }]]
+    }
 
-# ========== Админ-команды ==========
 def handle_admin_command(message):
     text = (message.get('text') or '').lower()
     chat_id = message['chat']['id']
@@ -177,65 +170,6 @@ def handle_admin_command(message):
         h, m = divmod(int(uptime.total_seconds() // 60), 60)
         send_message(chat_id, f"🤖 Активен. Сообщений: {message_count}. Uptime {h}ч {m}м")
 
-def handle_callback(update):
-    try:
-        query = update['callback_query']
-        data = query['data']
-        user_id = query['from']['id']
-        if user_id != ADMIN_USER_ID:
-            return
-
-        if not data.startswith("route:"):
-            return
-
-        parts = data.split(":", 2)
-        action = parts[1]
-        payload = parts[2].replace("%3A", ":")  # раскейпим
-        original_text, user_info = payload.split("|||", 1)
-        uid, name, username = user_info.split(":", 2)
-
-        if action == "cancel":
-            requests.post(f"{API_URL}/answerCallbackQuery", json={
-                "callback_query_id": query['id'],
-                "text": "❌ Отменено"
-            })
-            return
-
-        from_city, to_city, cargo_text = extract_route_and_cargo(original_text)
-        if not from_city or not to_city:
-            requests.post(f"{API_URL}/answerCallbackQuery", json={
-                "callback_query_id": query['id'],
-                "text": "⚠️ Не удалось распознать маршрут"
-            })
-            return
-
-        topic_key = action
-        topic_id = REGION_KEYWORDS[topic_key]['topic_id']
-
-        phone = extract_phone_number(original_text)
-        transport, desc = format_cargo_text(cargo_text)
-
-        link = f"https://t.me/{username}" if username else name
-
-        msg = f"""{from_city.upper()} - {to_city.upper()}
-🚛 {transport}
-💬 {desc}
-☎️ {phone}
-👤 {link}
-#{to_city.upper()}
-➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-Другие грузы: @logistika_marka"""
-
-        send_message(MAIN_GROUP_ID, msg, topic_id)
-
-        requests.post(f"{API_URL}/answerCallbackQuery", json={
-            "callback_query_id": query['id'],
-            "text": f"✅ Отправлено в топик {topic_key}"
-        })
-    except Exception:
-        logging.exception("callback error")
-
-# ========== Парсеры ==========
 PHONE_REGEX = re.compile(r'(?:\+?998[-\s]?)?(?:\d{2}[-\s]?){4}\d{2}')
 ROUTE_REGEX = re.compile(r'([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_➢]{1,3}([A-Za-z\u0130\u0131\'\w\-]+)', re.IGNORECASE)
 
@@ -257,8 +191,24 @@ def format_cargo_text(cargo_text):
     desc = " ".join(lines[1:] if transport != "Транспорт" else lines)
     return transport, desc
 
-# ========== Основная логика ==========
-def process_message(message):
+def ask_admin_topic(message, from_city, to_city):
+    text = message.get('text', '')
+    user = message.get('from', {})
+    user_data = f"{user.get('id')}:{user.get('first_name', '')}:{user.get('username', '')}"
+    safe_data = f"{text}|||{user_data}".replace(":", "%3A")
+
+    kb = [
+        [{"text": k.upper(), "callback_data": f"route:{k}:{safe_data}"}]
+        for k in REGION_KEYWORDS
+    ]
+    kb.append([{"text": "❌ Отмена", "callback_data": "route:cancel"}])
+
+    requests.post(f"{API_URL}/sendMessage", json={
+        "chat_id": ADMIN_USER_ID,
+        "text": f"⚠️ Неопознанный маршрут:\n{from_city} → {to_city}",
+        "reply_markup": {"inline_keyboard": kb}
+    }, timeout=10)
+    def process_message(message):
     global last_update_id
     try:
         text = message.get('text', '')
@@ -296,9 +246,6 @@ def process_message(message):
         topic_id = REGION_KEYWORDS[topic_key]['topic_id']
 
         sender = message.get('from', {})
-        name = sender.get('first_name', 'Аноним')
-        username = sender.get('username')
-        link = f"https://t.me/{username}" if username else name
         phone = extract_phone_number(text)
         transport, desc = format_cargo_text(cargo_text)
 
@@ -306,17 +253,16 @@ def process_message(message):
 🚛 {transport}
 💬 {desc}
 ☎️ {phone}
-👤 {link}
 #{to_city.upper()}
 ➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 Другие грузы: @logistika_marka"""
 
-        send_message(MAIN_GROUP_ID, msg, topic_id)
+        send_message(MAIN_GROUP_ID, msg, topic_id,
+                     reply_markup=author_button(sender))
 
     except Exception:
         logging.exception("process_message error")
 
-# ========== Callback-обработчик ==========
 def handle_callback(update):
     try:
         query = update['callback_query']
@@ -324,29 +270,65 @@ def handle_callback(update):
         user_id = query['from']['id']
         if user_id != ADMIN_USER_ID:
             return
-        if data.startswith("route:"):
-            parts = data.split(":")
-            action = parts[1]
-            if action == "cancel":
-                requests.post(f"{API_URL}/answerCallbackQuery", json={"callback_query_id": query['id'], "text": "Отменено"})
-                return
-            topic_key = action
-            original_msg_id = int(parts[2])
-            get_url = f"{API_URL}/getUpdates?offset={original_msg_id}&limit=1"
-            original = requests.get(get_url, timeout=10).json()
-            if original.get('ok') and original['result']:
-                process_message(original['result'][0]['message'])
-            requests.post(f"{API_URL}/answerCallbackQuery", json={"callback_query_id": query['id'], "text": f"Отправлено в {topic_key}"})
+
+        if not data.startswith("route:"):
+            return
+
+        parts = data.split(":", 2)
+        action = parts[1]
+        payload = parts[2].replace("%3A", ":")
+        original_text, user_info = payload.split("|||", 1)
+        uid, name, username = user_info.split(":", 2)
+
+        if action == "cancel":
+            requests.post(f"{API_URL}/answerCallbackQuery", json={
+                "callback_query_id": query['id'],
+                "text": "❌ Отменено"
+            })
+            return
+
+        from_city, to_city, cargo_text = extract_route_and_cargo(original_text)
+        if not from_city or not to_city:
+            requests.post(f"{API_URL}/answerCallbackQuery", json={
+                "callback_query_id": query['id'],
+                "text": "⚠️ Не удалось распознать маршрут"
+            })
+            return
+
+        topic_key = action
+        topic_id = REGION_KEYWORDS[topic_key]['topic_id']
+        phone = extract_phone_number(original_text)
+        transport, desc = format_cargo_text(cargo_text)
+
+        msg = f"""{from_city.upper()} - {to_city.upper()}
+🚛 {transport}
+💬 {desc}
+☎️ {phone}
+#{to_city.upper()}
+➖➖➖➖➖➖➖➖➖➖➖➖➖➖
+Другие грузы: @logistika_marka"""
+
+        send_message(MAIN_GROUP_ID, msg, topic_id,
+                     reply_markup=author_button({
+                         "id": uid,
+                         "first_name": name,
+                         "username": username
+                     }))
+
+        requests.post(f"{API_URL}/answerCallbackQuery", json={
+            "callback_query_id": query['id'],
+            "text": f"✅ Отправлено в топик {topic_key}"
+        })
     except Exception:
         logging.exception("callback error")
 
-# ========== Получение апдейтов ==========
 def get_updates():
     global last_update_id, stop_polling
     if not BOT_TOKEN or stop_polling:
         return []
     try:
-        params = {'offset': last_update_id + 1, 'timeout': 30, 'allowed_updates': ['message', 'callback_query']}
+        params = {'offset': last_update_id + 1, 'timeout': 30,
+                  'allowed_updates': ['message', 'callback_query']}
         resp = requests.get(f"{API_URL}/getUpdates", params=params, timeout=35)
         if resp.status_code == 401:
             stop_polling = True
@@ -356,7 +338,6 @@ def get_updates():
     except Exception:
         return []
 
-# ========== Основной цикл ==========
 def bot_main_loop():
     global last_update_id
     logger.info("Bot started")
@@ -374,23 +355,20 @@ def bot_main_loop():
             time.sleep(5)
         time.sleep(1)
 
-# ========== Flask ==========
 app = Flask(__name__)
+
 @app.route('/')
 def home():
     uptime = datetime.now() - bot_start_time
     h, m = divmod(int(uptime.total_seconds() // 60), 60)
     return f"<h1>YukMarkazi Bot – {bot_status}</h1><p>Сообщений: {message_count}</p><p>Uptime: {h}ч {m}м</p>"
+
 @app.route('/health')
 def health():
     return {'status': bot_status.lower(), 'messages': message_count}
 
-# ========== Запуск ==========
 @app.route('/telegram', methods=['POST'])
 def telegram_webhook():
-    """
-    Получает обновления от Telegram через Webhook
-    """
     try:
         update = request.get_json(force=True)
         if 'message' in update:
@@ -401,8 +379,9 @@ def telegram_webhook():
     except Exception:
         logger.exception("Webhook error")
         return jsonify(ok=False), 500
+
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
+    init_logging()
     signal.signal(signal.SIGTERM, lambda *a: sys.exit(0))
     signal.signal(signal.SIGINT, lambda *a: sys.exit(0))
     threading.Thread(target=bot_main_loop, daemon=True).start()
