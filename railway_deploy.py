@@ -330,12 +330,16 @@ def handle_callback(update):
             return
 
         topic_key = action
-        topic_id = REGION_KEYWORDS[topic_key]['topic_id']
+                topic_id = REGION_KEYWORDS[topic_key]['topic_id']
+
+        text = original_text  # ← добавили переменную
+
         phone = extract_phone_number(text)
-# Удаляем номер из cargo_text, чтобы не дублировать
-cargo_clean = re.sub(PHONE_REGEX, '', text).strip()
-cargo_clean = re.sub(ROUTE_REGEX, '', cargo_clean).strip()
-transport, desc = format_cargo_text(cargo_clean)
+
+        # удаляем номер и маршрут, чтобы не дублировать
+        cargo_clean = re.sub(PHONE_REGEX, '', text).strip()
+        cargo_clean = re.sub(ROUTE_REGEX, '', cargo_clean).strip()
+        transport, desc = format_cargo_text(cargo_clean)
 
         msg = f"""{from_city.upper()} - {to_city.upper()}
 🚛 {transport}
