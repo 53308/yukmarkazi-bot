@@ -208,9 +208,17 @@ def extract_route_and_cargo(text):
 
 
 def format_cargo_text(cargo_text):
-    lines = [l.strip() for l in cargo_text.splitlines() if l.strip()]
-    transport = lines[0].title() if lines and any(w in lines[0].upper() for w in ['FURA', 'ISUZU', 'KAMAZ']) else "Транспорт"
-    desc = " ".join(lines[1:] if transport != "Транспорт" else lines)
+    keywords = [
+        'фура', 'fura', 'isuzu', 'kamaz', 'man', 'daf', 'scania', 'volvo',
+        'тент', 'контейнер', 'реф', 'ref', 'refrigerator'
+    ]
+
+    text = cargo_text.lower()
+    match = re.search('|'.join(keywords), text)
+    transport = match.group(0).title() if match else "Транспорт"
+
+    clean_desc = re.sub('|'.join(keywords), '', text, flags=re.I).strip()
+    desc = clean_desc or "—"
     return transport, desc
 
 
@@ -323,8 +331,11 @@ def handle_callback(update):
 
         topic_key = action
         topic_id = REGION_KEYWORDS[topic_key]['topic_id']
-        phone = extract_phone_number(original_text)
-        transport, desc = format_cargo_text(cargo_text)
+        phone = extract_phone_number(text)
+# Удаляем номер из cargo_text, чтобы не дублировать
+cargo_clean = re.sub(PHONE_REGEX, '', text).strip()
+cargo_clean = re.sub(ROUTE_REGEX, '', cargo_clean).strip()
+transport, desc = format_cargo_text(cargo_clean)
 
         msg = f"""{from_city.upper()} - {to_city.upper()}
 🚛 {transport}
