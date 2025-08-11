@@ -268,17 +268,10 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
         return False
 
 def author_button(sender: dict) -> dict:
-    uid   = sender["id"]
-    name  = sender.get("first_name", "Аноним")
-    un    = sender.get("username")
-    if un:
-        url = f"https://t.me/{un}"
-        text = f"👤 Aloqaga_chiqish @{un}"
-    else:
-        url = f"https://t.me/{BOT_USERNAME}?start=user_{uid}"
-        text = "👤 Aloqaga_chiqish"
+    uid = sender["id"]
+    url = f"https://t.me/{BOT_USERNAME}?start=user_{uid}"
     return {
-        "inline_keyboard": [[{"text": text, "url": url}]]
+        "inline_keyboard": [[{"text": "👤 Aloqaga_chiqish", "url": url}]]
     }
 
 def handle_admin_command(message):
