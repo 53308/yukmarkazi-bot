@@ -287,7 +287,13 @@ def handle_admin_command(message):
 PHONE_REGEX = re.compile(
     r'(?:(?:\+?998|998)?[\s\-]?)?(?:\(?\d{2}\)?[\s\-]?){4}\d{2}'
 )
-ROUTE_REGEX = re.compile(r'(?:🇺🇿\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*\n🇺🇿\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)|[Мм]аршрут:\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*[-–—→➯]{1,3}\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)|([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*[-–—→➯]{1,3}\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?))', re.IGNORECASE)
+ROUTE_REGEX = re.compile(
+    r'(?:🇺🇿\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*\n🇺🇿\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)'
+    r'|[Мм]аршрут:\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*[-–—→➯]{1,3}\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)'
+    r'|([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*[-–—→➯]{1,3}\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)'
+    r'|([A-Za-z\u0130\u0131\'\w\-]+)\s+(NAMANGANGA|TOSHKENT|ANDIJONGA|SURXONDARYOGA|QASHQADARYOGA|SAMARQANDGA|BUXOROGA|FARGʼONAGA|ANDIJONGA|SIRDARYOGA|JIZZAXGA|XORAZMGA|NAVOIYGA|QORAQALPOQSTONGA))',
+    re.IGNORECASE
+)
 
 def extract_phone_number(text):
     m = PHONE_REGEX.search(text)
@@ -300,13 +306,15 @@ def extract_route_and_cargo(text):
         return None, None, text
 
     # берём первый найденный маршрут
-    match = matches[0]
+        match = matches[0]
     if match[0] and match[1]:
         fr, to = match[0].strip(), match[1].strip()
     elif match[2] and match[3]:
         fr, to = match[2].strip(), match[3].strip()
     elif match[4] and match[5]:
         fr, to = match[4].strip(), match[5].strip()
+    elif match[6] and match[7]:
+        fr, to = match[6].strip(), match[7].strip()
     else:
         return None, None, text
 
