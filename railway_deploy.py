@@ -611,33 +611,83 @@ def get_updates():
     global last_update_id, stop_polling
     if not BOT_TOKEN or stop_polling:
         return []
-    try:
-        params = {'offset': last_update_id + 1, 'timeout': 30,
-                  'allowed_updates': ['message', 'callback_query']}
-        resp = requests.get(f"{API_URL}/getUpdates", params=params, timeout=35)
-        if resp.status_code == 401:
-            stop_polling = True
-            return []
-        data = resp.json()
-        return data.get('result', []) if data.get('ok') else []
-    except Exception:
-        return []
+    
+    # АВТОНОМНОЕ УЛУЧШЕНИЕ: Retry логика
+    for attempt in range(3):
+        try:
+            params = {'offset': last_update_id + 1, 'timeout': 30,
+                      'allowed_updates': ['message', 'callback_query']}
+            resp = requests.get(f"{API_URL}/getUpdates", params=params, timeout=35)
+            if resp.status_code == 401:
+                stop_polling = True
+                return []
+            data = resp.json()
+            return data.get('result', []) if data.get('ok') else []
+        except Exception as e:
+            logging.warning(f"get_updates attempt {attempt + 1} failed: {e}")
+            if attempt < 2:  # Не последняя попытка
+                time.sleep(2)
+            continue
+    
+    return []
 
 def bot_main_loop():
-    global last_update_id
-    logger.info("Bot started")
+    global last_update_id, bot_status
+    logger.info("Автономный бот запущен")
+    
+    consecutive_errors = 0
+    max_errors = 5
+    last_heartbeat = datetime.now()
+    restart_count = 0
+    
     while True:
         if stop_polling:
             break
+            
         try:
-            for upd in get_updates():
-                last_update_id = upd['update_id']
-                if 'message' in upd:
-                    process_message(upd['message'])
-                if 'callback_query' in upd:
-                    handle_callback(upd)
-        except Exception:
-            time.sleep(5)
+            updates = get_updates()
+            
+            if updates:
+                consecutive_errors = 0  # Сброс при успехе
+                
+                for upd in updates:
+                    last_update_id = upd['update_id']
+                    if 'message' in upd:
+                        process_message(upd['message'])
+                    if 'callback_query' in upd:
+                        handle_callback(upd)
+            else:
+                # Heartbeat каждые 60 секунд
+                if (datetime.now() - last_heartbeat).total_seconds() > 60:
+                    last_heartbeat = datetime.now()
+                    logger.info("💓 Bot heartbeat - ready for messages")
+                    
+        except Exception as e:
+            consecutive_errors += 1
+            logger.error(f"❌ Ошибка цикла #{consecutive_errors}: {e}")
+            
+            if consecutive_errors >= max_errors:
+                logger.critical("🆘 Критические ошибки - автоперезапуск")
+                restart_count += 1
+                bot_status = "ПЕРЕЗАПУСК"
+                
+                # Уведомление админу
+                try:
+                    requests.post(f"{API_URL}/sendMessage", json={
+                        "chat_id": ADMIN_USER_ID,
+                        "text": f"🔄 Автоперезапуск #{restart_count}\nПричина: {e}"
+                    }, timeout=5)
+                except:
+                    pass
+                
+                time.sleep(10)
+                consecutive_errors = 0
+                bot_status = "АКТИВЕН"
+            else:
+                bot_status = "ОШИБКА"
+                time.sleep(5)
+                bot_status = "АКТИВЕН"
+                
         time.sleep(1)
 
 app = Flask(__name__)
@@ -667,8 +717,29 @@ def telegram_webhook():
 
 if __name__ == '__main__':
     init_logging()
-    signal.signal(signal.SIGTERM, lambda *a: sys.exit(0))
-    signal.signal(signal.SIGINT, lambda *a: sys.exit(0))
+    
+    # Graceful shutdown
+    def shutdown_handler(signum, frame):
+        global stop_polling, bot_status
+        stop_polling = True
+        bot_status = "ОСТАНОВЛЕН"
+        logger.info("🛑 Graceful shutdown")
+        sys.exit(0)
+    
+    signal.signal(signal.SIGTERM, shutdown_handler)
+    signal.signal(signal.SIGINT, shutdown_handler)
+    
+    # Запуск автономного бота
     threading.Thread(target=bot_main_loop, daemon=True).start()
+    
+    # Уведомление о запуске
+    try:
+        requests.post(f"{API_URL}/sendMessage", json={
+            "chat_id": ADMIN_USER_ID,
+            "text": "🚀 АВТОНОМНЫЙ БОТ v2.0\n\n✅ Полностью независимый\n✅ Автовосстановление\n✅ Heartbeat система\n\nРаботаю 24/7 без Replit Agent!"
+        }, timeout=5)
+    except:
+        pass
+    
     port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port, debug=False)
