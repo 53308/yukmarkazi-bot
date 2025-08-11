@@ -55,8 +55,9 @@ REGION_KEYWORDS = {
     'topic_id': 101383,
     'keywords': [
         'namangan', 'наманган', 'chortoq', 'чартак', 'yangiqorgon', 'янгикурган',
-        'chust', 'чуст'                # ← добавьте эти слова ]
-    },
+        'chust', 'чуст'
+    ]
+},
     'samarqand': {
         'topic_id': 101369,
         'keywords': ['samarqand', 'samarkand', 'самарканд', 'urgut', 'ургут', 'kattaqorgon', 'каттакурган']
