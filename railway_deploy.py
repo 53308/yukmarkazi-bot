@@ -299,30 +299,37 @@ def extract_phone_number(text):
     m = PHONE_REGEX.search(text)
     return m.group().strip() if m else "Телефон не указан"
 
-def extract_route_and_cargo(text):
+def extract_route_and_cargo(text: str):
     clean = re.sub(r'^[❗️⚠️!#\s]+', '', text, flags=re.MULTILINE)
     matches = ROUTE_REGEX.findall(clean)
     if not matches:
         return None, None, text
 
-    match = matches[0]  # 👈 вынесено НАД условиями
+    match = matches[0]
 
-    if match[0] and match[1]:
-        fr, to = match[0].strip(), match[1].strip()
-    elif match[2] and match[3]:
-        fr, to = match[2].strip(), match[3].strip()
-    elif match[4] and match[5]:
-        fr, to = match[4].strip(), match[5].strip()
-    elif match[6] and match[7]:
-        fr, to = match[6].strip(), match[7].strip()
-    else:
+    # Проверяем каждую пару групп
+    pairs = [
+        (match[0], match[1]),
+        (match[2], match[3]),
+        (match[4], match[5]),
+        (match[6], match[7]),
+    ]
+
+    fr, to = None, None
+    for a, b in pairs:
+        if a and b:
+            fr, to = a.strip(), b.strip()
+            break
+
+    if not fr or not to:
         return None, None, text
 
+    # Удаляем найденные совпадения из текста
     cargo = clean
     for m in matches:
         cargo = cargo.replace(''.join(m), '').strip()
-    return fr.lower(), to.lower(), cargo
 
+    return fr.lower(), to.lower(), cargo
 def format_cargo_text(cargo_text):
     keywords = [
         'фура', 'fura', 'isuzu', 'kamaz', 'man', 'daf', 'scania', 'volvo',
