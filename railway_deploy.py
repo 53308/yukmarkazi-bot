@@ -52,8 +52,10 @@ REGION_KEYWORDS = {
         'keywords': ['buxoro', 'bukhara', 'бухара', 'alat', 'алат', "g'ijduvon", 'гиждуван', 'kogon', 'когон']
     },
     'namangan': {
-        'topic_id': 101383,
-        'keywords': ['namangan', 'наманган', 'chortoq', 'чартак', 'yangiqorgon', 'янгикурган']
+    'topic_id': 101383,
+    'keywords': [
+        'namangan', 'наманган', 'chortoq', 'чартак', 'yangiqorgon', 'янгикурган',
+        'chust', 'чуст'                # ← добавьте эти слова ]
     },
     'samarqand': {
         'topic_id': 101369,
@@ -72,9 +74,12 @@ REGION_KEYWORDS = {
         'keywords': ['guliston', 'гулистан', 'shirin', 'ширин', 'boyovut', 'баяут']
     },
     'jizzax': {
-        'topic_id': 101377,
-        'keywords': ['jizzax', 'джизак', 'gallaaral', 'галляарал', 'pakhtakor', 'пахтакор', 'zomin', 'зомин']
-    },
+    'topic_id': 101377,
+    'keywords': [
+        'jizzax', 'джизак', 'gallaaral', 'галляарал', 'pakhtakor', 'пахтакор', 'zomin', 'зомин',
+        'pishagar', 'пишагар'          # ← добавьте эти слова
+    ]
+},
     'nukus': {
         'topic_id': 101376,
         'keywords': ['nukus', 'нукус']
