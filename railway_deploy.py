@@ -296,7 +296,8 @@ PHONE_REGEX = re.compile(
 )
 ROUTE_REGEX = re.compile(
     r'(?:🇺🇿\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*\n🇺🇿\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)'
-    r'|([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_➢>➯]{1,3}([A-Za-z\u0130\u0131\'\w\-]+))',
+    r'|маршрут:\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*[-–—→➯]{1,3}\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)'
+    r'|([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*[-–—→➯]{1,3}\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)',
     re.IGNORECASE
 )
 
@@ -305,19 +306,26 @@ def extract_phone_number(text):
     return m.group().strip() if m else "Телефон не указан"
 
 def extract_route_and_cargo(text):
-    # убираем символы в начале
-    clean = re.sub(r'^[❗️⚠️!#\s]+', '', text)
-    match = ROUTE_REGEX.search(clean)
-    if match:
-        if match.group(1) and match.group(2):
-            fr = match.group(1).strip()
-            to = match.group(2).strip()
-        else:
-            fr = match.group(3).strip()
-            to = match.group(4).strip()
-        cargo = clean.replace(match.group(0), '').strip()
-        return fr.lower(), to.lower(), cargo
-    return None, None, text
+    clean = re.sub(r'^[❗️⚠️!#\s]+', '', text, flags=re.MULTILINE)
+    matches = ROUTE_REGEX.findall(clean)
+    if not matches:
+        return None, None, text
+
+    # берём первый найденный маршрут
+    match = matches[0]
+    if match[0] and match[1]:
+        fr, to = match[0].strip(), match[1].strip()
+    elif match[2] and match[3]:
+        fr, to = match[2].strip(), match[3].strip()
+    elif match[4] and match[5]:
+        fr, to = match[4].strip(), match[5].strip()
+    else:
+        return None, None, text
+
+    cargo = clean
+    for m in matches:
+        cargo = cargo.replace(''.join(m), '').strip()
+    return fr.lower(), to.lower(), cargo
 
 def format_cargo_text(cargo_text):
     keywords = [
