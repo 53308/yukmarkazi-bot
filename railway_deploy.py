@@ -30,83 +30,187 @@ REGION_KEYWORDS = {
     'toshkent': {
         'topic_id': 101362,
         'keywords': [
-            'toshkent', 'tashkent', 'ташкент', 'тошкент', 'bekobod', 'бекабад', 'бекобод', 'olmaliq', 'алмалык', 'олмалиқ',
-            'ohangaron', 'ахангаран', 'оҳангарон', 'angren', 'ангрен', 'chirchiq', 'чирчик', 'чирчиқ',
-            "yangiyo'l", 'yangiyul', 'янгиюль', 'янгиюл', 'sergeli', 'сергели', 'chilonzor', 'чиланзар'
+            # столица
+            'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city',
+            'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent',
+            'toshkent İ', 'TOSHKENT', 'TASHKENT',
+            # области и районы
+            'bekobod', 'bekabad', 'bekobod tumani', 'bekabad tumani',
+            'olmaliq', 'alma-lyk', 'olmalik', 'olmaliq İ',
+            'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron İ',
+            'angren', 'angren İ', 'angiren',
+            'chirchiq', 'chirchik', 'chirchik İ', 'chir-chiq',
+            'yangiyul', "yangiyo'l", 'yangiyul İ', 'yangiyoʻl',
+            'sergeli', 'chilonzor', 'chilon-zor', 'mirzo-ulugbek',
+            'yunus-obod', 'yunusobod', 'yunusʼobod',
+            'm-u-lugbek', 'mirzoulugbek'
+        ]
+    },
+    'andijon': {
+        'topic_id': 101387,
+        'keywords': [
+            'andijon', 'andijan', 'andijon İ', 'andijonʼ',
+            'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani',
+            'marhamat', 'marxamat', 'marhamat tumani',
+            'shahrixon', 'shahrixon tumani', 'shaxrixon',
+            'xoja-obod', 'xojaobod', 'xojaʼobod',
+            'qorgontepa', 'qurghontepa', 'qurgʻontepa',
+            'oltinkol', 'oltinkoʻl', 'oltinkol tumani'
         ]
     },
     'fargona': {
         'topic_id': 101382,
         'keywords': [
-            "farg'ona", 'fargona', 'фергана', "фарғона", 'qoqon', 'quqon', 'kokand', 'коканд', 'қўқон',
-            'margilon', 'маргилан', 'quvasoy', 'кувасай', 'қувасой', 'Quvasoy', 'Қувасой', 'Кувасой',
-            'beshariq', 'бешарык', "bog'dod", 'багдад'
+            "farg'ona", 'fargona', 'fergana', 'fargʻona', 'farg-on-a',
+            'fargona İ', 'fargʻona İ', "farg'ona İ",
+            'qoqon', 'kokand', 'quqon', 'qoʼqon', 'qoqon İ',
+            'margilon', 'margilan', 'margilon İ',
+            'quvasoy', 'kuvasay', 'quvasoy İ', 'quvasoyʼ',
+            'beshariq', 'besharik', 'beshariq İ', "bog'dod", 'bogdod', 'bogʻdod',
+            'oltiarik', 'oltiarik İ', 'rishton', 'rishtan', 'rishton İ',
+            'sox', 'sox tumani', 'sox İ'
         ]
     },
-    'andijon': {
-        'topic_id': 101387,
-        'keywords': ['andijon', 'andijan', 'андижан', 'asaka', 'асака', 'marhamat', 'мархамат']
+    'namangan': {
+        'topic_id': 101383,
+        'keywords': [
+            'namangan', 'namangan İ', 'namanganʼ',
+            'chortoq', 'chartak', 'chortoq İ', 'chortoqʼ',
+            'yangiqorgon', 'yangikurgan', 'yangi-qorğon',
+            'chust', 'chust tumani', 'chust İ', 'chustʼ',
+            'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ',
+            'mullomirsoy', 'mullomirʼsoy',
+            'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon',
+            'pop', 'pop tumani', 'pop İ'
+        ]
     },
     'buxoro': {
         'topic_id': 101372,
-        'keywords': ['buxoro', 'bukhara', 'бухара', 'alat', 'алат', "g'ijduvon", 'гиждуван', 'kogon', 'когон']
+        'keywords': [
+            'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ',
+            'alat', 'alat tumani', 'alat İ',
+            "g'ijduvon", 'gijduvon', 'gʻijduvon', 'gijduvon İ', "g'ijduvon İ",
+            'kogon', 'kogon tumani', 'kogon İ',
+            'romitan', 'romitan tumani', 'romitan İ',
+            'shofirkon', 'shofirkon İ', 'shofirkon tumani',
+            'qorakoʻl', 'qorakol', 'qorakol İ'
+        ]
     },
-    'namangan': {
-    'topic_id': 101383,
-    'keywords': [
-        'namangan', 'наманган', 'chortoq', 'чартак', 'yangiqorgon', 'янгикурган',
-        'chust', 'чуст'
-    ]
-},
     'samarqand': {
         'topic_id': 101369,
-        'keywords': ['samarqand', 'samarkand', 'самарканд', 'urgut', 'ургут', 'kattaqorgon', 'каттакурган']
+        'keywords': [
+            'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ',
+            'urgut', 'urgut tumani', 'urgut İ',
+            'kattaqorgon', 'kattakurgan', 'katta-qorğon', 'kattaqoʻrgʻon',
+            'payariq', 'payariq tumani', 'payarik',
+            'ishtixon', 'ishtixon tumani', 'ishtixon İ',
+            'jomboy', 'jomboy tumani', 'jomboy İ',
+            'nurabod', 'nurabod tumani'
+        ]
     },
     'qashqadaryo': {
         'topic_id': 101380,
-        'keywords': ['qarshi', 'карши', 'shahrisabz', 'шахрисабз', 'koson', 'косон', 'guzar', 'гузар']
-    },
-    'navoiy': {
-        'topic_id': 101379,
-        'keywords': ['navoiy', 'navoi', 'навои', 'zarafshon', 'зарафшан', 'karmana', 'кармана']
-    },
-    'sirdaryo': {
-        'topic_id': 101378,
-        'keywords': ['guliston', 'гулистан', 'shirin', 'ширин', 'boyovut', 'баяут']
-    },
-    'jizzax': {
-    'topic_id': 101377,
-    'keywords': [
-        'jizzax', 'джизак', 'gallaaral', 'галляарал', 'pakhtakor', 'пахтакор', 'zomin', 'зомин',
-        'pishagar', 'пишагар'          # ← добавьте эти слова
-    ]
-},
-    'nukus': {
-        'topic_id': 101376,
-        'keywords': ['nukus', 'нукус']
-    },
-    'urganch': {
-        'topic_id': 101375,
-        'keywords': ['urganch', 'ургенч']
-    },
-    'xorazm': {
-        'topic_id': 101660,
-        'keywords': ['xorazm', 'xorezm', 'хорезм', 'xiva', 'khiva', 'хива', 'shovot', 'шават']
-    },
-    'qoraqalpoq': {
-        'topic_id': 101381,
-        'keywords': ['qoraqalpoq', 'каракалпакстан', 'turtkul', 'турткуль', 'khojeli', 'ходжейли']
-    },
-    'xalqaro': {
-        'topic_id': 101367,
         'keywords': [
-            'russia', 'россия', 'moskva', 'москва', 'spb', 'питер', 'kazakhstan', 'казахстан',
-            'turkey', 'стамбул', 'china', 'китай', 'dubai', 'дубай'
+            'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ',
+            'shahrisabz', 'shahrisabz İ', 'shakhrisabz', 'shahri-sabz',
+            'koson', 'koson tumani', 'koson İ',
+            'guzar', 'guzar tumani', 'guzar İ',
+            'muborak', 'muborak tumani', 'muborak İ',
+            'chiroqchi', 'chiroqchi tumani', 'chiroqchi İ',
+            'yakkabog', 'yakkabogʻ', 'yakkabog İ'
         ]
     },
     'surxondaryo': {
         'topic_id': 101363,
-        'keywords': ['termiz', 'термез', 'denov', 'денау', 'boysun', 'байсун']
+        'keywords': [
+            'termiz', 'termez', 'termiz İ', 'termizʼ',
+            'denov', 'denau', 'denov İ', 'denovʼ',
+            'boysun', 'boysun tumani', 'boysun İ',
+            'sherobod', 'sherobod tumani', 'sherobod İ',
+            'qumqorgon', 'qumqorğon', 'qumqoʻrgʻon',
+            'uzun', 'uzun tumani'
+        ]
+    },
+    'navoiy': {
+        'topic_id': 101379,
+        'keywords': [
+            'navoiy', 'navoi', 'navoiy İ', 'navoi İ',
+            'zarafshon', 'zarafshan', 'zarafshon İ',
+            'karmana', 'karmana tumani', 'karmana İ',
+            'nurota', 'nurota tumani', 'nurota İ',
+            'konimex', 'konimex tumani', 'konimex İ',
+            'uchquduq', 'uchquduk', 'uch-quduq'
+        ]
+    },
+    'sirdaryo': {
+        'topic_id': 101378,
+        'keywords': [
+            'guliston', 'gulistan', 'guliston İ', 'gulistonʼ',
+            'shirin', 'shirin tumani', 'shirin İ',
+            'boyovut', 'bayaut', 'boyovut tumani', 'boyovut İ',
+            'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ',
+            'mirzaobod', 'mirzaobod tumani'
+        ]
+    },
+    'jizzax': {
+        'topic_id': 101377,
+        'keywords': [
+            'jizzax', 'jizzax İ', 'джизак', 'жиззах', 'jizzakh', 'jiz-zax',
+            'gallaaral', 'gallaaral İ', 'galla-aral', 'gallaaʼral',
+            'pakhtakor', 'pakhtakor İ', 'pakhtakor tumani',
+            'zomin', 'zomin tumani', 'zomin İ',
+            'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ',
+            'forish', 'forish tumani', 'forish İ',
+            'arnasoy', 'arnasoy tumani', 'arnasoy İ',
+            'baxmal', 'baxmal tumani'
+        ]
+    },
+    'xorazm': {
+        'topic_id': 101660,
+        'keywords': [
+            'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ',
+            'xiva', 'khiva', 'xiva İ', 'xivaʼ',
+            'urganch', 'urgench', 'urganch İ', 'urganchʼ',
+            'shovot', 'shavat', 'shovot İ', 'shovotʼ',
+            'yangiariq', 'yangiariq tumani', 'yangiariq İ',
+            'bogʻot', 'bogot', 'bogʻot İ'
+        ]
+    },
+    'nukus': {
+        'topic_id': 101376,
+        'keywords': [
+            'nukus', 'nukus İ', 'nukusʼ', 'noʻkis', 'nokis',
+            'kegeyli', 'kegeyli tumani', 'kegeyli İ',
+            'muynoq', 'muynaq', 'muynoq İ',
+            'takhiatash', 'takhiatash tumani', 'takhiatash İ'
+        ]
+    },
+    'qoraqalpoq': {
+        'topic_id': 101381,
+        'keywords': [
+            'qoraqalpoq', 'qaraqalpaqstan', 'qoraqalpoq İ', 'qaraqalpaq-stan',
+            'qorakalpoq', 'karakalpakstan', 'qorakalpoq İ',
+            'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani',
+            'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'khojeliʼ',
+            'amudarya', 'amudaryo', 'amudarya tumani', 'amudarya İ',
+            'chimboy', 'chimboy tumani', 'chimboy İ'
+        ]
+    },
+    'xalqaro': {
+        'topic_id': 101367,
+        'keywords': [
+            'russia', 'rosiya', 'russia İ', 'rosiya İ',
+            'moskva', 'moscow', 'moskva İ', 'moskvaʼ',
+            'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ',
+            'kazakhstan', 'qazaqstan', 'kazakhstan İ', 'qazaq-stan',
+            'turkey', 'turkiya', 'turkey İ', 'turkiya İ',
+            'istanbul', 'stambul', 'istanbul İ', 'stambul İ',
+            'china', 'xitoy', 'china İ', 'xitoy İ',
+            'dubai', 'dubay', 'dubai İ', 'dubay İ',
+            'korea', 'koreya', 'korea İ',
+            'europe', 'yevropa', 'europe İ', 'yevropa İ',
+            'uzbekistan-germany', 'germany-uzbekistan', 'germany', 'germaniya'
+        ]
     }
 }
 
