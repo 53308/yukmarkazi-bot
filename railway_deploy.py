@@ -236,20 +236,119 @@ REGION_KEYWORDS = {
             'chimboy', 'chimboy tumani', 'chimboy İ', 'chimboy i'
         ]
     },
-    'xalqaro': {
+        'xalqaro': {
         'topic_id': 101367,
         'keywords': [
+            # Россия
             'russia', 'rosiya', 'russia İ', 'rosiya İ', 'russia i', 'rosiya i',
             'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', 'moskva‘',
             'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i',
+            'krasnodar', 'krasnodar İ', 'krasnodar i',
+            'rostov', 'rostov-na-donu', 'rostov İ', 'rostov i',
+            'volgograd', 'volgograd İ', 'volgograd i',
+            'kazan', 'kazan İ', 'kazan i',
+            'nizhny novgorod', 'nizhniy novgorod', 'nizhny novgorod İ', 'nizhny i',
+            'samara', 'samara İ', 'samara i',
+            'ufa', 'ufa İ', 'ufa i',
+            'perm', 'perm İ', 'perm i',
+            'krasnoyarsk', 'krasnoyarsk İ', 'krasnoyarsk i',
+            'novosibirsk', 'novosibirsk İ', 'novosibirsk i',
+            'yekaterinburg', 'ekaterinburg', 'yekaterinburg İ', 'yekaterinburg i',
+            'chelyabinsk', 'chelyabinsk İ', 'chelyabinsk i',
+            'omsk', 'omsk İ', 'omsk i',
+            'voronezh', 'voronezh İ', 'voronezh i',
+            'sochi', 'sochi İ', 'sochi i',
+            'tolyatti', 'tolyatti İ', 'tolyatti i',
+            'belgorod', 'belgorod İ', 'belgorod i',
+            'tula', 'tula İ', 'tula i',
+            'yaroslavl', 'yaroslavl İ', 'yaroslavl i',
+            'tver', 'tver İ', 'tver i',
+            'ivanovo', 'ivanovo İ', 'ivanovo i',
+            'vladivostok', 'vladivostok İ', 'vladivostok i',
+            'irkutsk', 'irkutsk İ', 'irkutsk i',
+            'khabarovsk', 'khabarovsk İ', 'khabarovsk i',
+
+            # Украина
+            'ukraine', 'ukraina', 'ukraine İ', 'ukraina İ', 'ukraine i', 'ukraina i',
+            'kiev', 'kyiv', 'kiev İ', 'kyiv İ', 'kiev i', 'kyiv i',
+            'kharkiv', 'kharkov', 'kharkiv İ', 'kharkiv i',
+            'odessa', 'odesa', 'odessa İ', 'odessa i',
+            'dnipro', 'dnepr', 'dnipro İ', 'dnipro i',
+            'lviv', 'lviv İ', 'lviv i',
+
+            # Беларусь
+            'belarus', 'belarus İ', 'belarus i',
+            'minsk', 'minsk İ', 'minsk i',
+            'brest', 'brest İ', 'brest i',
+            'grodno', 'grodno İ', 'grodno i',
+            'gomel', 'gomel İ', 'gomel i',
+
+            # Казахстан
             'kazakhstan', 'qazaqstan', 'kazakhstan İ', 'qazaq-stan', 'kazakhstan i',
+            'almaty', 'alma-ata', 'almaty İ', 'almaty i',
+            'astana', 'nur-sultan', 'astana İ', 'astana i',
+            'shymkent', 'shymkent İ', 'shymkent i',
+            'karaganda', 'karaganda İ', 'karaganda i',
+            'aktobe', 'aktobe İ', 'aktobe i',
+            'pavlodar', 'pavlodar İ', 'pavlodar i',
+
+            # Кыргызстан
+            'kyrgyzstan', 'kirgiziya', 'kyrgyzstan İ', 'kyrgyzstan i',
+            'bishkek', 'bishkek İ', 'bishkek i',
+            'osh', 'osh İ', 'osh i',
+
+            # Таджикистан
+            'tajikistan', 'tojikiston', 'tajikistan İ', 'tajikistan i',
+            'dushanbe', 'dushanbe İ', 'dushanbe i',
+            'khujand', 'khujand İ', 'khujand i',
+
+            # Туркменистан
+            'turkmenistan', 'turkmenistan İ', 'turkmenistan i',
+            'ashgabat', 'ashgabat İ', 'ashgabat i',
+            'turkmenbashy', 'turkmenbashy İ', 'turkmenbashy i',
+
+            # Турция
             'turkey', 'turkiya', 'turkey İ', 'turkiya İ', 'turkey i', 'turkiya i',
             'istanbul', 'stambul', 'istanbul İ', 'stambul İ', 'istanbul i', 'stambul i',
-            'china', 'xitoy', 'china İ', 'xitoy İ', 'china i', 'xitoy i',
+            'ankara', 'ankara İ', 'ankara i',
+            'izmir', 'izmir İ', 'izmir i',
+            'antalya', 'antalya İ', 'antalya i',
+
+            # ОАЭ
             'dubai', 'dubay', 'dubai İ', 'dubay İ', 'dubai i', 'dubay i',
+            'abu dhabi', 'abu-dhabi', 'abu dhabi İ', 'abu dhabi i',
+
+            # Китай
+            'china', 'xitoy', 'china İ', 'xitoy İ', 'china i', 'xitoy i',
+            'shanghai', 'shanghai İ', 'shanghai i',
+            'beijing', 'pekin', 'beijing İ', 'beijing i',
+            'guangzhou', 'guangzhou İ', 'guangzhou i',
+            'shenzhen', 'shenzhen İ', 'shenzhen i',
+
+            # Корея
             'korea', 'koreya', 'korea İ', 'koreya İ', 'korea i', 'koreya i',
+            'seoul', 'seoul İ', 'seoul i',
+            'busan', 'busan İ', 'busan i',
+
+            # Европа (общее + крупные города)
             'europe', 'yevropa', 'europe İ', 'yevropa İ', 'europe i', 'yevropa i',
-            'uzbekistan-germany', 'germany-uzbekistan', 'germany', 'germaniya', 'germany İ', 'germaniya i'
+            'germany', 'germaniya', 'germany İ', 'germaniya i',
+            'berlin', 'berlin İ', 'berlin i',
+            'hamburg', 'hamburg İ', 'hamburg i',
+            'munich', 'munich İ', 'munich i',
+            'frankfurt', 'frankfurt İ', 'frankfurt i',
+            'warsaw', 'warsaw İ', 'warsaw i',
+            'prague', 'prague İ', 'prague i',
+            'budapest', 'budapest İ', 'budapest i',
+            'vienna', 'vienna İ', 'vienna i',
+            'rome', 'rome İ', 'rome i',
+            'milan', 'milan İ', 'milan i',
+            'paris', 'paris İ', 'paris i',
+            'madrid', 'madrid İ', 'madrid i',
+            'barcelona', 'barcelona İ', 'barcelona i',
+
+            # Другие маршруты
+            'uzbekistan-germany', 'germany-uzbekistan', 'uzbekistan-poland', 'poland-uzbekistan'
         ]
     }
 }
