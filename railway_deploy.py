@@ -305,8 +305,8 @@ def extract_route_and_cargo(text):
     if not matches:
         return None, None, text
 
-    # берём первый найденный маршрут
-        match = matches[0]
+    match = matches[0]  # 👈 вынесено НАД условиями
+
     if match[0] and match[1]:
         fr, to = match[0].strip(), match[1].strip()
     elif match[2] and match[3]:
