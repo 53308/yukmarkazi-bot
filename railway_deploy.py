@@ -36,22 +36,39 @@ REGION_KEYWORDS = {
             'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city',
             'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent',
             'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT',
-            # области и районы
+            # районы города
+            'yashnobod', 'yashnobod tumani', 'yunusobod', 'yunusobod tumani',
+            'mirzo-ulugbek', 'mirzo ulugbek', 'mirzo-ulugbek tumani',
+            'olmazor', 'olmazor tumani', 'uchtepa', 'uchtepa tumani',
+            'shayxontoxur', 'shayxontohur', 'shayxontoxur tumani',
+            'chilonzor', 'chilon-zor', 'chilonzor tumani',
+            'sergeli', 'sergeli tumani', 'yakkasaroy', 'yakkasaroy tumani',
+            'mirobod', 'mirabad', 'mirobod tumani', 'bektemir', 'bektemir tumani',
+            # области и районы Ташкентской области
             'bekobod', 'bekabad', 'bekobod tumani', 'bekabad tumani',
-            'olmaliq', 'alma-lyk', 'olmalik', 'olmaliq İ', 'olmaliq i',
-            'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron İ', 'ohangaron i',
+            'olmaliq', 'alma-lyk', 'olmalik', 'olmaliq tumani', 'olmaliq i',
+            'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron tumani', 'ohangaron i',
             'angren', 'angren İ', 'angiren', 'angren i',
             'chirchiq', 'chirchik', 'chirchik İ', 'chir-chiq', 'chirchiq i',
-            'yangiyul', "yangiyo'l", 'yangiyul İ', 'yangiyul i', "yangiyo'l İ",
-            'sergeli', 'chilonzor', 'chilon-zor', 'mirzo-ulugbek',
-            'yunus-obod', 'yunusobod', 'yunusʼobod', 'yunus‘obod', 'yunus’obod',
-            'm-u-lugbek', 'mirzoulugbek', 'mirzo ulugbek'
+            'yangiyul', "yangiyo'l", 'yangiyul tumani', 'yangiyul i', "yangiyo'l tumani",
+            'parkent', 'parkent tumani', 'piskent', 'piskent tumani',
+            'quyichirchiq', 'quyichirchiq tumani',
+            'boʻka', 'boka', 'boʻka tumani', 'boka tumani',
+            'zangiota', 'zangiota tumani',
+            'qibray', 'qibray tumani',
+            'yuqorichirchiq', 'yuqorichirchiq tumani',
+            'nurafshon', 'nurafshon tumani',
+            'akhangaran', 'axangaran', 'akhangaran tumani',
+            'forish', 'forish tumani', 'ustarkhan', 'ustarkhan tumani',
+            'gazalkent', 'gazalkent tumani', 'keles', 'keles tumani',
+            'tashkent region', 'toshkent viloyati', 'tashkent oblast'
         ]
     },
     'andijon': {
         'topic_id': 101387,
         'keywords': [
             'andijon', 'andijan', 'andijon İ', 'andijonʼ', 'andijon i', 'andijon‘',
+            'andijonga', 'andijon-ga', 'andijon ga',
             'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', 'asaka‘',
             'marhamat', 'marxamat', 'marhamat tumani', 'marhamat i',
             'shahrixon', 'shahrixon tumani', 'shaxrixon', 'shahrixon i',
@@ -167,7 +184,6 @@ REGION_KEYWORDS = {
             'forish', 'forish tumani', 'forish İ', 'forish i',
             'arnasoy', 'arnasoy tumani', 'arnasoy İ', 'arnasoy i',
             'baxmal', 'baxmal tumani', 'baxmal i',
-            # добавляем Пишагардан
             'pishagardan', 'пишагардан', 'pishagardan i', 'pishagardan İ'
         ]
     },
@@ -177,36 +193,6 @@ REGION_KEYWORDS = {
             'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ', 'xorazm i', 'xorezm i',
             'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', 'xiva‘',
             'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', 'urganch‘',
-            'shovot', 'shavat', 'shovot İ', 'shovotʼ', 'shovot i', 'shovot‘',
-            'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i',
-            'bogʻot', 'bogot', 'bogʻot İ', 'bogʻot i'
-        ]
-    },
-        'fura_bozor': {
-        'topic_id': 101361,
-        'keywords': [
-            'fura bazar', 'fura bozor', 'fura bozori', 'фура бозор', 'bozor fura'
-        ]
-    },
-    'reklama': {
-        'topic_id': 101360,
-        'keywords': [
-            'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish'
-        ]
-    },
-    'yangiliklar': {
-        'topic_id': 101359,
-        'keywords': [
-            'yangilik', 'yangiliklar', 'новости', 'news', 'xabar', 'so‘ngi yangiliklar'
-        ]
-    },
-        'urganch': {
-        'topic_id': 101375,
-        'keywords': [
-            # сам город
-            'urganch', 'urgench', 'urganch İ', 'urganch i', 'urganch‘', 'urganchʼ',
-            # районы Хоразма
-            'xiva', 'khiva', 'xiva İ', 'xiva i', 'xiva‘', 'xivaʼ',
             'shovot', 'shavat', 'shovot İ', 'shovot i', 'shovot‘', 'shovotʼ',
             'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i',
             'bogʻot', 'bogot', 'bogʻot tumani', 'bogʻot İ', 'bogʻot i',
@@ -236,7 +222,25 @@ REGION_KEYWORDS = {
             'chimboy', 'chimboy tumani', 'chimboy İ', 'chimboy i'
         ]
     },
-        'xalqaro': {
+    'fura_bozor': {
+        'topic_id': 101361,
+        'keywords': [
+            'fura bazar', 'fura bozor', 'fura bozori', 'фура бозор', 'bozor fura'
+        ]
+    },
+    'reklama': {
+        'topic_id': 101360,
+        'keywords': [
+            'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish'
+        ]
+    },
+    'yangiliklar': {
+        'topic_id': 101359,
+        'keywords': [
+            'yangilik', 'yangiliklar', 'новости', 'news', 'xabar', 'so‘ngi yangiliklar'
+        ]
+    },
+    'xalqaro': {
         'topic_id': 101367,
         'keywords': [
             # Россия
@@ -330,7 +334,7 @@ REGION_KEYWORDS = {
             'seoul', 'seoul İ', 'seoul i',
             'busan', 'busan İ', 'busan i',
 
-            # Европа (общее + крупные города)
+            # Европа
             'europe', 'yevropa', 'europe İ', 'yevropa İ', 'europe i', 'yevropa i',
             'germany', 'germaniya', 'germany İ', 'germaniya i',
             'berlin', 'berlin İ', 'berlin i',
