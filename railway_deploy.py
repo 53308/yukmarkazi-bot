@@ -182,6 +182,40 @@ REGION_KEYWORDS = {
             'bogʻot', 'bogot', 'bogʻot İ', 'bogʻot i'
         ]
     },
+        'fura_bozor': {
+        'topic_id': 101361,
+        'keywords': [
+            'fura bazar', 'fura bozor', 'fura bozori', 'фура бозор', 'bozor fura'
+        ]
+    },
+    'reklama': {
+        'topic_id': 101360,
+        'keywords': [
+            'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish'
+        ]
+    },
+    'yangiliklar': {
+        'topic_id': 101359,
+        'keywords': [
+            'yangilik', 'yangiliklar', 'новости', 'news', 'xabar', 'so‘ngi yangiliklar'
+        ]
+    },
+        'urganch': {
+        'topic_id': 101375,
+        'keywords': [
+            # сам город
+            'urganch', 'urgench', 'urganch İ', 'urganch i', 'urganch‘', 'urganchʼ',
+            # районы Хоразма
+            'xiva', 'khiva', 'xiva İ', 'xiva i', 'xiva‘', 'xivaʼ',
+            'shovot', 'shavat', 'shovot İ', 'shovot i', 'shovot‘', 'shovotʼ',
+            'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i',
+            'bogʻot', 'bogot', 'bogʻot tumani', 'bogʻot İ', 'bogʻot i',
+            'xazarasp', 'hazarasp', 'xazarasp tumani', 'xazarasp i',
+            'gurlan', 'gurlan tumani', 'gurlan İ', 'gurlan i',
+            'qoshkopir', 'koshkupir', 'qoshkopir tumani', 'qoshkopir i',
+            'tuproqqala', 'tuprak kala', 'tuproqqala tumani', 'tuproqqala i'
+        ]
+    },
     'nukus': {
         'topic_id': 101376,
         'keywords': [
