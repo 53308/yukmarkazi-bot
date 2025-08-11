@@ -295,7 +295,9 @@ PHONE_REGEX = re.compile(
     r'(?:(?:\+?998|998)?[\s\-]?)?(?:\(?\d{2}\)?[\s\-]?){4}\d{2}'
 )
 ROUTE_REGEX = re.compile(
-    r'([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_➢>➯]{1,3}([A-Za-z\u0130\u0131\'\w\-]+)', re.IGNORECASE
+    r'(?:🇺🇿\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*\n🇺🇿\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)'
+    r'|([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_➢>➯]{1,3}([A-Za-z\u0130\u0131\'\w\-]+))',
+    re.IGNORECASE
 )
 
 def extract_phone_number(text):
@@ -303,12 +305,16 @@ def extract_phone_number(text):
     return m.group().strip() if m else "Телефон не указан"
 
 def extract_route_and_cargo(text):
-    # убираем эмодзи/символы в начале
+    # убираем символы в начале
     clean = re.sub(r'^[❗️⚠️!#\s]+', '', text)
     match = ROUTE_REGEX.search(clean)
     if match:
-        fr = match.group(1).strip()
-        to = match.group(2).strip()
+        if match.group(1) and match.group(2):
+            fr = match.group(1).strip()
+            to = match.group(2).strip()
+        else:
+            fr = match.group(3).strip()
+            to = match.group(4).strip()
         cargo = clean.replace(match.group(0), '').strip()
         return fr.lower(), to.lower(), cargo
     return None, None, text
