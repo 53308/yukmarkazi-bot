@@ -4,6 +4,8 @@
 railway_deploy.py – улучшенный файл
 - инлайн-кнопки админу при неопознанном маршруте
 - кнопка «👤 Aloqaga_chiqish» с @username или без
+- нормализация: İ→i, ʼ→', регистр не важен
+- все районные центры и крупные посёлки (Пишагардан, Чиназ, …)
 """
 import os
 import sys
@@ -33,183 +35,187 @@ REGION_KEYWORDS = {
             # столица
             'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city',
             'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent',
-            'toshkent İ', 'TOSHKENT', 'TASHKENT',
+            'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT',
             # области и районы
             'bekobod', 'bekabad', 'bekobod tumani', 'bekabad tumani',
-            'olmaliq', 'alma-lyk', 'olmalik', 'olmaliq İ',
-            'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron İ',
-            'angren', 'angren İ', 'angiren',
-            'chirchiq', 'chirchik', 'chirchik İ', 'chir-chiq',
-            'yangiyul', "yangiyo'l", 'yangiyul İ', 'yangiyoʻl',
+            'olmaliq', 'alma-lyk', 'olmalik', 'olmaliq İ', 'olmaliq i',
+            'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron İ', 'ohangaron i',
+            'angren', 'angren İ', 'angiren', 'angren i',
+            'chirchiq', 'chirchik', 'chirchik İ', 'chir-chiq', 'chirchiq i',
+            'yangiyul', "yangiyo'l", 'yangiyul İ', 'yangiyul i', "yangiyo'l İ",
             'sergeli', 'chilonzor', 'chilon-zor', 'mirzo-ulugbek',
-            'yunus-obod', 'yunusobod', 'yunusʼobod',
-            'm-u-lugbek', 'mirzoulugbek'
+            'yunus-obod', 'yunusobod', 'yunusʼobod', 'yunus‘obod', 'yunus’obod',
+            'm-u-lugbek', 'mirzoulugbek', 'mirzo ulugbek'
         ]
     },
     'andijon': {
         'topic_id': 101387,
         'keywords': [
-            'andijon', 'andijan', 'andijon İ', 'andijonʼ',
-            'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani',
-            'marhamat', 'marxamat', 'marhamat tumani',
-            'shahrixon', 'shahrixon tumani', 'shaxrixon',
-            'xoja-obod', 'xojaobod', 'xojaʼobod',
-            'qorgontepa', 'qurghontepa', 'qurgʻontepa',
-            'oltinkol', 'oltinkoʻl', 'oltinkol tumani'
+            'andijon', 'andijan', 'andijon İ', 'andijonʼ', 'andijon i', 'andijon‘',
+            'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', 'asaka‘',
+            'marhamat', 'marxamat', 'marhamat tumani', 'marhamat i',
+            'shahrixon', 'shahrixon tumani', 'shaxrixon', 'shahrixon i',
+            'xoja-obod', 'xojaobod', 'xojaʼobod', 'xoja‘obod', 'xoja’obod',
+            'qorgontepa', 'qurghontepa', 'qurgʻontepa', 'qurghontepa i',
+            'oltinkol', 'oltinkoʻl', 'oltinkol tumani', 'oltinkol i'
         ]
     },
     'fargona': {
         'topic_id': 101382,
         'keywords': [
-            "farg'ona", 'fargona', 'fergana', 'fargʻona', 'farg-on-a',
-            'fargona İ', 'fargʻona İ', "farg'ona İ",
-            'qoqon', 'kokand', 'quqon', 'qoʼqon', 'qoqon İ',
-            'margilon', 'margilan', 'margilon İ',
-            'quvasoy', 'kuvasay', 'quvasoy İ', 'quvasoyʼ',
-            'beshariq', 'besharik', 'beshariq İ', "bog'dod", 'bogdod', 'bogʻdod',
-            'oltiarik', 'oltiarik İ', 'rishton', 'rishtan', 'rishton İ',
-            'sox', 'sox tumani', 'sox İ'
+            "farg'ona", "fargʻona", 'fargona', 'fergana', 'farg-on-a',
+            'fargona İ', 'fargona i', "farg'ona İ", "fargʻona İ",
+            'qoqon', 'kokand', 'quqon', 'qoʼqon', 'qoqon İ', 'qoqon i',
+            'margilon', 'margilan', 'margilon İ', 'margilon i',
+            'quvasoy', 'kuvasay', 'quvasoy İ', 'quvasoy i', 'quvasoyʼ',
+            'beshariq', 'besharik', 'beshariq İ', 'beshariq i',
+            "bog'dod", 'bogdod', "bogʻdod", "bog'dod İ", "bog'dod i",
+            'oltiarik', 'oltiarik İ', 'oltiarik i',
+            'rishton', 'rishtan', 'rishton İ', 'rishton i',
+            'sox', 'sox tumani', 'sox İ', 'sox i'
         ]
     },
     'namangan': {
         'topic_id': 101383,
         'keywords': [
-            'namangan', 'namangan İ', 'namanganʼ',
-            'chortoq', 'chartak', 'chortoq İ', 'chortoqʼ',
-            'yangiqorgon', 'yangikurgan', 'yangi-qorğon',
-            'chust', 'chust tumani', 'chust İ', 'chustʼ',
-            'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ',
-            'mullomirsoy', 'mullomirʼsoy',
-            'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon',
-            'pop', 'pop tumani', 'pop İ'
+            'namangan', 'namangan İ', 'namanganʼ', 'namangan i', 'namangan‘',
+            'chortoq', 'chartak', 'chortoq İ', 'chortoq i', 'chortoqʼ',
+            'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangikurgan i',
+            'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', 'chust‘',
+            'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ', 'kosonsoy i',
+            'mullomirsoy', 'mullomirʼsoy', 'mullomir‘soy',
+            'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgon i',
+            'pop', 'pop tumani', 'pop İ', 'pop i'
         ]
     },
     'buxoro': {
         'topic_id': 101372,
         'keywords': [
-            'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ',
-            'alat', 'alat tumani', 'alat İ',
-            "g'ijduvon", 'gijduvon', 'gʻijduvon', 'gijduvon İ', "g'ijduvon İ",
-            'kogon', 'kogon tumani', 'kogon İ',
-            'romitan', 'romitan tumani', 'romitan İ',
-            'shofirkon', 'shofirkon İ', 'shofirkon tumani',
-            'qorakoʻl', 'qorakol', 'qorakol İ'
+            'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ', 'buxoro i', 'buxoro‘',
+            'alat', 'alat tumani', 'alat İ', 'alat i',
+            "g'ijduvon", 'gijduvon', "gʻijduvon", "g'ijduvon İ", "g'ijduvon i",
+            'kogon', 'kogon tumani', 'kogon İ', 'kogon i',
+            'romitan', 'romitan tumani', 'romitan İ', 'romitan i',
+            'shofirkon', 'shofirkon İ', 'shofirkon tumani', 'shofirkon i',
+            'qorakoʻl', 'qorakol', 'qorakol İ', 'qorakol i'
         ]
     },
     'samarqand': {
         'topic_id': 101369,
         'keywords': [
-            'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ',
-            'urgut', 'urgut tumani', 'urgut İ',
-            'kattaqorgon', 'kattakurgan', 'katta-qorğon', 'kattaqoʻrgʻon',
-            'payariq', 'payariq tumani', 'payarik',
-            'ishtixon', 'ishtixon tumani', 'ishtixon İ',
-            'jomboy', 'jomboy tumani', 'jomboy İ',
-            'nurabod', 'nurabod tumani'
+            'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', 'samarqand‘',
+            'urgut', 'urgut tumani', 'urgut İ', 'urgut i',
+            'kattaqorgon', 'kattakurgan', 'katta-qorğon', 'kattaqoʻrgʻon', 'kattaqorgon i',
+            'payariq', 'payariq tumani', 'payarik', 'payariq i',
+            'ishtixon', 'ishtixon tumani', 'ishtixon İ', 'ishtixon i',
+            'jomboy', 'jomboy tumani', 'jomboy İ', 'jomboy i',
+            'nurabod', 'nurabod tumani', 'nurabod i'
         ]
     },
     'qashqadaryo': {
         'topic_id': 101380,
         'keywords': [
-            'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ',
-            'shahrisabz', 'shahrisabz İ', 'shakhrisabz', 'shahri-sabz',
-            'koson', 'koson tumani', 'koson İ',
-            'guzar', 'guzar tumani', 'guzar İ',
-            'muborak', 'muborak tumani', 'muborak İ',
-            'chiroqchi', 'chiroqchi tumani', 'chiroqchi İ',
-            'yakkabog', 'yakkabogʻ', 'yakkabog İ'
+            'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ', 'qarshi i', 'qarshi‘',
+            'shahrisabz', 'shahrisabz İ', 'shakhrisabz', 'shahri-sabz', 'shahrisabz i',
+            'koson', 'koson tumani', 'koson İ', 'koson i',
+            'guzar', 'guzar tumani', 'guzar İ', 'guzar i',
+            'muborak', 'muborak tumani', 'muborak İ', 'muborak i',
+            'chiroqchi', 'chiroqchi tumani', 'chiroqchi İ', 'chiroqchi i',
+            'yakkabog', 'yakkabogʻ', 'yakkabog İ', 'yakkabog i'
         ]
     },
     'surxondaryo': {
         'topic_id': 101363,
         'keywords': [
-            'termiz', 'termez', 'termiz İ', 'termizʼ',
-            'denov', 'denau', 'denov İ', 'denovʼ',
-            'boysun', 'boysun tumani', 'boysun İ',
-            'sherobod', 'sherobod tumani', 'sherobod İ',
-            'qumqorgon', 'qumqorğon', 'qumqoʻrgʻon',
-            'uzun', 'uzun tumani'
+            'termiz', 'termez', 'termiz İ', 'termizʼ', 'termiz i', 'termiz‘',
+            'denov', 'denau', 'denov İ', 'denovʼ', 'denov i', 'denov‘',
+            'boysun', 'boysun tumani', 'boysun İ', 'boysun i',
+            'sherobod', 'sherobod tumani', 'sherobod İ', 'sherobod i',
+            'qumqorgon', 'qumqorğon', 'qumqoʻrgʻon', 'qumqorgon i',
+            'uzun', 'uzun tumani', 'uzun i'
         ]
     },
     'navoiy': {
         'topic_id': 101379,
         'keywords': [
-            'navoiy', 'navoi', 'navoiy İ', 'navoi İ',
-            'zarafshon', 'zarafshan', 'zarafshon İ',
-            'karmana', 'karmana tumani', 'karmana İ',
-            'nurota', 'nurota tumani', 'nurota İ',
-            'konimex', 'konimex tumani', 'konimex İ',
-            'uchquduq', 'uchquduk', 'uch-quduq'
+            'navoiy', 'navoi', 'navoiy İ', 'navoi İ', 'navoiy i', 'navoi i',
+            'zarafshon', 'zarafshan', 'zarafshon İ', 'zarafshon i',
+            'karmana', 'karmana tumani', 'karmana İ', 'karmana i',
+            'nurota', 'nurota tumani', 'nurota İ', 'nurota i',
+            'konimex', 'konimex tumani', 'konimex İ', 'konimex i',
+            'uchquduq', 'uchquduk', 'uch-quduq', 'uchquduq i'
         ]
     },
     'sirdaryo': {
         'topic_id': 101378,
         'keywords': [
-            'guliston', 'gulistan', 'guliston İ', 'gulistonʼ',
-            'shirin', 'shirin tumani', 'shirin İ',
-            'boyovut', 'bayaut', 'boyovut tumani', 'boyovut İ',
-            'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ',
-            'mirzaobod', 'mirzaobod tumani'
+            'guliston', 'gulistan', 'guliston İ', 'gulistonʼ', 'guliston i', 'guliston‘',
+            'shirin', 'shirin tumani', 'shirin İ', 'shirin i',
+            'boyovut', 'bayaut', 'boyovut tumani', 'boyovut İ', 'boyovut i',
+            'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ', 'sirdaryo i', 'sirdaryo‘',
+            'mirzaobod', 'mirzaobod tumani', 'mirzaobod i'
         ]
     },
     'jizzax': {
         'topic_id': 101377,
         'keywords': [
-            'jizzax', 'jizzax İ', 'джизак', 'жиззах', 'jizzakh', 'jiz-zax',
-            'gallaaral', 'gallaaral İ', 'galla-aral', 'gallaaʼral',
-            'pakhtakor', 'pakhtakor İ', 'pakhtakor tumani',
-            'zomin', 'zomin tumani', 'zomin İ',
-            'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ',
-            'forish', 'forish tumani', 'forish İ',
-            'arnasoy', 'arnasoy tumani', 'arnasoy İ',
-            'baxmal', 'baxmal tumani'
+            'jizzax', 'jizzax İ', 'jizzax i', 'jizzakh', 'jiz-zax', 'жиззах', 'джизак',
+            'gallaaral', 'gallaaral İ', 'gallaaral i', 'galla-aral', 'gallaaʼral', 'galla‘aral',
+            'pakhtakor', 'pakhtakor İ', 'pakhtakor i', 'pakhtakor tumani',
+            'zomin', 'zomin tumani', 'zomin İ', 'zomin i',
+            'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ', 'pishagar i', 'pishagar‘',
+            'forish', 'forish tumani', 'forish İ', 'forish i',
+            'arnasoy', 'arnasoy tumani', 'arnasoy İ', 'arnasoy i',
+            'baxmal', 'baxmal tumani', 'baxmal i',
+            # добавляем Пишагардан
+            'pishagardan', 'пишагардан', 'pishagardan i', 'pishagardan İ'
         ]
     },
     'xorazm': {
         'topic_id': 101660,
         'keywords': [
-            'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ',
-            'xiva', 'khiva', 'xiva İ', 'xivaʼ',
-            'urganch', 'urgench', 'urganch İ', 'urganchʼ',
-            'shovot', 'shavat', 'shovot İ', 'shovotʼ',
-            'yangiariq', 'yangiariq tumani', 'yangiariq İ',
-            'bogʻot', 'bogot', 'bogʻot İ'
+            'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ', 'xorazm i', 'xorezm i',
+            'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', 'xiva‘',
+            'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', 'urganch‘',
+            'shovot', 'shavat', 'shovot İ', 'shovotʼ', 'shovot i', 'shovot‘',
+            'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i',
+            'bogʻot', 'bogot', 'bogʻot İ', 'bogʻot i'
         ]
     },
     'nukus': {
         'topic_id': 101376,
         'keywords': [
-            'nukus', 'nukus İ', 'nukusʼ', 'noʻkis', 'nokis',
-            'kegeyli', 'kegeyli tumani', 'kegeyli İ',
-            'muynoq', 'muynaq', 'muynoq İ',
-            'takhiatash', 'takhiatash tumani', 'takhiatash İ'
+            'nukus', 'nukus İ', 'nukusʼ', 'nukus i', 'nukus‘', 'noʻkis', 'nokis',
+            'kegeyli', 'kegeyli tumani', 'kegeyli İ', 'kegeyli i',
+            'muynoq', 'muynaq', 'muynoq İ', 'muynoq i',
+            'takhiatash', 'takhiatash tumani', 'takhiatash İ', 'takhiatash i'
         ]
     },
     'qoraqalpoq': {
         'topic_id': 101381,
         'keywords': [
-            'qoraqalpoq', 'qaraqalpaqstan', 'qoraqalpoq İ', 'qaraqalpaq-stan',
-            'qorakalpoq', 'karakalpakstan', 'qorakalpoq İ',
-            'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani',
-            'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'khojeliʼ',
-            'amudarya', 'amudaryo', 'amudarya tumani', 'amudarya İ',
-            'chimboy', 'chimboy tumani', 'chimboy İ'
+            'qoraqalpoq', 'qaraqalpaqstan', 'qoraqalpoq İ', 'qaraqalpaq-stan', 'qoraqalpoq i',
+            'qorakalpoq', 'karakalpakstan', 'qorakalpoq İ', 'qorakalpoq i',
+            'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani', 'turtkul i', 'turtkul‘',
+            'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'xojeli i', 'khojeliʼ', 'xojeli‘',
+            'amudarya', 'amudaryo', 'amudarya tumani', 'amudarya İ', 'amudarya i',
+            'chimboy', 'chimboy tumani', 'chimboy İ', 'chimboy i'
         ]
     },
     'xalqaro': {
         'topic_id': 101367,
         'keywords': [
-            'russia', 'rosiya', 'russia İ', 'rosiya İ',
-            'moskva', 'moscow', 'moskva İ', 'moskvaʼ',
-            'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ',
-            'kazakhstan', 'qazaqstan', 'kazakhstan İ', 'qazaq-stan',
-            'turkey', 'turkiya', 'turkey İ', 'turkiya İ',
-            'istanbul', 'stambul', 'istanbul İ', 'stambul İ',
-            'china', 'xitoy', 'china İ', 'xitoy İ',
-            'dubai', 'dubay', 'dubai İ', 'dubay İ',
-            'korea', 'koreya', 'korea İ',
-            'europe', 'yevropa', 'europe İ', 'yevropa İ',
-            'uzbekistan-germany', 'germany-uzbekistan', 'germany', 'germaniya'
+            'russia', 'rosiya', 'russia İ', 'rosiya İ', 'russia i', 'rosiya i',
+            'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', 'moskva‘',
+            'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i',
+            'kazakhstan', 'qazaqstan', 'kazakhstan İ', 'qazaq-stan', 'kazakhstan i',
+            'turkey', 'turkiya', 'turkey İ', 'turkiya İ', 'turkey i', 'turkiya i',
+            'istanbul', 'stambul', 'istanbul İ', 'stambul İ', 'istanbul i', 'stambul i',
+            'china', 'xitoy', 'china İ', 'xitoy İ', 'china i', 'xitoy i',
+            'dubai', 'dubay', 'dubai İ', 'dubay İ', 'dubai i', 'dubay i',
+            'korea', 'koreya', 'korea İ', 'koreya İ', 'korea i', 'koreya i',
+            'europe', 'yevropa', 'europe İ', 'yevropa İ', 'europe i', 'yevropa i',
+            'uzbekistan-germany', 'germany-uzbekistan', 'germany', 'germaniya', 'germany İ', 'germaniya i'
         ]
     }
 }
@@ -229,9 +235,14 @@ stop_polling = False
 def normalize_text(text: str) -> str:
     if not text:
         return ""
+    # турецкая İ→I, ı→i
     text = text.replace('\u0130', 'I').replace('\u0131', 'i')
+    # NFC → NFKD (декомпозиция)
     text = unicodedata.normalize('NFKD', text)
+    # убираем диакритические знаки
     text = ''.join(ch for ch in text if unicodedata.category(ch) != 'Mn')
+    # апострофы/дефисы → просто '
+    text = re.sub(r"[ʼ‘’–—\-]+", "'", text)
     return text.lower().strip()
 
 def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
@@ -262,11 +273,10 @@ def author_button(sender: dict) -> dict:
     un    = sender.get("username")
     if un:
         url = f"https://t.me/{un}"
+        text = f"👤 Aloqaga_chiqish @{un}"
     else:
         url = f"https://t.me/{BOT_USERNAME}?start=user_{uid}"
-    text = f"👤 Aloqaga_chiqish"
-    if un:
-        text += f" @{un}"
+        text = "👤 Aloqaga_chiqish"
     return {
         "inline_keyboard": [[{"text": text, "url": url}]]
     }
@@ -284,25 +294,29 @@ def handle_admin_command(message):
 PHONE_REGEX = re.compile(
     r'(?:(?:\+?998|998)?[\s\-]?)?(?:\(?\d{2}\)?[\s\-]?){4}\d{2}'
 )
-ROUTE_REGEX = re.compile(r'([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_➢]{1,3}([A-Za-z\u0130\u0131\'\w\-]+)', re.IGNORECASE)
+ROUTE_REGEX = re.compile(
+    r'([A-Za-z\u0130\u0131\'\w\-]+)[\s\-→–_➢>➯]{1,3}([A-Za-z\u0130\u0131\'\w\-]+)', re.IGNORECASE
+)
 
 def extract_phone_number(text):
     m = PHONE_REGEX.search(text)
     return m.group().strip() if m else "Телефон не указан"
 
 def extract_route_and_cargo(text):
-    match = ROUTE_REGEX.search(text)
+    # убираем эмодзи/символы в начале
+    clean = re.sub(r'^[❗️⚠️!#\s]+', '', text)
+    match = ROUTE_REGEX.search(clean)
     if match:
         fr = match.group(1).strip()
         to = match.group(2).strip()
-        cargo = text.replace(match.group(0), '').strip()
+        cargo = clean.replace(match.group(0), '').strip()
         return fr.lower(), to.lower(), cargo
     return None, None, text
 
 def format_cargo_text(cargo_text):
     keywords = [
         'фура', 'fura', 'isuzu', 'kamaz', 'man', 'daf', 'scania', 'volvo',
-        'тент', 'контейнер', 'реф', 'ref', 'refrigerator'
+        'тент', 'контейнер', 'реф', 'ref', 'refrigerator', 'chakman', 'чакман'
     ]
     text = cargo_text.lower()
     match = re.search('|'.join(keywords), text)
@@ -344,7 +358,7 @@ def process_message(message):
 
         def find_region(txt):
             txt_norm = normalize_text(txt)
-            words = re.findall(r'\b\w+\b', txt_norm)
+            words = re.findall(r"\b\w+\b", txt_norm)
             for key, data in REGION_KEYWORDS.items():
                 for kw in data['keywords']:
                     kw_norm = normalize_text(kw)
@@ -354,7 +368,7 @@ def process_message(message):
 
         from_reg = find_region(from_city)
         to_reg = find_region(to_city)
-        if from_reg is None:
+        if from_reg is None or to_reg is None:
             ask_admin_topic(message, from_city, to_city)
             return
 
@@ -412,12 +426,8 @@ def handle_callback(update):
         topic_key = action
         topic_id = REGION_KEYWORDS[topic_key]['topic_id']
 
-        text = original_text  # переменная была потеряна
-
-        phone = extract_phone_number(text)
-
-        # удаляем номер и маршрут, чтобы не дублировать
-        cargo_clean = re.sub(PHONE_REGEX, '', text).strip()
+        phone = extract_phone_number(original_text)
+        cargo_clean = re.sub(PHONE_REGEX, '', original_text).strip()
         cargo_clean = re.sub(ROUTE_REGEX, '', cargo_clean).strip()
         transport, desc = format_cargo_text(cargo_clean)
 
