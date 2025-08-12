@@ -85,12 +85,12 @@ REGION_KEYWORDS = {
     'andijon': {
         'topic_id': 101387,
         'keywords': [
-            'andijon', 'andijan', 'andijon İ', 'andijonʼ', 'andijon i', 'andijon‘',
+            'andijon', 'andijan', 'andijon İ', 'andijonʼ', 'andijon i', 'andijon'',
             'andijonga', 'andijon-ga', 'andijon ga',
-            'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', 'asaka‘',
+            'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', 'asaka'',
             'marhamat', 'marxamat', 'marhamat tumani', 'marhamat i',
             'shahrixon', 'shahrixon tumani', 'shaxrixon', 'shahrixon i',
-            'xoja-obod', 'xojaobod', 'xojaʼobod', 'xoja‘obod', 'xoja’obod',
+            'xoja-obod', 'xojaobod', 'xojaʼobod', 'xoja'obod', 'xoja'obod',
             'qorgontepa', 'qurghontepa', 'qurgʻontepa', 'qurghontepa i',
             'oltinkol', 'oltinkoʻl', 'oltinkol tumani', 'oltinkol i'
         ]
@@ -113,12 +113,12 @@ REGION_KEYWORDS = {
     'namangan': {
         'topic_id': 101383,
         'keywords': [
-            'namangan', 'namangan İ', 'namanganʼ', 'namangan i', 'namangan‘',
+            'namangan', 'namangan İ', 'namanganʼ', 'namangan i', 'namangan'',
             'chortoq', 'chartak', 'chortoq İ', 'chortoq i', 'chortoqʼ',
             'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangikurgan i',
-            'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', 'chust‘',
+            'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', 'chust'',
             'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ', 'kosonsoy i',
-            'mullomirsoy', 'mullomirʼsoy', 'mullomir‘soy',
+            'mullomirsoy', 'mullomirʼsoy', 'mullomir'soy',
             'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgon i',
             'pop', 'pop tumani', 'pop İ', 'pop i'
         ]
@@ -126,7 +126,7 @@ REGION_KEYWORDS = {
     'buxoro': {
         'topic_id': 101372,
         'keywords': [
-            'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ', 'buxoro i', 'buxoro‘',
+            'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ', 'buxoro i', 'buxoro'',
             'alat', 'alat tumani', 'alat İ', 'alat i',
             "g'ijduvon", 'gijduvon', "gʻijduvon", "g'ijduvon İ", "g'ijduvon i",
             'kogon', 'kogon tumani', 'kogon İ', 'kogon i',
@@ -138,7 +138,7 @@ REGION_KEYWORDS = {
     'samarqand': {
         'topic_id': 101369,
         'keywords': [
-            'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', 'samarqand‘',
+            'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', 'samarqand'',
             'urgut', 'urgut tumani', 'urgut İ', 'urgut i',
             'kattaqorgon', 'kattakurgan', 'katta-qorğon', 'kattaqoʻrgʻon', 'kattaqorgon i',
             'payariq', 'payariq tumani', 'payarik', 'payariq i',
@@ -150,7 +150,7 @@ REGION_KEYWORDS = {
     'qashqadaryo': {
         'topic_id': 101380,
         'keywords': [
-            'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ', 'qarshi i', 'qarshi‘',
+            'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ', 'qarshi i', 'qarshi'',
             'shahrisabz', 'shahrisabz İ', 'shakhrisabz', 'shahri-sabz', 'shahrisabz i',
             'koson', 'koson tumani', 'koson İ', 'koson i',
             'guzar', 'guzar tumani', 'guzar İ', 'guzar i',
@@ -162,8 +162,8 @@ REGION_KEYWORDS = {
     'surxondaryo': {
         'topic_id': 101363,
         'keywords': [
-            'termiz', 'termez', 'termiz İ', 'termizʼ', 'termiz i', 'termiz‘',
-            'denov', 'denau', 'denov İ', 'denovʼ', 'denov i', 'denov‘',
+            'termiz', 'termez', 'termiz İ', 'termizʼ', 'termiz i', 'termiz'',
+            'denov', 'denau', 'denov İ', 'denovʼ', 'denov i', 'denov'',
             'boysun', 'boysun tumani', 'boysun İ', 'boysun i', 'surxondaryo', 'сурхондарё', 'сурхондарёга', 'сурхондарье',
             'sherobod', 'sherobod tumani', 'sherobod İ', 'sherobod i',
             'qumqorgon', 'qumqorğon', 'qumqoʻrgʻon', 'qumqorgon i',
@@ -184,10 +184,10 @@ REGION_KEYWORDS = {
     'sirdaryo': {
         'topic_id': 101378,
         'keywords': [
-            'guliston', 'gulistan', 'guliston İ', 'gulistonʼ', 'guliston i', 'guliston‘',
+            'guliston', 'gulistan', 'guliston İ', 'gulistonʼ', 'guliston i', 'guliston'',
             'shirin', 'shirin tumani', 'shirin İ', 'shirin i',
             'boyovut', 'bayaut', 'boyovut tumani', 'boyovut İ', 'boyovut i',
-            'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ', 'sirdaryo i', 'sirdaryo‘',
+            'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ', 'sirdaryo i', 'sirdaryo'',
             'mirzaobod', 'mirzaobod tumani', 'mirzaobod i'
         ]
     },
@@ -195,10 +195,10 @@ REGION_KEYWORDS = {
         'topic_id': 101377,
         'keywords': [
             'jizzax', 'jizzax İ', 'jizzax i', 'jizzakh', 'jiz-zax', 'жиззах', 'джизак',
-            'gallaaral', 'gallaaral İ', 'gallaaral i', 'galla-aral', 'gallaaʼral', 'galla‘aral',
+            'gallaaral', 'gallaaral İ', 'gallaaral i', 'galla-aral', 'gallaaʼral', 'galla'aral',
             'pakhtakor', 'pakhtakor İ', 'pakhtakor i', 'pakhtakor tumani',
             'zomin', 'zomin tumani', 'zomin İ', 'zomin i',
-            'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ', 'pishagar i', 'pishagar‘',
+            'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ', 'pishagar i', 'pishagar'',
             'forish', 'forish tumani', 'forish İ', 'forish i',
             'arnasoy', 'arnasoy tumani', 'arnasoy İ', 'arnasoy i',
             'baxmal', 'baxmal tumani', 'baxmal i',
@@ -209,9 +209,9 @@ REGION_KEYWORDS = {
         'topic_id': 101660,
         'keywords': [
             'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ', 'xorazm i', 'xorezm i',
-            'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', 'xiva‘',
-            'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', 'urganch‘',
-            'shovot', 'shavat', 'shovot İ', 'shovot i', 'shovot‘', 'shovotʼ',
+            'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', 'xiva'',
+            'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', 'urganch'',
+            'shovot', 'shavat', 'shovot İ', 'shovot i', 'shovot'', 'shovotʼ',
             'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i',
             'bogʻot', 'bogot', 'bogʻot tumani', 'bogʻot İ', 'bogʻot i',
             'xazarasp', 'hazarasp', 'xazarasp tumani', 'xazarasp i',
@@ -223,7 +223,7 @@ REGION_KEYWORDS = {
     'nukus': {
         'topic_id': 101376,
         'keywords': [
-            'nukus', 'nukus İ', 'nukusʼ', 'nukus i', 'nukus‘', 'noʻkis', 'nokis',
+            'nukus', 'nukus İ', 'nukusʼ', 'nukus i', 'nukus'', 'noʻkis', 'nokis',
             'kegeyli', 'kegeyli tumani', 'kegeyli İ', 'kegeyli i',
             'muynoq', 'muynaq', 'muynoq İ', 'muynoq i',
             'takhiatash', 'takhiatash tumani', 'takhiatash İ', 'takhiatash i'
@@ -234,8 +234,8 @@ REGION_KEYWORDS = {
         'keywords': [
             'qoraqalpoq', 'qaraqalpaqstan', 'qoraqalpoq İ', 'qaraqalpaq-stan', 'qoraqalpoq i',
             'qorakalpoq', 'karakalpakstan', 'qorakalpoq İ', 'qorakalpoq i',
-            'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani', 'turtkul i', 'turtkul‘',
-            'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'xojeli i', 'khojeliʼ', 'xojeli‘',
+            'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani', 'turtkul i', 'turtkul'',
+            'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'xojeli i', 'khojeliʼ', 'xojeli'',
             'amudarya', 'amudaryo', 'amudarya tumani', 'amudarya İ', 'amudarya i',
             'chimboy', 'chimboy tumani', 'chimboy İ', 'chimboy i'
         ]
@@ -255,7 +255,7 @@ REGION_KEYWORDS = {
     'yangiliklar': {
         'topic_id': 101359,
         'keywords': [
-            'yangilik', 'yangiliklar', 'новости', 'news', 'xabar', 'so‘ngi yangiliklar'
+            'yangilik', 'yangiliklar', 'новости', 'news', 'xabar', 'so'ngi yangiliklar'
         ]
     },
     'xalqaro': {
@@ -263,7 +263,7 @@ REGION_KEYWORDS = {
         'keywords': [
             # Россия
             'russia', 'rosiya', 'russia İ', 'rosiya İ', 'russia i', 'rosiya i',
-            'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', 'moskva‘',
+            'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', 'moskva'',
             'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i',
             'krasnodar', 'krasnodar İ', 'krasnodar i', 'voronej', 'воронеж', 'qazoq', 'казахстан', 'irkutsk', 'иркутск',
             'rostov', 'rostov-na-donu', 'rostov İ', 'rostov i',
@@ -397,7 +397,7 @@ def normalize_text(text: str) -> str:
     # убираем диакритические знаки
     text = ''.join(ch for ch in text if unicodedata.category(ch) != 'Mn')
     # апострофы/дефисы → просто '
-    text = re.sub(r"[ʼ‘’–—\-]+", "'", text)
+    text = re.sub(r"[ʼ''–—\-]+", "'", text)
     return text.lower().strip()
 
 def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
@@ -632,44 +632,51 @@ def get_updates():
                 return []
             data = resp.json()
             return data.get('result', []) if data.get('ok') else []
+        except requests.exceptions.Timeout:
+            logger.warning(f"⏳ Попытка {attempt + 1}/3: Таймаут getUpdates")
+            time.sleep(2)
         except Exception as e:
-            logging.warning(f"get_updates attempt {attempt + 1} failed: {e}")
-            if attempt < 2:  # Не последняя попытка
-                time.sleep(2)
-            continue
-    
+            logger.error(f"🚨 Попытка {attempt + 1}/3: {e}")
+            if attempt == 2:
+                return []
+            time.sleep(5)
     return []
 
 def bot_main_loop():
-    global last_update_id, bot_status
-    logger.info("Автономный бот запущен")
+    global last_update_id, bot_status, message_count, stop_polling
+    logger.info("🤖 Основной цикл бота запущен")
     
-    consecutive_errors = 0
+    # АВТОНОМНОЕ УЛУЧШЕНИЕ: Heartbeat
+    last_heartbeat = time.time()
     max_errors = 5
-    last_heartbeat = datetime.now()
+    consecutive_errors = 0
     restart_count = 0
     
-    while True:
-        if stop_polling:
-            break
-            
+    while not stop_polling:
         try:
-            updates = get_updates()
+            # Heartbeat каждые 60 секунд
+            if time.time() - last_heartbeat > 60:
+                logger.info("💓 Bot heartbeat - ready for messages")
+                last_heartbeat = time.time()
             
-            if updates:
-                consecutive_errors = 0  # Сброс при успехе
+            updates = get_updates()
+            if not updates:
+                time.sleep(1)
+                continue
                 
-                for upd in updates:
-                    last_update_id = upd['update_id']
-                    if 'message' in upd:
-                        process_message(upd['message'])
-                    if 'callback_query' in upd:
-                        handle_callback(upd)
-            else:
-                # Heartbeat каждые 60 секунд
-                if (datetime.now() - last_heartbeat).total_seconds() > 60:
-                    last_heartbeat = datetime.now()
-                    logger.info("💓 Bot heartbeat - ready for messages")
+            for update in updates:
+                try:
+                    if 'message' in update:
+                        process_message(update['message'])
+                        logger.info(f"✅ Сообщение {message_count} → топик {update.get('message', {}).get('message_thread_id', 'None')}")
+                        # Обновляем активность
+                        globals()['last_activity'] = datetime.now()
+                    if 'callback_query' in update:
+                        handle_callback(update)
+                    last_update_id = max(last_update_id, update.get('update_id', 0))
+                    consecutive_errors = 0  # Сброс ошибок при успехе
+                except Exception as e:
+                    logger.error(f"⚠️ Ошибка обработки update: {e}")
                     
         except Exception as e:
             consecutive_errors += 1
@@ -710,22 +717,22 @@ def home():
 @app.route('/health')
 def health():
     uptime_seconds = (datetime.now() - bot_start_time).total_seconds()
-last_activity = globals().get('last_activity', bot_start_time)  
-last_activity_seconds = (datetime.now() - last_activity).total_seconds()
-
-is_healthy = last_activity_seconds < 600  # 10 минут
-status_code = 200 if is_healthy else 503
-
-health_data = {
-    "status": "healthy" if is_healthy else "unhealthy",
-    "bot_status": bot_status,
-    "uptime_seconds": int(uptime_seconds),
-    "messages_processed": message_count,
-    "last_activity_seconds_ago": int(last_activity_seconds),
-    "timestamp": datetime.now().isoformat()
-}
-
-return health_data, status_code
+    last_activity = globals().get('last_activity', bot_start_time)
+    last_activity_seconds = (datetime.now() - last_activity).total_seconds()
+    
+    is_healthy = last_activity_seconds < 600  # 10 минут
+    status_code = 200 if is_healthy else 503
+    
+    health_data = {
+        "status": "healthy" if is_healthy else "unhealthy",
+        "bot_status": bot_status,
+        "uptime_seconds": int(uptime_seconds),
+        "messages_processed": message_count,
+        "last_activity_seconds_ago": int(last_activity_seconds),
+        "timestamp": datetime.now().isoformat()
+    }
+    
+    return health_data, status_code
 
 @app.route('/telegram', methods=['POST'])
 def telegram_webhook():
