@@ -512,13 +512,13 @@ def process_message(message):
             return None
 
         from_reg = find_region(from_city)
-if from_reg is None:
-    ask_admin_topic(message, from_city, to_city)
-    return
+        if from_reg is None:
+            ask_admin_topic(message, from_city, to_city)
+            return
 
-# Определяем топик по месту ОТПРАВКИ
-topic_key = 'xalqaro' if 'xalqaro' == from_reg else from_reg
-topic_id = REGION_KEYWORDS[topic_key]['topic_id']
+        # Определяем топик по месту ОТПРАВКИ
+        topic_key = 'xalqaro' if 'xalqaro' == from_reg else from_reg
+        topic_id = REGION_KEYWORDS[topic_key]['topic_id']
 
         sender = message.get('from', {})
         phone = extract_phone_number(text)
