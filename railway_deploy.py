@@ -212,49 +212,15 @@ REGION_KEYWORDS = {
             'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', "xiva'",
             'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', "urganch'",
             'shovot', 'shavat', 'shovot İ', 'shovot i', "shovot'", 'shovotʼ',
-            'yangiariq', 'yangiariq tumani', 'yangi ariq', 'yangiarik',
-            'bogʻot', 'bogot', 'bogʻot tumani', 'bogot tumani',
+            'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i',
+            'bogʻot', 'bogot', 'bogʻot tumani', 'bogʻot İ', 'bogʻot i',
             'xazarasp', 'hazarasp', 'xazarasp tumani', 'xazarasp i',
             'gurlan', 'gurlan tumani', 'gurlan İ', 'gurlan i',
             'qoshkopir', 'koshkupir', 'qoshkopir tumani', 'qoshkopir i',
-            'tuproqqala', 'tuproq qala', 'tuproqqala tumani', 'tuprak kala'
-        ]
-    },
-        'urganch': {
-        'topic_id': 101375,
-        'keywords': [
-            # --- город Ургенч ---
-            'urganch', 'urgench', 'urganch shahri', 'urganch city',
-            'urganch İ', 'urganch i', 'urganchʼ', "urganch'",
-            'urgench', 'urgench shahri', 'urganch tumani', 'urganch tuman',
-
-            # --- районы Хорезмской области ---
-            'xiva', 'xiva shahri', 'xiva tumani', 'khiwa', 'khiva',
-            'hazarasp', 'xazarasp', 'xazarasp tumani', 'hazarasp tuman',
-            'gurlan', 'gurlan tumani', 'gurlan tuman',
-            'qoshkopir', 'koshkupir', 'qoshkopir tumani', 'qoshkopir tuman',
-            'shovot', 'shavat', 'shovot tumani', 'shovot tuman',
-            'yangiariq', 'yangiariq tumani', 'yangi ariq', 'yangiarik',
-            'bogʻot', 'bogot', 'bogʻot tumani', 'bogot tumani',
-            'tuproqqala', 'tuproq qala', 'tuproqqala tumani', 'tuprak kala',
-            'uchquduq', 'uchquduk', 'uchquduq tumani', 'uch quduq',
-
-            # --- крупные посёлки/маршыруты ---
+            'tuproqqala', 'tuprak kala', 'tuproqqala tumani', 'tuproqqala i',
             'pitnak', 'pitnak shaharcha', 'pitnak posyolok',
             'khanka', 'xanka', 'khanka shaharcha',
-            'dashoguz', 'dashoguz yuli', 'urganch-dashoguz',
-            'urgench-urgench airport', 'urganch aeroporti', 'urganch airport',
-            'urgench-khiva', 'urganch-xiva', 'xiva-urganch',
-            'urgench-nukus', 'urganch-nukus', 'nukus-urganch',
-            'urgench-tashauz', 'urganch-tashauz',
-            'urgench-shovot', 'urganch-shovot',
-            'urgench-gurlan', 'urganch-gurlan',
-
-            # --- разные транслит/ё/e/апострофы/регистр ---
-            'URGENCH', 'URGENCH I', 'URGANCH', 'URGANCH I',
-            'urganch-shahri', 'urganch-shaharcha', 'urganch-posyolok',
-            'urgʻanch', "urg'anch", 'urganchʼ', "urganch'",
-            'urgench-shahri', 'urgench-shaharcha', 'urgench-posyolok'
+            'dashoguz', 'dashoguz yuli', 'urganch-dashoguz'
         ]
     },
     'nukus': {
@@ -837,7 +803,7 @@ def health():
     
     return health_data, status_code
 
-@app.route('/webhook', methods=['POST'])
+@app.route('/telegram', methods=['POST'])
 def telegram_webhook():
     try:
         update = request.get_json(force=True)
@@ -849,10 +815,6 @@ def telegram_webhook():
     except Exception:
         logger.exception("Webhook error")
         return jsonify(ok=False), 500
-
-@app.route('/ping')
-def ping():
-    return "pong", 200
 
 if __name__ == '__main__':
     init_logging()
