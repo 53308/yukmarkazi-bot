@@ -709,7 +709,23 @@ def home():
 
 @app.route('/health')
 def health():
-    return {'status': bot_status.lower(), 'messages': message_count}
+    uptime_seconds = (datetime.now() - bot_start_time).total_seconds()
+last_activity = globals().get('last_activity', bot_start_time)  
+last_activity_seconds = (datetime.now() - last_activity).total_seconds()
+
+is_healthy = last_activity_seconds < 600  # 10 минут
+status_code = 200 if is_healthy else 503
+
+health_data = {
+    "status": "healthy" if is_healthy else "unhealthy",
+    "bot_status": bot_status,
+    "uptime_seconds": int(uptime_seconds),
+    "messages_processed": message_count,
+    "last_activity_seconds_ago": int(last_activity_seconds),
+    "timestamp": datetime.now().isoformat()
+}
+
+return health_data, status_code
 
 @app.route('/telegram', methods=['POST'])
 def telegram_webhook():
