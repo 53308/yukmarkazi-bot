@@ -90,7 +90,7 @@ REGION_KEYWORDS = {
             'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', "asaka'",
             'marhamat', 'marxamat', 'marhamat tumani', 'marhamat i',
             'shahrixon', 'shahrixon tumani', 'shaxrixon', 'shahrixon i',
-            'xoja-obod', 'xojaobod', 'xojaʼobod', 'xoja'obod', 'xoja'obod',
+            'xoja-obod', 'xojaobod', 'xojaʼobod', "xoja'obod", "xoja'obod",
             'qorgontepa', 'qurghontepa', 'qurgʻontepa', 'qurghontepa i',
             'oltinkol', 'oltinkoʻl', 'oltinkol tumani', 'oltinkol i'
         ]
@@ -118,7 +118,7 @@ REGION_KEYWORDS = {
             'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangikurgan i',
             'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', "chust'",
             'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ', 'kosonsoy i',
-            'mullomirsoy', 'mullomirʼsoy', 'mullomir'soy',
+            'mullomirsoy', 'mullomirʼsoy', "mullomir'soy",
             'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgon i',
             'pop', 'pop tumani', 'pop İ', 'pop i'
         ]
@@ -195,7 +195,7 @@ REGION_KEYWORDS = {
         'topic_id': 101377,
         'keywords': [
             'jizzax', 'jizzax İ', 'jizzax i', 'jizzakh', 'jiz-zax', 'жиззах', 'джизак',
-            'gallaaral', 'gallaaral İ', 'gallaaral i', 'galla-aral', 'gallaaʼral', 'galla'aral',
+            'gallaaral', 'gallaaral İ', 'gallaaral i', 'galla-aral', 'gallaaʼral', "galla'aral",
             'pakhtakor', 'pakhtakor İ', 'pakhtakor i', 'pakhtakor tumani',
             'zomin', 'zomin tumani', 'zomin İ', 'zomin i',
             'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ', 'pishagar i', "pishagar'",
@@ -255,7 +255,7 @@ REGION_KEYWORDS = {
     'yangiliklar': {
         'topic_id': 101359,
         'keywords': [
-            'yangilik', 'yangiliklar', 'новости', 'news', 'xabar', 'so'ngi yangiliklar'
+            'yangilik', 'yangiliklar', 'новости', 'news', 'xabar', "so'ngi yangiliklar"
         ]
     },
     'xalqaro': {
