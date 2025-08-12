@@ -85,9 +85,9 @@ REGION_KEYWORDS = {
     'andijon': {
         'topic_id': 101387,
         'keywords': [
-            'andijon', 'andijan', 'andijon İ', 'andijonʼ', 'andijon i', 'andijon'',
+            'andijon', 'andijan', 'andijon İ', 'andijonʼ', 'andijon i', "andijon'",
             'andijonga', 'andijon-ga', 'andijon ga',
-            'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', 'asaka'',
+            'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', "asaka'",
             'marhamat', 'marxamat', 'marhamat tumani', 'marhamat i',
             'shahrixon', 'shahrixon tumani', 'shaxrixon', 'shahrixon i',
             'xoja-obod', 'xojaobod', 'xojaʼobod', 'xoja'obod', 'xoja'obod',
@@ -113,10 +113,10 @@ REGION_KEYWORDS = {
     'namangan': {
         'topic_id': 101383,
         'keywords': [
-            'namangan', 'namangan İ', 'namanganʼ', 'namangan i', 'namangan'',
+            'namangan', 'namangan İ', 'namanganʼ', 'namangan i', "namangan'",
             'chortoq', 'chartak', 'chortoq İ', 'chortoq i', 'chortoqʼ',
             'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangikurgan i',
-            'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', 'chust'',
+            'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', "chust'",
             'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ', 'kosonsoy i',
             'mullomirsoy', 'mullomirʼsoy', 'mullomir'soy',
             'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgon i',
@@ -126,7 +126,7 @@ REGION_KEYWORDS = {
     'buxoro': {
         'topic_id': 101372,
         'keywords': [
-            'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ', 'buxoro i', 'buxoro'',
+            'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ', 'buxoro i', "buxoro'",
             'alat', 'alat tumani', 'alat İ', 'alat i',
             "g'ijduvon", 'gijduvon', "gʻijduvon", "g'ijduvon İ", "g'ijduvon i",
             'kogon', 'kogon tumani', 'kogon İ', 'kogon i',
@@ -138,7 +138,7 @@ REGION_KEYWORDS = {
     'samarqand': {
         'topic_id': 101369,
         'keywords': [
-            'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', 'samarqand'',
+            'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', "samarqand'",
             'urgut', 'urgut tumani', 'urgut İ', 'urgut i',
             'kattaqorgon', 'kattakurgan', 'katta-qorğon', 'kattaqoʻrgʻon', 'kattaqorgon i',
             'payariq', 'payariq tumani', 'payarik', 'payariq i',
@@ -150,7 +150,7 @@ REGION_KEYWORDS = {
     'qashqadaryo': {
         'topic_id': 101380,
         'keywords': [
-            'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ', 'qarshi i', 'qarshi'',
+            'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ', 'qarshi i', "qarshi'",
             'shahrisabz', 'shahrisabz İ', 'shakhrisabz', 'shahri-sabz', 'shahrisabz i',
             'koson', 'koson tumani', 'koson İ', 'koson i',
             'guzar', 'guzar tumani', 'guzar İ', 'guzar i',
@@ -162,8 +162,8 @@ REGION_KEYWORDS = {
     'surxondaryo': {
         'topic_id': 101363,
         'keywords': [
-            'termiz', 'termez', 'termiz İ', 'termizʼ', 'termiz i', 'termiz'',
-            'denov', 'denau', 'denov İ', 'denovʼ', 'denov i', 'denov'',
+            'termiz', 'termez', 'termiz İ', 'termizʼ', 'termiz i', "termiz'",
+            'denov', 'denau', 'denov İ', 'denovʼ', 'denov i', "denov'",
             'boysun', 'boysun tumani', 'boysun İ', 'boysun i', 'surxondaryo', 'сурхондарё', 'сурхондарёга', 'сурхондарье',
             'sherobod', 'sherobod tumani', 'sherobod İ', 'sherobod i',
             'qumqorgon', 'qumqorğon', 'qumqoʻrgʻon', 'qumqorgon i',
@@ -184,10 +184,10 @@ REGION_KEYWORDS = {
     'sirdaryo': {
         'topic_id': 101378,
         'keywords': [
-            'guliston', 'gulistan', 'guliston İ', 'gulistonʼ', 'guliston i', 'guliston'',
+            'guliston', 'gulistan', 'guliston İ', 'gulistonʼ', 'guliston i', "guliston'",
             'shirin', 'shirin tumani', 'shirin İ', 'shirin i',
             'boyovut', 'bayaut', 'boyovut tumani', 'boyovut İ', 'boyovut i',
-            'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ', 'sirdaryo i', 'sirdaryo'',
+            'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ', 'sirdaryo i', "sirdaryo'",
             'mirzaobod', 'mirzaobod tumani', 'mirzaobod i'
         ]
     },
@@ -198,7 +198,7 @@ REGION_KEYWORDS = {
             'gallaaral', 'gallaaral İ', 'gallaaral i', 'galla-aral', 'gallaaʼral', 'galla'aral',
             'pakhtakor', 'pakhtakor İ', 'pakhtakor i', 'pakhtakor tumani',
             'zomin', 'zomin tumani', 'zomin İ', 'zomin i',
-            'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ', 'pishagar i', 'pishagar'',
+            'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ', 'pishagar i', "pishagar'",
             'forish', 'forish tumani', 'forish İ', 'forish i',
             'arnasoy', 'arnasoy tumani', 'arnasoy İ', 'arnasoy i',
             'baxmal', 'baxmal tumani', 'baxmal i',
@@ -209,9 +209,9 @@ REGION_KEYWORDS = {
         'topic_id': 101660,
         'keywords': [
             'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ', 'xorazm i', 'xorezm i',
-            'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', 'xiva'',
-            'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', 'urganch'',
-            'shovot', 'shavat', 'shovot İ', 'shovot i', 'shovot'', 'shovotʼ',
+            'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', "xiva'",
+            'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', "urganch'",
+            'shovot', 'shavat', 'shovot İ', 'shovot i', "shovot'", 'shovotʼ',
             'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i',
             'bogʻot', 'bogot', 'bogʻot tumani', 'bogʻot İ', 'bogʻot i',
             'xazarasp', 'hazarasp', 'xazarasp tumani', 'xazarasp i',
@@ -223,7 +223,7 @@ REGION_KEYWORDS = {
     'nukus': {
         'topic_id': 101376,
         'keywords': [
-            'nukus', 'nukus İ', 'nukusʼ', 'nukus i', 'nukus'', 'noʻkis', 'nokis',
+            'nukus', 'nukus İ', 'nukusʼ', 'nukus i', "nukus'", 'noʻkis', 'nokis',
             'kegeyli', 'kegeyli tumani', 'kegeyli İ', 'kegeyli i',
             'muynoq', 'muynaq', 'muynoq İ', 'muynoq i',
             'takhiatash', 'takhiatash tumani', 'takhiatash İ', 'takhiatash i'
@@ -234,8 +234,8 @@ REGION_KEYWORDS = {
         'keywords': [
             'qoraqalpoq', 'qaraqalpaqstan', 'qoraqalpoq İ', 'qaraqalpaq-stan', 'qoraqalpoq i',
             'qorakalpoq', 'karakalpakstan', 'qorakalpoq İ', 'qorakalpoq i',
-            'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani', 'turtkul i', 'turtkul'',
-            'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'xojeli i', 'khojeliʼ', 'xojeli'',
+            'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani', 'turtkul i', "turtkul'",
+            'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'xojeli i', 'khojeliʼ', "xojeli'",
             'amudarya', 'amudaryo', 'amudarya tumani', 'amudarya İ', 'amudarya i',
             'chimboy', 'chimboy tumani', 'chimboy İ', 'chimboy i'
         ]
@@ -263,7 +263,7 @@ REGION_KEYWORDS = {
         'keywords': [
             # Россия
             'russia', 'rosiya', 'russia İ', 'rosiya İ', 'russia i', 'rosiya i',
-            'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', 'moskva'',
+            'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', "moskva'",
             'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i',
             'krasnodar', 'krasnodar İ', 'krasnodar i', 'voronej', 'воронеж', 'qazoq', 'казахстан', 'irkutsk', 'иркутск',
             'rostov', 'rostov-na-donu', 'rostov İ', 'rostov i',
