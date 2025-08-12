@@ -837,7 +837,7 @@ def health():
     
     return health_data, status_code
 
-@app.route('/telegram', methods=['POST'])
+@app.route('/webhook', methods=['POST'])
 def telegram_webhook():
     try:
         update = request.get_json(force=True)
