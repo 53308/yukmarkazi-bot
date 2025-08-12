@@ -220,6 +220,43 @@ REGION_KEYWORDS = {
             'tuproqqala', 'tuprak kala', 'tuproqqala tumani', 'tuproqqala i'
         ]
     },
+        'urganch': {
+        'topic_id': 101375,
+        'keywords': [
+            # --- город Ургенч ---
+            'urganch', 'urgench', 'urganch shahri', 'urganch city',
+            'urganch İ', 'urganch i', 'urganchʼ', "urganch'",
+            'urgench', 'urgench shahri', 'urganch tumani', 'urganch tuman',
+
+            # --- районы Хорезмской области ---
+            'xiva', 'xiva shahri', 'xiva tumani', 'khiwa', 'khiva',
+            'hazarasp', 'xazarasp', 'xazarasp tumani', 'hazarasp tuman',
+            'gurlan', 'gurlan tumani', 'gurlan tuman',
+            'qoshkopir', 'koshkupir', 'qoshkopir tumani', 'qoshkopir tuman',
+            'shovot', 'shavat', 'shovot tumani', 'shovot tuman',
+            'yangiariq', 'yangiariq tumani', 'yangi ariq', 'yangiarik',
+            'bogʻot', 'bogot', 'bogʻot tumani', 'bogot tuman',
+            'tuproqqala', 'tuproq qala', 'tuproqqala tumani', 'tuprak kala',
+            'uchquduq', 'uchquduk', 'uchquduq tumani', 'uch quduq',
+
+            # --- крупные посёлки/маршыруты ---
+            'pitnak', 'pitnak shaharcha', 'pitnak posyolok',
+            'khanka', 'xanka', 'khanka shaharcha',
+            'dashoguz', 'dashoguz yuli', 'urganch-dashoguz',
+            'urgench-urgench airport', 'urganch aeroporti', 'urganch airport',
+            'urgench-khiva', 'urganch-xiva', 'xiva-urganch',
+            'urgench-nukus', 'urganch-nukus', 'nukus-urganch',
+            'urgench-tashauz', 'urganch-tashauz',
+            'urgench-shovot', 'urganch-shovot',
+            'urgench-gurlan', 'urganch-gurlan',
+
+            # --- разные транслит/ё/e/апострофы/регистр ---
+            'URGENCH', 'URGENCH I', 'URGANCH', 'URGANCH I',
+            'urganch-shahri', 'urganch-shaharcha', 'urganch-posyolok',
+            'urgʻanch', "urg'anch", 'urganchʼ', 'urganch’',
+            'urgench-shahri', 'urgench-shaharcha', 'urgench-posyolok'
+        ]
+    },
     'nukus': {
         'topic_id': 101376,
         'keywords': [
