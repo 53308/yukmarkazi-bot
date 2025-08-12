@@ -1,0 +1,23 @@
+name: Auto-fix /ping route
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure /ping exists
+        run: |
+          if ! grep -q '@app.route("/ping")' railway_deploy.py; then
+            sed -i '/if __name__ == "__main__":/i\
+@app.route("/ping")\n\
+def ping():\n\
+    return "pong", 200' railway_deploy.py
+            git config --global user.name "github-actions"
+            git config --global user.email "bot@fake.com"
+            git add railway_deploy.py
+            git commit -m "auto-add /ping route" || true
+            git push
+          fi
