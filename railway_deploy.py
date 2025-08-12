@@ -777,6 +777,16 @@ def bot_main_loop():
 # Flask приложение для Gunicorn
 app = Flask(__name__)
 
+# Инициализация при импорте для Gunicorn
+if BOT_TOKEN:
+    init_logging()
+    logger.info("🚀 Инициализация автономного бота для Gunicorn...")
+    
+    # Запуск бота в отдельном потоке при старте приложения
+    bot_thread = threading.Thread(target=bot_main_loop, daemon=True)
+    bot_thread.start()
+    logger.info("✅ Бот запущен в фоновом потоке")
+
 @app.route('/')
 def home():
     uptime = datetime.now() - bot_start_time
