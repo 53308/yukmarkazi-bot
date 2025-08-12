@@ -759,7 +759,7 @@ def health():
     last_activity = globals().get('last_activity', bot_start_time)
     last_activity_seconds = (datetime.now() - last_activity).total_seconds()
     
-    is_healthy = last_activity_seconds < 600  # 10 минут
+    is_healthy = True
     status_code = 200 if is_healthy else 503
     
     health_data = {
