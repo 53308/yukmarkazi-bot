@@ -784,6 +784,9 @@ def telegram_webhook():
         logger.exception("Webhook error")
         return jsonify(ok=False), 500
 
+# Запускаем фоновый поток бота при импорте
+threading.Thread(target=bot_main_loop, daemon=True).start()
+
 if __name__ == '__main__':
     init_logging()
     
