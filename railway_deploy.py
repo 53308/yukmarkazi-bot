@@ -212,12 +212,12 @@ REGION_KEYWORDS = {
             'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', "xiva'",
             'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', "urganch'",
             'shovot', 'shavat', 'shovot İ', 'shovot i', "shovot'", 'shovotʼ',
-            'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i',
-            'bogʻot', 'bogot', 'bogʻot tumani', 'bogʻot İ', 'bogʻot i',
+            'yangiariq', 'yangiariq tumani', 'yangi ariq', 'yangiarik',
+            'bogʻot', 'bogot', 'bogʻot tumani', 'bogot tumani',
             'xazarasp', 'hazarasp', 'xazarasp tumani', 'xazarasp i',
             'gurlan', 'gurlan tumani', 'gurlan İ', 'gurlan i',
             'qoshkopir', 'koshkupir', 'qoshkopir tumani', 'qoshkopir i',
-            'tuproqqala', 'tuprak kala', 'tuproqqala tumani', 'tuproqqala i'
+            'tuproqqala', 'tuproq qala', 'tuproqqala tumani', 'tuprak kala'
         ]
     },
         'urganch': {
@@ -235,7 +235,7 @@ REGION_KEYWORDS = {
             'qoshkopir', 'koshkupir', 'qoshkopir tumani', 'qoshkopir tuman',
             'shovot', 'shavat', 'shovot tumani', 'shovot tuman',
             'yangiariq', 'yangiariq tumani', 'yangi ariq', 'yangiarik',
-            'bogʻot', 'bogot', 'bogʻot tumani', 'bogot tuman',
+            'bogʻot', 'bogot', 'bogʻot tumani', 'bogot tumani',
             'tuproqqala', 'tuproq qala', 'tuproqqala tumani', 'tuprak kala',
             'uchquduq', 'uchquduk', 'uchquduq tumani', 'uch quduq',
 
@@ -850,9 +850,9 @@ def telegram_webhook():
         logger.exception("Webhook error")
         return jsonify(ok=False), 500
 
-    @app.route('/ping')
-    def ping():
-        return "pong", 200
+@app.route('/ping')
+def ping():
+    return "pong", 200
 
 if __name__ == '__main__':
     init_logging()
@@ -882,4 +882,3 @@ if __name__ == '__main__':
     
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
-
