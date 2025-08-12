@@ -253,7 +253,7 @@ REGION_KEYWORDS = {
             # --- разные транслит/ё/e/апострофы/регистр ---
             'URGENCH', 'URGENCH I', 'URGANCH', 'URGANCH I',
             'urganch-shahri', 'urganch-shaharcha', 'urganch-posyolok',
-            'urgʻanch', "urg'anch", 'urganchʼ', 'urganch’',
+            'urgʻanch', "urg'anch", 'urganchʼ', "urganch'",
             'urgench-shahri', 'urgench-shaharcha', 'urgench-posyolok'
         ]
     },
@@ -373,164 +373,192 @@ REGION_KEYWORDS = {
             'izmir', 'izmir İ', 'izmir i',
             'antalya', 'antalya İ', 'antalya i',
 
-            # ОАЭ
-            'dubai', 'dubay', 'dubai İ', 'dubay İ', 'dubai i', 'dubay i',
-            'abu dhabi', 'abu-dhabi', 'abu dhabi İ', 'abu dhabi i',
-
-            # Китай
+            # Другие страны
+            'iran', 'iran İ', 'iran i',
+            'afganistan', 'afghanistan', 'afghanistan İ', 'afghanistan i',
             'china', 'xitoy', 'china İ', 'xitoy İ', 'china i', 'xitoy i',
-            'shanghai', 'shanghai İ', 'shanghai i',
-            'beijing', 'pekin', 'beijing İ', 'beijing i',
-            'guangzhou', 'guangzhou İ', 'guangzhou i',
-            'shenzhen', 'shenzhen İ', 'shenzhen i',
+            'india', 'xindiston', 'india İ', 'xindiston İ', 'india i', 'xindiston i',
+            'poland', 'polsha', 'poland İ', 'polsha İ', 'poland i', 'polsha i',
+            'germany', 'germaniya', 'germany İ', 'germaniya İ', 'germany i', 'germaniya i',
+            'europe', 'europa', 'europe İ', 'europa İ', 'europe i', 'europa i',
 
-            # Корея
-            'korea', 'koreya', 'korea İ', 'koreya İ', 'korea i', 'koreya i',
-            'seoul', 'seoul İ', 'seoul i',
-            'busan', 'busan İ', 'busan i',
-
-            # Европа
-            'europe', 'yevropa', 'europe İ', 'yevropa İ', 'europe i', 'yevropa i',
-            'germany', 'germaniya', 'germany İ', 'germaniya i',
-            'berlin', 'berlin İ', 'berlin i',
-            'hamburg', 'hamburg İ', 'hamburg i',
-            'munich', 'munich İ', 'munich i',
-            'frankfurt', 'frankfurt İ', 'frankfurt i',
-            'warsaw', 'warsaw İ', 'warsaw i',
-            'prague', 'prague İ', 'prague i',
-            'budapest', 'budapest İ', 'budapest i',
-            'vienna', 'vienna İ', 'vienna i',
-            'rome', 'rome İ', 'rome i',
-            'milan', 'milan İ', 'milan i',
-            'paris', 'paris İ', 'paris i',
-            'madrid', 'madrid İ', 'madrid i',
-            'barcelona', 'barcelona İ', 'barcelona i',
-
-            # Другие маршруты
-            'uzbekistan-germany', 'germany-uzbekistan', 'uzbekistan-poland', 'poland-uzbekistan'
+            # Общие ключевые слова для международных маршрутов
+            'international', 'xalqaro', 'international İ', 'xalqaro İ', 'international i', 'xalqaro i',
+            'cis', 'mda', 'cis İ', 'mda İ', 'cis i', 'mda i',
+            'import', 'export', 'import İ', 'export İ', 'import i', 'export i'
         ]
     }
 }
 
-# ========== Логирование ==========
-def init_logging():
-    level = logging.DEBUG if os.getenv("DEBUG") else logging.INFO
-    logging.basicConfig(level=level, format='[%(asctime)s] %(levelname)s: %(message)s')
-logger = logging.getLogger(__name__)
+# ========== Рядом с REGION_KEYWORDS нужно добавить константы для номеров телефонов и маршрутов ==========
 
-message_count = 0
-last_update_id = 0
-bot_start_time = datetime.now()
-bot_status = "АКТИВЕН"
-stop_polling = False
+PHONE_REGEX = re.compile(r'[\+]?[\d\s\-\(\)]{9,18}')
+ROUTE_REGEX = re.compile(r'(?:^\s*)?(.+?)(?:\s*>\s*|\s*—\s*|\s*-\s*|\s+)(.+?)(?:\s|$)', re.IGNORECASE | re.MULTILINE)
 
-def normalize_text(text: str) -> str:
+# ========== Функции нормализации ==========
+
+def normalize_text(text):
+    """
+    Нормализация текста для поиска ключевых слов
+    - приводит к нижнему регистру
+    - заменяет İ→i, ʼ→', ё→e
+    """
     if not text:
         return ""
-    # турецкая İ→I, ı→i
-    text = text.replace('\u0130', 'I').replace('\u0131', 'i')
-    # NFC → NFKD (декомпозиция)
-    text = unicodedata.normalize('NFKD', text)
-    # убираем диакритические знаки
-    text = ''.join(ch for ch in text if unicodedata.category(ch) != 'Mn')
-    # апострофы/дефисы → просто '
-    text = re.sub(r"[ʼ''–—\-]+", "'", text)
-    return text.lower().strip()
+    
+    # Нормализация Unicode (для корректного сравнения)
+    text = unicodedata.normalize('NFD', text)
+    
+    # Приведение к нижнему регистру
+    text = text.lower()
+    
+    # Замены специальных символов
+    replacements = {
+        'ʼ': "'",   # правый апостроф → обычный апостроф
+        'ʻ': "'",   # левый апостроф → обычный апостроф
+        'ё': 'e',   # ё → e
+        'і': 'i',   # і → i
+        'ı': 'i',   # ı → i (турецкий)
+        'İ': 'i',   # İ → i (турецкий)
+        'ğ': 'g',   # ğ → g
+        'ş': 's',   # ş → s
+        'ç': 'c',   # ç → c
+        'ü': 'u',   # ü → u
+        'ö': 'o',   # ö → o
+    }
+    
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+    
+    return text
+
+def extract_phone_number(text):
+    """Извлекает номер телефона из текста"""
+    match = PHONE_REGEX.search(text)
+    return match.group().strip() if match else 'Номер не указан'
+
+def extract_route_and_cargo(text):
+    """
+    Извлекает откуда/куда и описание груза
+    Возвращает (from_city, to_city, cargo_text)
+    """
+    lines = text.strip().split('\n')
+    
+    for line in lines:
+        # Ищем паттерны маршрута
+        route_match = ROUTE_REGEX.search(line)
+        if route_match:
+            from_city = route_match.group(1).strip()
+            to_city = route_match.group(2).strip()
+            
+            # Убираем маршрут из общего текста, оставляем описание груза
+            cargo_text = text.replace(line, '').strip()
+            
+            return from_city, to_city, cargo_text
+    
+    # Если не найден четкий маршрут, пытаемся извлечь из первой строки
+    first_line = lines[0] if lines else text
+    parts = re.split(r'[\s\-\>\→\—]+', first_line, 2)
+    
+    if len(parts) >= 2:
+        return parts[0].strip(), parts[1].strip(), text
+    
+    return None, None, text
+
+def format_cargo_text(cargo_text):
+    """
+    Форматирует описание груза, разделяя на транспорт и описание
+    Возвращает (transport, description)
+    """
+    if not cargo_text:
+        return "Груз", "Детали не указаны"
+    
+    # Список ключевых слов для транспорта
+    transport_keywords = [
+        'фура', 'fura', 'камаз', 'kamaz', 'газель', 'gazel', 'прицеп', 'pritsep',
+        'машина', 'mashina', 'автомобиль', 'avtomobil', 'грузовик', 'gruzovik',
+        'рефрижератор', 'refrigerator', 'tent', 'тент', 'открытый', 'ochiq'
+    ]
+    
+    cargo_lines = cargo_text.strip().split('\n')
+    transport = "Груз"
+    description = "Детали не указаны"
+    
+    for line in cargo_lines:
+        line_lower = line.lower()
+        
+        # Проверяем, содержит ли строка транспорт
+        for keyword in transport_keywords:
+            if keyword in line_lower:
+                transport = line.strip()
+                break
+        else:
+            # Если в строке нет транспорта, считаем её описанием
+            if line.strip() and 'номер' not in line_lower and '+' not in line:
+                description = line.strip()
+    
+    return transport, description
 
 def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
-    global message_count
-    if not BOT_TOKEN:
-        return False
+    """Отправка сообщения в Telegram"""
     try:
-        data = {
+        payload = {
             'chat_id': chat_id,
             'text': text,
             'parse_mode': 'HTML'
         }
-        if message_thread_id is not None:
-            data['message_thread_id'] = int(message_thread_id)
-        if reply_markup is not None:
-            data['reply_markup'] = reply_markup
-        resp = requests.post(f"{API_URL}/sendMessage", json=data, timeout=10)
-        if resp.json().get('ok'):
-            message_count += 1
-            return True
-        return False
-    except Exception:
-        return False
+        
+        if message_thread_id:
+            payload['message_thread_id'] = message_thread_id
+            
+        if reply_markup:
+            payload['reply_markup'] = reply_markup
+            
+        response = requests.post(f"{API_URL}/sendMessage", json=payload, timeout=10)
+        return response.json()
+    except Exception as e:
+        logger.error(f"Ошибка отправки сообщения: {e}")
+        return None
 
-def author_button(sender: dict) -> dict:
-    uid = sender["id"]
-    url = f"https://t.me/{BOT_USERNAME}?start=user_{uid}"
+def author_button(user):
+    """Создает инлайн-кнопку с информацией об авторе"""
+    name = user.get('first_name', 'Пользователь')
+    username = user.get('username', '')
+    
+    if username:
+        button_text = f"👤 @{username}"
+        url = f"https://t.me/{username}"
+    else:
+        button_text = f"👤 {name}"
+        url = f"tg://user?id={user.get('id', '')}"
+    
     return {
-        "inline_keyboard": [[{"text": "👤 Aloqaga_chiqish", "url": url}]]
+        "inline_keyboard": [[{
+            "text": button_text,
+            "url": url
+        }]]
     }
 
 def handle_admin_command(message):
-    text = (message.get('text') or '').lower()
-    chat_id = message['chat']['id']
-    if message['from']['id'] != ADMIN_USER_ID:
-        return
-    if text in ('/start', 'старт', '/status', 'статус'):
-        uptime = datetime.now() - bot_start_time
-        h, m = divmod(int(uptime.total_seconds() // 60), 60)
-        send_message(chat_id, f"🤖 Активен. Сообщений: {message_count}. Uptime {h}ч {m}м")
-
-PHONE_REGEX = re.compile(
-    r'(?:(?:\+?998|998)?[\s\-]?)?(?:\(?\d{2}\)?[\s\-]?){4}\d{2}'
-)
-ROUTE_REGEX = re.compile(
-    r'(?:🇺🇿\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*\n🇺🇿\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)'
-    r'|[Мм]аршрут:\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*[-–—→➯]{1,3}\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)'
-    r'|([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)\s*[-–—→➯]{1,3}\s*([A-Za-z\u0130\u0131\'\w\-]+(?:\s+\([A-Za-z\u0130\u0131\'\w\-]+\))?)'
-    r'|([A-Za-z\u0130\u0131\'\w\-]+)\s+(NAMANGANGA|TOSHKENT|ANDIJONGA|SURXONDARYOGA|QASHQADARYOGA|SAMARQANDGA|BUXOROGA|FARGʼONAGA|ANDIJONGA|SIRDARYOGA|JIZZAXGA|XORAZMGA|NAVOIYGA|QORAQALPOQSTONGA))',
-    re.IGNORECASE
-)
-
-def extract_phone_number(text):
-    m = PHONE_REGEX.search(text)
-    return m.group().strip() if m else "Телефон не указан"
-
-def extract_route_and_cargo(text: str):
-    clean = re.sub(r'^[❗️⚠️!#\s]+', '', text, flags=re.MULTILINE)
-    matches = ROUTE_REGEX.findall(clean)
-    if not matches:
-        return None, None, text
-
-    # ROUTE_REGEX returns tuples with 4 groups: (a,b,c,d)
-    # We only need the first non-empty pair
-    for groups in matches:
-        # groups may be ('', '', 'Tashkent', 'Samarkand') etc.
-        non_empty = list(filter(None, groups))
-        if len(non_empty) >= 2:
-            fr, to = non_empty[0].strip(), non_empty[1].strip()
-            cargo = re.sub(ROUTE_REGEX, '', clean).strip()
-            return fr.lower(), to.lower(), cargo
-
-    return None, None, text
-
-    # Удаляем найденные совпадения из текста
-    cargo = clean
-    for m in matches:
-        cargo = cargo.replace(''.join(m), '').strip()
-
-    return fr.lower(), to.lower(), cargo
-def format_cargo_text(cargo_text):
-    keywords = [
-        'фура', 'fura', 'isuzu', 'kamaz', 'man', 'daf', 'scania', 'volvo',
-        'тент', 'контейнер', 'реф', 'ref', 'refrigerator', 'chakman', 'чакман'
-    ]
-    text = cargo_text.lower()
-    match = re.search('|'.join(keywords), text)
-    transport = match.group(0).title() if match else "Транспорт"
-    clean_desc = re.sub('|'.join(keywords), '', text, flags=re.I).strip()
-    desc = clean_desc or "—"
-    return transport, desc
+    """Обработка команд администратора"""
+    text = message.get('text', '').strip()
+    
+    if text == '/stats':
+        stats_text = f"""📊 Статистика бота:
+📈 Обработано сообщений: {message_count}
+⏰ Время работы: {datetime.now() - bot_start_time}
+🔄 Статус: {bot_status}
+🌐 Последнее обновление: {datetime.now().strftime('%H:%M:%S')}"""
+        
+        send_message(ADMIN_USER_ID, stats_text)
 
 def ask_admin_topic(message, from_city, to_city):
+    """Спрашивает админа, в какой топик отправить неопознанное сообщение"""
     text = message.get('text', '')
     user = message.get('from', {})
     user_data = f"{user.get('id')}:{user.get('first_name', '')}:{user.get('username', '')}"
+    
+    # Экранируем двоеточия для callback_data
     safe_data = f"{text}|||{user_data}".replace(":", "%3A")
     kb = [
         [{"text": k.upper(), "callback_data": f"route:{k}:{safe_data}"}]
@@ -543,12 +571,47 @@ def ask_admin_topic(message, from_city, to_city):
         "reply_markup": {"inline_keyboard": kb}
     }, timeout=10)
 
+def send_telegram_message(chat_id, text):
+    """Отправка сообщения через Telegram API"""
+    try:
+        requests.post(f"{API_URL}/sendMessage", json={
+            "chat_id": chat_id,
+            "text": text
+        }, timeout=10)
+    except Exception as e:
+        logger.error(f"Ошибка отправки сообщения: {e}")
+
+def handle_command(message):
+    """Обработка команд бота"""
+    text = message.get('text', '').strip()
+    chat_id = message['chat']['id']
+    user_id = message['from']['id']
+    
+    if text == '/start':
+        response = "🤖 YukMarkazi New Bot активен!\n\n📍 Автоматически пересылаю сообщения о грузах в региональные топики.\n\n🔄 Работаю 24/7 в автономном режиме."
+        send_telegram_message(chat_id, response)
+        
+    elif text == '/status':
+        if user_id == ADMIN_USER_ID:
+            # Детальная статистика для админа
+            response = f"🤖 Статус бота:\n✅ Активен и работает\n📊 Обработано сообщений: {message_count}\n🕐 Время: {datetime.now().strftime('%H:%M:%S')}\n🌐 Сервер: Render\n💚 UptimeRobot мониторинг активен"
+        else:
+            # Простой статус для всех
+            response = f"🤖 Бот активен\n🕐 {datetime.now().strftime('%H:%M:%S')}"
+        send_telegram_message(chat_id, response)
+
 def process_message(message):
     global last_update_id
     try:
         text = message.get('text', '')
         chat_id = message['chat']['id']
         user_id = message['from']['id']
+        
+        # Обработка команд
+        if text.startswith('/'):
+            handle_command(message)
+            return
+            
         if chat_id == ADMIN_USER_ID:
             handle_admin_command(message)
             return
