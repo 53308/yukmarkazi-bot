@@ -26,6 +26,24 @@ MAIN_GROUP_ID = int(os.environ.get('MAIN_GROUP_ID', '-1002259378109'))
 ADMIN_USER_ID = int(os.environ.get('ADMIN_USER_ID', '8101326669'))
 BOT_USERNAME  = os.getenv("BOT_USERNAME", "yukmarkazi_bot")  # без @
 API_URL       = f"https://api.telegram.org/bot{BOT_TOKEN}" if BOT_TOKEN else None
+# ========== Глобальные переменные ==========
+last_update_id = 0
+stop_polling = False
+bot_status = "АКТИВЕН"
+message_count = 0
+bot_start_time = datetime.now()
+logger = logging.getLogger(__name__)
+
+# ========== Логирование ==========
+def init_logging():
+    logging.basicConfig(
+        level=logging.INFO,
+        format='[%(asctime)s] %(levelname)s: %(message)s',
+        handlers=[
+            logging.FileHandler('bot.log', encoding='utf-8'),
+            logging.StreamHandler()
+        ]
+    )
 
 # ========== REGION_KEYWORDS ==========
 REGION_KEYWORDS = {
