@@ -53,7 +53,7 @@ REGION_KEYWORDS = {
             'yangiyul', "yangiyo'l", 'yangiyul tumani', 'yangiyul i', "yangiyo'l tumani",
             'parkent', 'parkent tumani', 'piskent', 'piskent tumani',
             'quyichirchiq', 'quyichirchiq tumani',
-            'boʻka', 'boka', 'boʻka tumani', 'boka tumani',
+            'boʻka', 'boka', 'boʻka tumani', 'boka tumani', 'chinaz', 'chinazdan', 'chinaz tumani', 'chinoz', 'chinozdan', 'чино', 'чиноз', 'чиноздан',
             'zangiota', 'zangiota tumani',
             'qibray', 'qibray tumani',
             'yuqorichirchiq', 'yuqorichirchiq tumani',
