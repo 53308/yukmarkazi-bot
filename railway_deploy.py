@@ -808,6 +808,7 @@ def bot_main_loop():
                 
         time.sleep(1)
 
+# Flask приложение для Gunicorn
 app = Flask(__name__)
 
 @app.route('/')
