@@ -442,24 +442,15 @@ def extract_route_and_cargo(text: str):
     if not matches:
         return None, None, text
 
-    match = matches[0]
-
-    # Проверяем каждую пару групп
-    pairs = [
-        (match[0], match[1]),
-        (match[2], match[3]),
-        (match[4], match[5]),
-        (match[6], match[7]),
-    ]
-
-    fr, to = None, None
-    for a, b in pairs:
+    # Берём первую успешную пару
+    for a, b in matches:
         if a and b:
-            fr, to = a.strip(), b.strip()
-            break
-
-    if not fr or not to:
-        return None, None, text
+            fr = a.strip()
+            to = b.strip()
+            # Удаляем маршрут из описания
+            cargo = re.sub(ROUTE_REGEX, '', clean).strip()
+            return fr.lower(), to.lower(), cargo
+    return None, None, text
 
     # Удаляем найденные совпадения из текста
     cargo = clean
@@ -521,13 +512,13 @@ def process_message(message):
             return None
 
         from_reg = find_region(from_city)
-        to_reg = find_region(to_city)
-        if from_reg is None or to_reg is None:
-            ask_admin_topic(message, from_city, to_city)
-            return
+if from_reg is None:
+    ask_admin_topic(message, from_city, to_city)
+    return
 
-        topic_key = 'xalqaro' if 'xalqaro' in {from_reg, to_reg} else from_reg
-        topic_id = REGION_KEYWORDS[topic_key]['topic_id']
+# Определяем топик по месту ОТПРАВКИ
+topic_key = 'xalqaro' if 'xalqaro' == from_reg else from_reg
+topic_id = REGION_KEYWORDS[topic_key]['topic_id']
 
         sender = message.get('from', {})
         phone = extract_phone_number(text)
