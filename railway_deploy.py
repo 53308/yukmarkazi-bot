@@ -497,14 +497,16 @@ def extract_route_and_cargo(text: str):
     if not matches:
         return None, None, text
 
-    # Берём первую успешную пару
-    for a, b in matches:
-        if a and b:
-            fr = a.strip()
-            to = b.strip()
-            # Удаляем маршрут из описания
+    # ROUTE_REGEX returns tuples with 4 groups: (a,b,c,d)
+    # We only need the first non-empty pair
+    for groups in matches:
+        # groups may be ('', '', 'Tashkent', 'Samarkand') etc.
+        non_empty = list(filter(None, groups))
+        if len(non_empty) >= 2:
+            fr, to = non_empty[0].strip(), non_empty[1].strip()
             cargo = re.sub(ROUTE_REGEX, '', clean).strip()
             return fr.lower(), to.lower(), cargo
+
     return None, None, text
 
     # Удаляем найденные совпадения из текста
