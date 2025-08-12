@@ -813,6 +813,10 @@ def health():
     
     return health_data, status_code
 
+@app.route('/ping')
+def ping():
+    return "pong", 200
+
 @app.route('/telegram', methods=['POST'])
 def telegram_webhook():
     try:
