@@ -490,7 +490,7 @@ REGION_KEYWORDS = {
 
             # Общие ключевые слова для международных маршрутов
             'international', 'xalqaro', 'international İ', 'xalqaro İ', 'international i', 'xalqaro i',
-            'cis', 'mda', 'cis İ', 'mda İ', 'cis i', 'mda i',
+            'cis', 'mda', 'cis İ', 'mda İ', 'cis i', 'mda i', 'tomsk shahardan', 'tomsk', 'tomskdan', 'tomskga',
             'import', 'export', 'import İ', 'export İ', 'import i', 'export i', 'russia', 'rosiya', 'russia İ', 'rosiya İ', 'russia i', 'rosiya i',
             'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', "moskva'", 'москва', 'москваga', 'москваdan',
             'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i', 'спб', 'санкт-петербург', 'питер', 'ленинград',
