@@ -623,50 +623,6 @@ def extract_route_and_cargo(text):
         return lines[0], lines[1], '\n'.join(lines[2:])
 
     return None, None, text
-        
-        # Дополнительные паттерны для форматов с эмодзи и разделителями
-        emoji_patterns = [
-            r'🇺🇿\s*(\w+)\s*🇺🇿\s*(\w+)',  # 🇺🇿 Qoqon 🇺🇿 Samarqand
-            r'🇷🇺\s*([^-]+?)\s*-\s*🇺🇿\s*([^\n\r]+)',  # 🇷🇺Москва обл. - 🇺🇿Ташкент
-            r'(\w+)\s*🇺🇿\s*(\w+)',         # Qoqon 🇺🇿 Samarqand  
-            r'(\w+)\s*[-–→>>>\-\-\-\-]+\s*(\w+)',  # Tosh.Xasanboydan----Fargonaga, >>>
-            r'(\w+)\s*>\s*(\w+)',            # Кашкадарёдан>> Чуст
-            r'(\w+)\s+(\w+)',                # простой формат через пробел
-        ]
-        
-        for pattern in emoji_patterns:
-            match = re.search(pattern, clean_line)
-            if match and len(match.group(1)) > 2 and len(match.group(2)) > 2:
-                from_city = match.group(1).strip()
-                to_city = match.group(2).strip()
-                cargo_text = text.replace(line, '').strip()
-                return from_city, to_city, cargo_text
-    
-    # Если не найден четкий маршрут, пытаемся извлечь из первой строки
-    first_line = lines[0] if lines else text
-    clean_first = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', first_line)
-    
-    # Дополнительные сложные паттерны
-    complex_patterns = [
-        r'([А-Яа-я\w\.]+)дан[\s\-\-\-\-]+([А-Яа-я\w]+)га',  # Tosh.Xasanboydan----Fargonaga
-        r'([А-Яа-я\w\.]+)дан\s+([А-Яа-я\w]+)\s+([А-Яа-я\w]+)',  # Bog'doddan toshkent sergiliga
-        r'([А-Яа-я\w\.]+)дан[\s\n]+([А-Яа-я\w]+)га',  # многострочные формы
-        r'([А-Яа-я\w\.]+)дан[\s\n]+([А-Яа-я\w]+)',  # простые многострочные
-    ]
-    
-    for pattern in complex_patterns:
-        match = re.search(pattern, clean_first, re.IGNORECASE)
-        if match:
-            from_city = match.group(1).strip()
-            to_city = match.group(2).strip()
-            return from_city, to_city, text
-    
-    parts = re.split(r'[\s\-\>\→\—\-\-\-\-]+', clean_first, 2)
-    
-    if len(parts) >= 2 and len(parts[0]) > 2 and len(parts[1]) > 2:
-        return parts[0].strip(), parts[1].strip(), text
-    
-    return None, None, text
 
 def format_cargo_text(cargo_text):
     """
