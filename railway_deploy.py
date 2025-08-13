@@ -86,6 +86,7 @@ REGION_KEYWORDS = {
         'topic_id': 101387,
         'keywords': [
             'andijon', 'andijan', 'andijon İ', 'andijonʼ', 'andijon i', "andijon'",
+            'андижон', 'андижонга', 'андижондан', 'андижон', 'андижонга',
             'andijonga', 'andijon-ga', 'andijon ga',
             'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', "asaka'",
             'marhamat', 'marxamat', 'marhamat tumani', 'marhamat i',
@@ -114,6 +115,7 @@ REGION_KEYWORDS = {
         'topic_id': 101383,
         'keywords': [
             'namangan', 'namangan İ', 'namanganʼ', 'namangan i', "namangan'",
+            'наманган', 'наманганга', 'намангандан', 'наманган',
             'chortoq', 'chartak', 'chortoq İ', 'chortoq i', 'chortoqʼ',
             'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangikurgan i',
             'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', "chust'",
@@ -174,6 +176,7 @@ REGION_KEYWORDS = {
         'topic_id': 101379,
         'keywords': [
             'navoiy', 'navoi', 'navoiy İ', 'navoi İ', 'navoiy i', 'navoi i',
+            'навоий', 'навоийга', 'навоийдан', 'навои',
             'zarafshon', 'zarafshan', 'zarafshon İ', 'zarafshon i',
             'karmana', 'karmana tumani', 'karmana İ', 'karmana i',
             'nurota', 'nurota tumani', 'nurota İ', 'nurota i',
@@ -188,6 +191,7 @@ REGION_KEYWORDS = {
             'shirin', 'shirin tumani', 'shirin İ', 'shirin i',
             'boyovut', 'bayaut', 'boyovut tumani', 'boyovut İ', 'boyovut i',
             'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ', 'sirdaryo i', "sirdaryo'",
+            'сирдарё', 'сирдарёга', 'сирдарёдан', 'сырдарья',
             'mirzaobod', 'mirzaobod tumani', 'mirzaobod i'
         ]
     },
@@ -209,6 +213,7 @@ REGION_KEYWORDS = {
         'topic_id': 101660,
         'keywords': [
             'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ', 'xorazm i', 'xorezm i',
+            'хоразм', 'хоразмга', 'хоразмдан', 'хорезм',
             'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', "xiva'",
             # урганч удален - теперь отдельный регион
             'shovot', 'shavat', 'shovot İ', 'shovot i', "shovot'", 'shovotʼ',
