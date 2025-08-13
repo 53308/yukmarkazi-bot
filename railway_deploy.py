@@ -815,14 +815,15 @@ def author_button(user):
     """Создает инлайн-кнопку с информацией об авторе"""
     name = user.get('first_name', 'Пользователь')
     username = user.get('username', '')
-    
+    user_id = user.get('id', '')
+
     if username:
         button_text = f"👤 @{username}"
         url = f"https://t.me/{username}"
     else:
         button_text = f"👤 {name}"
-        url = f"tg://user?id={user.get('id', '')}"
-    
+        url = f"tg://user?id={user_id}"
+
     return {
         "inline_keyboard": [[{
             "text": button_text,
