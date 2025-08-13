@@ -52,8 +52,8 @@ REGION_KEYWORDS = {
         'keywords': [
             # столица
             'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city',
-            'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent', 'toshkentdan',
-            'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT',
+            'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent', 'toshkentdan', 'TOSHKENДАН',
+            'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT', 'toshkendan', 'toshken',
             'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан', 'ташкент', 'ташкентga', 
             # районы города
             'yashnobod', 'yashnobod tumani', 'yunusobod', 'yunusobod tumani',
@@ -205,7 +205,7 @@ REGION_KEYWORDS = {
     'samarqand': {
         'topic_id': 101369,
         'keywords': [
-            'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', "samarqand'",
+            'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', "samarqand'", 'samarkand', 'samarqand', 'самарканд', 'самаркандga', 'самаркандdan',
             'самарканд', 'самаркандga', 'самаркандdan',
             'urgut', 'urgut tumani', 'urgut İ', 'urgut i',
             'kattaqorgon', 'kattakurgan', 'katta-qorğon', 'kattaqoʻrgʻon', 'kattaqorgon i',
