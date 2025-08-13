@@ -375,10 +375,14 @@ def normalize_text(text):
     """
     Нормализация текста для поиска ключевых слов
     - приводит к нижнему регистру
+    - убирает эмодзи
     - заменяет İ→i, ʼ→', ё→e
     """
     if not text:
         return ""
+    
+    # Убираем эмодзи
+    text = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', text)
     
     # Нормализация Unicode (для корректного сравнения)
     text = unicodedata.normalize('NFD', text)
@@ -419,8 +423,11 @@ def extract_route_and_cargo(text):
     lines = text.strip().split('\n')
     
     for line in lines:
-        # Ищем паттерны маршрута
-        route_match = ROUTE_REGEX.search(line)
+        # Убираем эмодзи из строки для анализа
+        clean_line = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line)
+        
+        # Ищем паттерны маршрута в очищенной строке
+        route_match = ROUTE_REGEX.search(clean_line)
         if route_match:
             from_city = route_match.group(1).strip()
             to_city = route_match.group(2).strip()
@@ -429,12 +436,29 @@ def extract_route_and_cargo(text):
             cargo_text = text.replace(line, '').strip()
             
             return from_city, to_city, cargo_text
+        
+        # Дополнительные паттерны для форматов с эмодзи
+        emoji_patterns = [
+            r'🇺🇿\s*(\w+)\s*🇺🇿\s*(\w+)',  # 🇺🇿 Qoqon 🇺🇿 Samarqand
+            r'(\w+)\s*🇺🇿\s*(\w+)',         # Qoqon 🇺🇿 Samarqand  
+            r'(\w+)\s*[-–→]\s*(\w+)',        # стандартный формат
+            r'(\w+)\s+(\w+)',                # простой формат через пробел
+        ]
+        
+        for pattern in emoji_patterns:
+            match = re.search(pattern, clean_line)
+            if match and len(match.group(1)) > 2 and len(match.group(2)) > 2:
+                from_city = match.group(1).strip()
+                to_city = match.group(2).strip()
+                cargo_text = text.replace(line, '').strip()
+                return from_city, to_city, cargo_text
     
     # Если не найден четкий маршрут, пытаемся извлечь из первой строки
     first_line = lines[0] if lines else text
-    parts = re.split(r'[\s\-\>\→\—]+', first_line, 2)
+    clean_first = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', first_line)
+    parts = re.split(r'[\s\-\>\→\—]+', clean_first, 2)
     
-    if len(parts) >= 2:
+    if len(parts) >= 2 and len(parts[0]) > 2 and len(parts[1]) > 2:
         return parts[0].strip(), parts[1].strip(), text
     
     return None, None, text
