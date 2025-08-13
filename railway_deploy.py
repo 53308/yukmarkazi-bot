@@ -210,7 +210,7 @@ REGION_KEYWORDS = {
         'keywords': [
             'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ', 'xorazm i', 'xorezm i',
             'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', "xiva'",
-            'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', "urganch'",
+            # урганч удален - теперь отдельный регион
             'shovot', 'shavat', 'shovot İ', 'shovot i', "shovot'", 'shovotʼ',
             'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i',
             'bogʻot', 'bogot', 'bogʻot tumani', 'bogʻot İ', 'bogʻot i',
@@ -221,6 +221,14 @@ REGION_KEYWORDS = {
             'pitnak', 'pitnak shaharcha', 'pitnak posyolok',
             'khanka', 'xanka', 'khanka shaharcha',
             'dashoguz', 'dashoguz yuli', 'urganch-dashoguz'
+        ]
+    },
+    'urganch': {
+        'topic_id': 101375,
+        'keywords': [
+            'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', "urganch'",
+            'ургенч', 'urgench İ', 'urgench i', 'urganchga', 'ургенчга',
+            'urgenchdan', 'urganchdan', 'ургенчдан', 'urgench city', 'urganch shahar'
         ]
     },
     'nukus': {
@@ -594,6 +602,7 @@ def process_message(message):
             
         logger.info(f"🎯 Обрабатываем сообщение из основной группы")
         message_count += 1
+        
         from_city, to_city, cargo_text = extract_route_and_cargo(text)
         if not from_city or not to_city:
             return
