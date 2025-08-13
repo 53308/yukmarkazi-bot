@@ -54,7 +54,7 @@ REGION_KEYWORDS = {
             'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city',
             'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent',
             'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT',
-            'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан',
+            'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан', 'ташкент', 'ташкентga',
             # районы города
             'yashnobod', 'yashnobod tumani', 'yunusobod', 'yunusobod tumani',
             'mirzo-ulugbek', 'mirzo ulugbek', 'mirzo-ulugbek tumani',
@@ -290,7 +290,9 @@ REGION_KEYWORDS = {
             # Россия
             'russia', 'rosiya', 'russia İ', 'rosiya İ', 'russia i', 'rosiya i',
             'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', "moskva'",
+            'москва', 'московская', 'москва обл', 'московская область',
             'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i',
+            'спб', 'санкт-петербург', 'питер', 'ленинград',
             'krasnodar', 'krasnodar İ', 'krasnodar i', 'voronej', 'воронеж', 'qazoq', 'казахстан', 'irkutsk', 'иркутск',
             'rostov', 'rostov-na-donu', 'rostov İ', 'rostov i',
             'volgograd', 'volgograd İ', 'volgograd i',
@@ -456,7 +458,7 @@ def extract_route_and_cargo(text):
         # Дополнительные паттерны для форматов с эмодзи и разделителями
         emoji_patterns = [
             r'🇺🇿\s*(\w+)\s*🇺🇿\s*(\w+)',  # 🇺🇿 Qoqon 🇺🇿 Samarqand
-            r'🇷🇺\s*(\w+)\s*-\s*🇺🇿\s*(\w+)',  # 🇷🇺Барнаул - 🇺🇿Коканд
+            r'🇷🇺\s*([^-]+?)\s*-\s*🇺🇿\s*([^\\n\\r]+)',  # 🇷🇺Москва обл. - 🇺🇿Ташкент
             r'(\w+)\s*🇺🇿\s*(\w+)',         # Qoqon 🇺🇿 Samarqand  
             r'(\w+)\s*[-–→>>>\-\-\-\-]+\s*(\w+)',  # Tosh.Xasanboydan----Fargonaga, >>>
             r'(\w+)\s*>\s*(\w+)',            # Кашкадарёдан>> Чуст
