@@ -608,11 +608,9 @@ def extract_route_and_cargo(text):
     Извлекает откуда/куда и описание груза
     Возвращает (from_city, to_city, cargo_text)
     """
-    # 1. Убираем пустые строки и эмодзи
     lines = [re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line).strip()
              for line in text.strip().split('\n') if line.strip()]
 
-    # 2. Проверяем ROUTE_REGEX по каждой строке
     for line in lines:
         route_match = ROUTE_REGEX.search(line)
         if route_match:
@@ -621,11 +619,9 @@ def extract_route_and_cargo(text):
             cargo_text = text.replace(line, '').strip()
             return from_city, to_city, cargo_text
 
-    # 3. Fallback: первая и вторая строка = города
     if len(lines) >= 2 and len(lines[0]) > 2 and len(lines[1]) > 2:
         return lines[0], lines[1], '\n'.join(lines[2:])
 
-    # 4. Ничего не найдено
     return None, None, text
         
         # Дополнительные паттерны для форматов с эмодзи и разделителями
