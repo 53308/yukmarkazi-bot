@@ -495,7 +495,7 @@ REGION_KEYWORDS = {
             'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', "moskva'", 'москва', 'москваga', 'москваdan',
             'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i', 'спб', 'санкт-петербург', 'питер', 'ленинград',
             'krasnodar', 'krasnodar İ', 'krasnodar i', 'voronej', 'воронеж', 'krasnodarga', 'krasnadardan',
-            'rostov', 'rostov-na-donu', 'rostov İ', 'rostov i', 'rostovga', 'rostovdan',
+            'rostov', 'rostov-na-donu', 'rostov İ', 'rostov i', 'rostovga', 'rostovdan', 'tomsk', 'tomsk shahardan', 'tomskdan', 'tomskga',
             'volgograd', 'volgograd İ', 'volgograd i', 'volgogradga', 'volgograddan',
             'kazan', 'kazan İ', 'kazan i', 'kazanga', 'kazandan',
             'nizhny novgorod', 'nizhniy novgorod', 'nizhny novgorod İ', 'nizhny i', 'nizhnyga', 'nizhnydan',
@@ -555,7 +555,7 @@ REGION_KEYWORDS = {
 # ========== Рядом с REGION_KEYWORDS нужно добавить константы для номеров телефонов и маршрутов ==========
 
 PHONE_REGEX = re.compile(r'[\+]?[\d\s\-\(\)]{9,18}')
-ROUTE_REGEX = re.compile(r'(?:^\s*)?(.+?)(?:\s*>\s*|\s*—\s*|\s*-\s*|\s+)(.+?)(?:\s|$)', re.IGNORECASE | re.MULTILINE)
+ROUTE_REGEX = re.compile(r'(?:^\s*)?(.+?)(?:\s*>\s*|\s*—\s*|\s*-\s*|\s*[-—>→]+\s*|\s+)(.+?)(?:\s|$)', re.IGNORECASE | re.MULTILINE)
 
 # ========== Функции нормализации ==========
 
@@ -608,22 +608,25 @@ def extract_route_and_cargo(text):
     Извлекает откуда/куда и описание груза
     Возвращает (from_city, to_city, cargo_text)
     """
-    lines = text.strip().split('\n')
-    
+    # 1. Убираем пустые строки и эмодзи
+    lines = [re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line).strip()
+             for line in text.strip().split('\n') if line.strip()]
+
+    # 2. Проверяем ROUTE_REGEX по каждой строке
     for line in lines:
-        # Убираем эмодзи из строки для анализа
-        clean_line = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line)
-        
-        # Ищем паттерны маршрута в очищенной строке
-        route_match = ROUTE_REGEX.search(clean_line)
+        route_match = ROUTE_REGEX.search(line)
         if route_match:
             from_city = route_match.group(1).strip()
             to_city = route_match.group(2).strip()
-            
-            # Убираем маршрут из общего текста, оставляем описание груза
             cargo_text = text.replace(line, '').strip()
-            
             return from_city, to_city, cargo_text
+
+    # 3. Fallback: первая и вторая строка = города
+    if len(lines) >= 2 and len(lines[0]) > 2 and len(lines[1]) > 2:
+        return lines[0], lines[1], '\n'.join(lines[2:])
+
+    # 4. Ничего не найдено
+    return None, None, text
         
         # Дополнительные паттерны для форматов с эмодзи и разделителями
         emoji_patterns = [
