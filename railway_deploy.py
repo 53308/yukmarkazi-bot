@@ -567,22 +567,33 @@ def handle_command(message):
         send_telegram_message(chat_id, response)
 
 def process_message(message):
-    global last_update_id
+    global last_update_id, message_count
     try:
         text = message.get('text', '')
         chat_id = message['chat']['id']
         user_id = message['from']['id']
         
+        # Логирование для диагностики
+        logger.info(f"📥 Получено сообщение из чата {chat_id}: {text[:50]}...")
+        
         # Обработка команд
         if text.startswith('/'):
             handle_command(message)
+            message_count += 1
             return
             
         if chat_id == ADMIN_USER_ID:
             handle_admin_command(message)
+            message_count += 1
             return
+            
+        # Проверка что сообщение из основной группы
         if chat_id != MAIN_GROUP_ID:
+            logger.info(f"🚫 Пропуск сообщения: не из основной группы {MAIN_GROUP_ID}")
             return
+            
+        logger.info(f"🎯 Обрабатываем сообщение из основной группы")
+        message_count += 1
         from_city, to_city, cargo_text = extract_route_and_cargo(text)
         if not from_city or not to_city:
             return
@@ -734,17 +745,30 @@ def bot_main_loop():
                 
             for update in updates:
                 try:
+                    update_id = update.get('update_id', 0)
+                    
                     if 'message' in update:
-                        process_message(update['message'])
-                        logger.info(f"✅ Сообщение {message_count} → топик {update.get('message', {}).get('message_thread_id', 'None')}")
+                        msg = update['message']
+                        chat_id = msg.get('chat', {}).get('id')
+                        text = msg.get('text', '')
+                        thread_id = msg.get('message_thread_id')
+                        
+                        logger.info(f"🔍 Update {update_id}: чат {chat_id}, текст: {text[:30]}...")
+                        
+                        process_message(msg)
+                        logger.info(f"✅ Сообщение {message_count} → топик {thread_id}")
                         # Обновляем активность
                         globals()['last_activity'] = datetime.now()
+                        
                     if 'callback_query' in update:
                         handle_callback(update)
-                    last_update_id = max(last_update_id, update.get('update_id', 0))
+                        
+                    last_update_id = max(last_update_id, update_id)
                     consecutive_errors = 0  # Сброс ошибок при успехе
+                    
                 except Exception as e:
                     logger.error(f"⚠️ Ошибка обработки update: {e}")
+                    logger.error(f"Update содержание: {update}")
                     
         except Exception as e:
             consecutive_errors += 1
