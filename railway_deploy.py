@@ -66,7 +66,7 @@ REGION_KEYWORDS = {
             'mirobod', 'mirabad', 'mirobod tumani', 'bektemir', 'bektemir tumani',
             # области и районы Ташкентской области
             'bekobod', 'bekabad', 'bekobod tumani', 'bekabad tumani', 'angren', 'angiren', 'angren i', 'angren İ', 'ангрен', 'ангренga', 'ангренdan',
-            'xasanboy', 'hasanboy', 'xasanboydan', 'хасанбой', 'хасанбойдан',
+            'xasanboy', 'hasanboy', 'xasanboydan', 'хасанбой', 'хасанбойдан', 'ангрен', 'ангренga', 'ангренdan', 'angren', 'angren i', 'angren İ', 'angiren',
             'olmaliq', 'alma-lyk', 'olmalik', 'olmaliq tumani', 'olmaliq i',
             'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron tumani', 'ohangaron i',
             'angren', 'angren İ', 'angiren', 'angren i',
