@@ -1153,6 +1153,18 @@ def bot_main_loop():
 # Flask приложение для Gunicorn
 app = Flask(__name__)
 
+# === ФИЛЬТР ПО USER-AGENT (добавляем здесь) ===
+from flask import request
+
+ALLOWED_UA = ("UptimeRobot", "TelegramBot")
+
+@app.before_request
+def block_noise():
+    ua = request.headers.get("User-Agent", "")
+    if not any(key in ua for key in ALLOWED_UA):
+        return "", 204  # молча отклоняем всё лишнее
+# ==============================================
+
 # Инициализация при импорте для Gunicorn
 if BOT_TOKEN:
     init_logging()
