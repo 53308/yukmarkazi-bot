@@ -77,7 +77,36 @@ REGION_KEYWORDS = {
             'boʻka', 'boka', 'boʻka tumani', 'boka tumani', 'chinaz', 'chinazdan', 'chinaz tumani', 'chinoz', 'chinozdan', 'чино', 'чиноз', 'чиноздан',
             'zangiota', 'zangiota tumani',
             'qibray', 'qibray tumani',
-            'yuqorichirchiq', 'yuqorichirchiq tumani',
+            'yuqorichirchiq', 'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city', 'toshkentga', 'tashkentga', 'toshkentdan', 'tashkentdan',
+            'towkent', 'towkentga', 'towkentdan', 'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent', 'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT',
+            'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан', 'ташкент', 'ташкентга', 'ташкендан', 'taşkent', 'taşkentte', 'taşkentten',
+            # районы города
+            'yashnobod', 'yashnobod tumani', 'yunusobod', 'yunusobod tumani', 'yunusabad', 'yunusoboddan',
+            'mirzo-ulugbek', 'mirzo ulugbek', 'mirzo-ulugbek tumani', 'mirzoulugbek', 'mirzoulugbekdan',
+            'olmazor', 'olmazor tumani', 'uchtepa', 'uchtepa tumani', 'uchtepadan', 'uchtepaga',
+            'shayxontoxur', 'shayxontohur', 'shayxontoxur tumani', 'shayxontoxurdan',
+            'chilonzor', 'chilon-zor', 'chilonzor tumani', 'chilonzordan', 'chilonzor ga',
+            'sergeli', 'sergeli tumani', 'sergili', 'сергели', 'сергили', 'sergeliga', 'sergelidan',
+            'yakkasaroy', 'yakkasaray', 'yakkasaroy tumani', 'yakkasaroyga', 'yakkasaroydan',
+            'mirobod', 'mirabad', 'mirobod tumani', 'bektemir', 'bektemir tumani', 'bektemirdan',
+            # области Ташкентской области
+            'bekobod', 'bekabad', 'bekobod tumani', 'bekabad tumani', 'бекабад', 'бекобод', 'bekobodga', 'bekoboddan',
+            'xasanboy', 'hasanboy', 'xasanboydan', 'хасанбой', 'хасанбойдан', 'xasanboyga',
+            'olmaliq', 'alma-lyk', 'olmalik', 'olmaliq tumani', 'olmaliq i', 'olmalık', 'olmaliqga', 'olmaliqdan',
+            'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron tumani', 'ohangaron i', 'ohangaronga', 'ohangarondan',
+            'angren', 'angren İ', 'angiren', 'angren i', 'angrenga', 'angrendan',
+            'chirchiq', 'chirchik', 'chirchik İ', 'chir-chiq', 'chirchiq i', 'çirçik', 'chirchiqga', 'chirchiqdan',
+            'yangiyul', "yangiyo'l", 'yangiyul tumani', 'yangiyul i', "yangiyo'l tumani", "yangiyo'ldan", "yangiyo'lga",
+            'parkent', 'parkent tumani', 'parkentga', 'parkentdan',
+            'piskent', 'piskent tumani', 'piskentga', 'piskentdan',
+            'quyichirchiq', 'quyichirchiq tumani', 'quyichirchiqga',
+            'boʻka', 'boka', 'boʻka tumani', 'boka tumani', 'boʻkaga', 'boʻkadan',
+            'chinaz', 'chinazdan', 'chinaz tumani', 'chinoz', 'chinozdan', 'чино', 'чиноз', 'чиноздан', 'chinazga',
+            'zangiota', 'zangiota tumani', 'zangiotaga', 'zangiotadan',
+            'qibray', 'qibray tumani', 'qibrayga', 'qibraydan',
+            'yuqorichirchiq', 'yuqorichirchiq tumani', 'yuqorichirchiqga',
+            'nurafshon', 'nurafshon tumani', 'nurafshonga', 'nurafshondan',
+            'akhangaran', 'axangaran', 'akhangaran tumani', 'akhangaranga', 'akhangarandan', 'yuqorichirchiq tumani',
             'nurafshon', 'nurafshon tumani',
             'akhangaran', 'axangaran', 'akhangaran tumani',
             'forish', 'forish tumani', 'ustarkhan', 'ustarkhan tumani',
@@ -96,7 +125,14 @@ REGION_KEYWORDS = {
             'shahrixon', 'shahrixon tumani', 'shaxrixon', 'shahrixon i',
             'xoja-obod', 'xojaobod', 'xojaʼobod', "xoja'obod", "xoja'obod",
             'qorgontepa', 'qurghontepa', 'qurgʻontepa', 'qurghontepa i',
-            'oltinkol', 'oltinkoʻl', 'oltinkol tumani', 'oltinkol i'
+            'oltinkol', 'oltinkoʻl', 'oltinkol tumani', 'oltinkol i', 'andijon', 'andijan', 'andijon İ', 'andijonʼ', 'andijon i', "andijon'", 'андижон', 'андижонга', 'андижондан',
+            'andijonga', 'andijon-ga', 'andijon ga', 'andijondan', 'andijan i', 'andijandan',
+            'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', "asaka'", 'asakaga', 'asakadan',
+            'marhamat', 'marxamat', 'marhamat tumani', 'marhamat i', 'marhamatga', 'marhamatdan',
+            'shahrixon', 'shahrixon tumani', 'shaxrixon', 'shahrixon i', 'shahrixonga', 'shahrixondan',
+            'xoja-obod', 'xojaobod', 'xojaʼobod', "xoja'obod", "xoja'obod", 'xojaobod tumani', 'xojaobodga',
+            'qorgontepa', 'qurghontepa', 'qurgʻontepa', 'qurghontepa i', 'qorgontepaga', 'qorgontepadan',
+            'oltinkol', 'oltinkoʻl', 'oltinkol tumani', 'oltinkol i', 'oltinkolga', 'oltinkoldan'
         ]
     },
     'fargona': {
@@ -113,7 +149,16 @@ REGION_KEYWORDS = {
             "bog'doddan", 'bogdoddan', 'богдод', 'богдодdan',
             'oltiarik', 'oltiarik İ', 'oltiarik i',
             'rishton', 'rishtan', 'rishton İ', 'rishton i',
-            'sox', 'sox tumani', 'sox İ', 'sox i'
+            'sox', 'sox tumani', 'sox İ', 'sox i', 'fargona', 'fergana', 'farg-on-a', 'fargona İ', 'fargona i', "farg'ona İ", "fargʻona İ",
+            'fargʻonaga', 'fargʻonadan', 'ferganaga', 'fergandadan', 'fargʻona viloyati', 'fargona viloyati',
+            'qoqon', 'kokand', 'quqon', "qo'qon", 'qoqon İ', 'qoqon i', 'qoqonga', 'qoqondan', 'коканд', 'кокандga', 'кокандdan',
+            'margilon', 'margilan', 'margilon İ', 'margilon i', 'margilonga', 'margilondan',
+            'quvasoy', 'kuvasay', 'quvasoy İ', 'quvasoy i', 'quvasoyʼ', "quvasoy'", 'quvasoyga', 'quvasoydan',
+            'beshariq', 'besharik', 'beshariq İ', 'beshariq i', 'beshariqqa', 'beshariqdan',
+            "bog'dod", 'bogdod', "bogʻdod", "bog'dod İ", "bog'dod i", "bog'dodga", "bog'doddan",
+            'oltiarik', 'oltiarik İ', 'oltiarik i', 'oltiarikka', 'oltiarikdan',
+            'rishton', 'rishtan', 'rishton İ', 'rishton i', 'rishtonga', 'rishtondan',
+            'sox', 'sox tumani', 'sox İ', 'sox i', 'soxga', 'soxdan'
         ]
     },
     'namangan': {
@@ -128,7 +173,14 @@ REGION_KEYWORDS = {
             'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ', 'kosonsoy i',
             'mullomirsoy', 'mullomirʼsoy', "mullomir'soy",
             'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgon i',
-            'pop', 'pop tumani', 'pop İ', 'pop i'
+            'pop', 'pop tumani', 'pop İ', 'pop i', 'namangan', 'namangan İ', 'namanganʼ', 'namangan i', "namangan'", 'наманган', 'наманганга', 'намангандан',
+            'chortoq', 'chartak', 'chortoq İ', 'chortoq i', 'chortoqʼ', "chortoq'", 'chortoqqa', 'chortoqdan',
+            'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangikurgan i', 'yangiqorgonga', 'yangiqorgondan',
+            'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', "chust'", 'чуст', 'чустга', 'чустдан', 'chustga', 'chustdan',
+            'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ', 'kosonsoy i', 'kosonsoyga', 'kosonsoydan',
+            'mullomirsoy', "mullomir'soy", 'mullomirʼsoy', 'mullomirsoy tumani', 'mullomirsoyga', 'mullomirsoydan',
+            'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgon i', 'uchqorgonga', 'uchqorgondan',
+            'pop', 'pop tumani', 'pop İ', 'pop i', 'popga', 'popdan'
         ]
     },
     'buxoro': {
@@ -141,7 +193,13 @@ REGION_KEYWORDS = {
             'kogon', 'kogon tumani', 'kogon İ', 'kogon i',
             'romitan', 'romitan tumani', 'romitan İ', 'romitan i',
             'shofirkon', 'shofirkon İ', 'shofirkon tumani', 'shofirkon i',
-            'qorakoʻl', 'qorakol', 'qorakol İ', 'qorakol i'
+            'qorakoʻl', 'qorakol', 'qorakol İ', 'qorakol i', 'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ', 'buxoro i', "buxoro'", 'бухоро', 'бухорога', 'бухородан', 'бухара',
+            'alat', 'alat tumani', 'alat İ', 'alat i', 'alatga', 'alatdan',
+            "g'ijduvon", 'gijduvon', "gʻijduvon", "g'ijduvon İ", "g'ijduvon i", "g'ijduvonga", "g'ijduvondan",
+            'kogon', 'kogon tumani', 'kogon İ', 'kogon i', 'kogonga', 'kogondan',
+            'romitan', 'romitan tumani', 'romitan İ', 'romitan i', 'romitanga', 'romitandan',
+            'shofirkon', 'shofirkon İ', 'shofirkon tumani', 'shofirkon i', 'shofirkonga', 'shofirkondan',
+            'qorakoʻl', 'qorakol', 'qorakol İ', 'qorakol i', 'qorakolga', 'qorakoldan'
         ]
     },
     'samarqand': {
@@ -155,7 +213,14 @@ REGION_KEYWORDS = {
             'payariq', 'payariq tumani', 'payarik', 'payariq i',
             'ishtixon', 'ishtixon tumani', 'ishtixon İ', 'ishtixon i',
             'jomboy', 'jomboy tumani', 'jomboy İ', 'jomboy i',
-            'nurabod', 'nurabod tumani', 'nurabod i'
+            'nurabod', 'nurabod tumani', 'nurabod i', 'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', "samarqand'", 'самарканд', 'самаркандga', 'самаркандdan',
+            'urgut', 'urgut tumani', 'urgut İ', 'urgut i', 'urgutga', 'urgutdan',
+            'kattaqorgon', 'kattakurgan', 'katta-qorğon', 'kattaqoʻrgʻon', 'kattaqorgon i', "kattaqo'rg'on", "kattaqo'rg'ondan", 'каттакурган',
+            'kattaqorgonga', 'kattaqorgondan',
+            'payariq', 'payariq tumani', 'payarik', 'payariq i', 'payariqqa', 'payariqdan',
+            'ishtixon', 'ishtixon tumani', 'ishtixon İ', 'ishtixon i', 'ishtixonga', 'ishtixondan',
+            'jomboy', 'jomboy tumani', 'jomboy İ', 'jomboy i', 'jomboyga', 'jomboydan',
+            'nurabod', 'nurabod tumani', 'nurabod i', 'nurabodga', 'nuraboddan'
         ]
     },
     'qashqadaryo': {
@@ -168,7 +233,14 @@ REGION_KEYWORDS = {
             'guzar', 'guzar tumani', 'guzar İ', 'guzar i',
             'muborak', 'muborak tumani', 'muborak İ', 'muborak i',
             'chiroqchi', 'chiroqchi tumani', 'chiroqchi İ', 'chiroqchi i',
-            'yakkabog', 'yakkabogʻ', 'yakkabog İ', 'yakkabog i'
+            'yakkabog', 'yakkabogʻ', 'yakkabog İ', 'yakkabog i', 'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ', 'qarshi i', "qarshi'", 'qarshiga', 'qarshidan',
+            'qashqadaryo', 'кашкадарё', 'кашкадарёga', 'кашкадарёдан', 'кашкадарьё', 'qashqadaryoga', 'qashqadaryodan',
+            'shahrisabz', 'shahrisabz İ', 'shakhrisabz', 'shahri-sabz', 'shahrisabz i', 'shahrisabzga', 'shahrisabzdan',
+            'koson', 'koson tumani', 'koson İ', 'koson i', 'kosonga', 'kosondan',
+            'guzar', 'guzar tumani', 'guzar İ', 'guzar i', 'guzarga', 'guzardan',
+            'muborak', 'muborak tumani', 'muborak İ', 'muborak i', 'muborakka', 'muborakdan',
+            'chiroqchi', 'chiroqchi tumani', 'chiroqchi İ', 'chiroqchi i', 'chiroqchiga', 'chiroqchidan',
+            'yakkabog', 'yakkabogʻ', 'yakkabog İ', 'yakkabog i', 'yakkabogga', 'yakkabogdan'
         ]
     },
     'surxondaryo': {
@@ -179,7 +251,13 @@ REGION_KEYWORDS = {
             'boysun', 'boysun tumani', 'boysun İ', 'boysun i', 'surxondaryo', 'сурхондарё', 'сурхондарёга', 'сурхондарье',
             'sherobod', 'sherobod tumani', 'sherobod İ', 'sherobod i',
             'qumqorgon', 'qumqorğon', 'qumqoʻrgʻon', 'qumqorgon i',
-            'uzun', 'uzun tumani', 'uzun i'
+            'uzun', 'uzun tumani', 'uzun i', 'termiz', 'termez', 'termiz İ', 'termizʼ', 'termiz i', "termiz'", 'termizga', 'termizdan',
+            'denov', 'denau', 'denov İ', 'denovʼ', 'denov i', "denov'", 'denovga', 'denovdan',
+            'boysun', 'boysun tumani', 'boysun İ', 'boysun i', 'boysunga', 'boysundan',
+            'surxondaryo', 'сурхондарё', 'сурхондарёga', 'сурхондарёдан', 'сурхондарье', 'surxondaryoga', 'surxondaryodan',
+            'sherobod', 'sherobod tumani', 'sherobod İ', 'sherobod i', 'sherobodga', 'sheroboddan',
+            'qumqorgon', 'qumqorğon', 'qumqoʻrgʻon', 'qumqorgon i', 'qumqorgonga', 'qumqorgondan',
+            'uzun', 'uzun tumani', 'uzun i', 'uzunga', 'uzundan'
         ]
     },
     'navoiy': {
@@ -191,7 +269,13 @@ REGION_KEYWORDS = {
             'karmana', 'karmana tumani', 'karmana İ', 'karmana i',
             'nurota', 'nurota tumani', 'nurota İ', 'nurota i',
             'konimex', 'konimex tumani', 'konimex İ', 'konimex i',
-            'uchquduq', 'uchquduk', 'uch-quduq', 'uchquduq i'
+            'uchquduq', 'uchquduk', 'uch-quduq', 'uchquduq i', 'navoiy', 'navoi', 'navoiy İ', 'navoi İ', 'navoiy i', 'navoi i', 'навоий', 'навоийга', 'навоийдан', 'навои',
+            'navoiyga', 'navoiydan', 'navoiy viloyati', 'navoi viloyati',
+            'zarafshon', 'zarafshan', 'zarafshon İ', 'zarafshon i', 'zarafshonga', 'zarafshondan',
+            'karmana', 'karmana tumani', 'karmana İ', 'karmana i', 'karmanaga', 'karmanadan',
+            'nurota', 'nurota tumani', 'nurota İ', 'nurota i', 'nurotaga', 'nurotadan',
+            'konimex', 'konimex tumani', 'konimex İ', 'konimex i', 'konimexga', 'konimexdan',
+            'uchquduq', 'uchquduk', 'uch-quduq', 'uchquduq i', 'uchquduqqa', 'uchquduqdan'
         ]
     },
     'sirdaryo': {
@@ -202,7 +286,11 @@ REGION_KEYWORDS = {
             'boyovut', 'bayaut', 'boyovut tumani', 'boyovut İ', 'boyovut i',
             'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ', 'sirdaryo i', "sirdaryo'",
             'сирдарё', 'сирдарёга', 'сирдарёдан', 'сырдарья',
-            'mirzaobod', 'mirzaobod tumani', 'mirzaobod i'
+            'mirzaobod', 'mirzaobod tumani', 'mirzaobod i', 'guliston', 'gulistan', 'guliston İ', 'gulistonʼ', 'guliston i', "guliston'", 'gulistonga', 'gulistondan',
+            'shirin', 'shirin tumani', 'shirin İ', 'shirin i', 'shiringa', 'shirindan',
+            'boyovut', 'bayaut', 'boyovut tumani', 'boyovut İ', 'boyovut i', 'boyovutga', 'boyovutdan',
+            'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ', 'sirdaryo i', "sirdaryo'", 'сирдарё', 'сирдарёga', 'сирдарёдан', 'сырдарья',
+            'mirzaobod', 'mirzaobod tumani', 'mirzaobod i', 'mirzaobodga', 'mirzaoboddan'
         ]
     },
     'jizzax': {
@@ -216,7 +304,14 @@ REGION_KEYWORDS = {
             'forish', 'forish tumani', 'forish İ', 'forish i',
             'arnasoy', 'arnasoy tumani', 'arnasoy İ', 'arnasoy i',
             'baxmal', 'baxmal tumani', 'baxmal i',
-            'pishagardan', 'пишагардан', 'pishagardan i', 'pishagardan İ'
+            'pishagardan', 'пишагардан', 'pishagardan i', 'pishagardan İ', 'jizzax', 'jizzax İ', 'jizzax i', 'jizzakh', 'jiz-zax', 'жиззах', 'джизак', 'jizzaxga', 'jizzaxdan',
+            'gallaaral', 'gallaaral İ', 'gallaaral i', 'galla-aral', 'gallaaʼral', "galla'aral", 'gallaaralga', 'gallaaraldan',
+            'pakhtakor', 'pakhtakor İ', 'pakhtakor i', 'pakhtakor tumani', 'pakhtakorga', 'pakhtakordan',
+            'zomin', 'zomin tumani', 'zomin İ', 'zomin i', 'zominga', 'zomindan',
+            'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ', 'pishagar i', "pishagar'", 'pishagarга', 'pishagardan',
+            'forish', 'forish tumani', 'forish İ', 'forish i', 'forishga', 'forishdan',
+            'arnasoy', 'arnasoy tumani', 'arnasoy İ', 'arnasoy i', 'arnasoyga', 'arnasoydan',
+            'baxmal', 'baxmal tumani', 'baxmal i', 'baxmalga', 'baxmaldan'
         ]
     },
     'xorazm': {
@@ -235,7 +330,18 @@ REGION_KEYWORDS = {
             'tuproqqala', 'tuprak kala', 'tuproqqala tumani', 'tuproqqala i',
             'pitnak', 'pitnak shaharcha', 'pitnak posyolok',
             'khanka', 'xanka', 'khanka shaharcha',
-            'dashoguz', 'dashoguz yuli', 'urganch-dashoguz'
+            'dashoguz', 'dashoguz yuli', 'urganch-dashoguz', 'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ', 'xorazm i', 'xorezm i', 'хоразм', 'хоразмga', 'хоразмdan', 'хорезм',
+            'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', "xiva'", 'xivaga', 'xivadan',
+            'shovot', 'shavat', 'shovot İ', 'shovot i', "shovot'", 'shovotʼ', 'shovotga', 'shovotdan',
+            'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i', 'yangiariqqa', 'yangiariqdan',
+            'bogʻot', 'bogot', 'bogʻot tumani', 'bogʻot İ', 'bogʻot i', 'bogʻotga', 'bogʻotdan',
+            'xazarasp', 'hazarasp', 'xazarasp tumani', 'xazarasp i', 'xazaraspga', 'xazaraspdan',
+            'gurlan', 'gurlan tumani', 'gurlan İ', 'gurlan i', 'gurlanga', 'gurlandan',
+            'qoshkopir', 'koshkupir', 'qoshkopir tumani', 'qoshkopir i', 'qoshkopirga', 'qoshkopirdan',
+            'tuproqqala', 'tuprak kala', 'tuproqqala tumani', 'tuproqqala i', 'tuproqqalaga', 'tuproqqaladan',
+            'pitnak', 'pitnak shaharcha', 'pitnak posyolok', 'pitnakka', 'pitnakdan',
+            'khanka', 'xanka', 'khanka shaharcha', 'khankaga', 'khankadan',
+            'dashoguz', 'dashoguz yuli', 'urganch-dashoguz', 'dashoguzga', 'dashoguzdan'
         ]
     },
     'urganch': {
@@ -243,7 +349,8 @@ REGION_KEYWORDS = {
         'keywords': [
             'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', "urganch'",
             'ургенч', 'urgench İ', 'urgench i', 'urganchga', 'ургенчга',
-            'urgenchdan', 'urganchdan', 'ургенчдан', 'urgench city', 'urganch shahar'
+            'urgenchdan', 'urganchdan', 'ургенчдан', 'urgench city', 'urganch shahar', 'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', "urganch'", 'ургенч', 'urgench İ', 'urgench i',
+            'urganchga', 'ургенчга', 'urgenchdan', 'urganchdan', 'ургенчдан', 'urgench city', 'urganch shahar'
         ]
     },
     'nukus': {
@@ -252,7 +359,10 @@ REGION_KEYWORDS = {
             'nukus', 'nukus İ', 'nukusʼ', 'nukus i', "nukus'", 'noʻkis', 'nokis',
             'kegeyli', 'kegeyli tumani', 'kegeyli İ', 'kegeyli i',
             'muynoq', 'muynaq', 'muynoq İ', 'muynoq i',
-            'takhiatash', 'takhiatash tumani', 'takhiatash İ', 'takhiatash i'
+            'takhiatash', 'takhiatash tumani', 'takhiatash İ', 'takhiatash i', 'nukus', 'nukus İ', 'nukusʼ', 'nukus i', "nukus'", 'noʻkis', 'nokis', 'nukusga', 'nukusdan',
+            'kegeyli', 'kegeyli tumani', 'kegeyli İ', 'kegeyli i', 'kegeyliga', 'kegeylidan',
+            'muynoq', 'muynaq', 'muynoq İ', 'muynoq i', 'muynoqqa', 'muynoqdan',
+            'takhiatash', 'takhiatash tumani', 'takhiatash İ', 'takhiatash i', 'takhiatashga', 'takhiatashdan'
         ]
     },
     'qoraqalpoq': {
@@ -263,25 +373,29 @@ REGION_KEYWORDS = {
             'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani', 'turtkul i', "turtkul'",
             'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'xojeli i', 'khojeliʼ', "xojeli'",
             'amudarya', 'amudaryo', 'amudarya tumani', 'amudarya İ', 'amudarya i',
-            'chimboy', 'chimboy tumani', 'chimboy İ', 'chimboy i'
+            'chimboy', 'chimboy tumani', 'chimboy İ', 'chimboy i', 'qoraqalpoq', 'qaraqalpaqstan', 'qoraqalpoq İ', 'qaraqalpaq-stan', 'qoraqalpoq i', 'qorakalpoq', 'karakalpakstan',
+            'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani', 'turtkul i', "turtkul'", 'turtkulga', 'turtkuldan',
+            'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'xojeli i', 'khojeliʼ', "xojeli'", 'xojeliga', 'xojelidan',
+            'amudarya', 'amudaryo', 'amudarya tumani', 'amudarya İ', 'amudarya i', 'amudaryaga', 'amudaryadan',
+            'chimboy', 'chimboy tumani', 'chimboy İ', 'chimboy i', 'chimboyga', 'chimboydan'
         ]
     },
     'fura_bozor': {
         'topic_id': 101361,
         'keywords': [
-            'fura bazar', 'fura bozor', 'fura bozori', 'фура бозор', 'bozor fura'
+            'fura bazar', 'fura bozor', 'fura bozori', 'фура бозор', 'bozor fura', 'fura bazar', 'fura bozor', 'fura bozori', 'фура бозор', 'bozor fura', 'fura bozoriga', 'fura bozordan'
         ]
     },
     'reklama': {
         'topic_id': 101360,
         'keywords': [
-            'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish'
+            'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish', 'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish', 'reklamaga', 'reklamadan'
         ]
     },
     'yangiliklar': {
         'topic_id': 101359,
         'keywords': [
-            'yangilik', 'yangiliklar', 'новости', 'news', 'xabar', "so'ngi yangiliklar"
+            'yangilik', 'yangiliklar', 'новости', 'news', 'xabar', "so'ngi yangiliklar", 'yangilik', 'yangiliklar', 'новости', 'news', 'xabar', "so'ngi yangiliklar", 'yangiliklarga', 'yangiliklardan'
         ]
     },
     'xalqaro': {
@@ -377,7 +491,63 @@ REGION_KEYWORDS = {
             # Общие ключевые слова для международных маршрутов
             'international', 'xalqaro', 'international İ', 'xalqaro İ', 'international i', 'xalqaro i',
             'cis', 'mda', 'cis İ', 'mda İ', 'cis i', 'mda i',
-            'import', 'export', 'import İ', 'export İ', 'import i', 'export i'
+            'import', 'export', 'import İ', 'export İ', 'import i', 'export i', 'russia', 'rosiya', 'russia İ', 'rosiya İ', 'russia i', 'rosiya i',
+            'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', "moskva'", 'москва', 'москваga', 'москваdan',
+            'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i', 'спб', 'санкт-петербург', 'питер', 'ленинград',
+            'krasnodar', 'krasnodar İ', 'krasnodar i', 'voronej', 'воронеж', 'krasnodarga', 'krasnadardan',
+            'rostov', 'rostov-na-donu', 'rostov İ', 'rostov i', 'rostovga', 'rostovdan',
+            'volgograd', 'volgograd İ', 'volgograd i', 'volgogradga', 'volgograddan',
+            'kazan', 'kazan İ', 'kazan i', 'kazanga', 'kazandan',
+            'nizhny novgorod', 'nizhniy novgorod', 'nizhny novgorod İ', 'nizhny i', 'nizhnyga', 'nizhnydan',
+            'samara', 'samara İ', 'samara i', 'samaranga', 'samaradan',
+            'ufa', 'ufa İ', 'ufa i', 'ufaga', 'ufadan',
+            'perm', 'perm İ', 'perm i', 'permga', 'permdan',
+            'krasnoyarsk', 'krasnoyarsk İ', 'krasnoyarsk i', 'krasnoyarskga', 'krasnoyarskdan',
+            'novosibirsk', 'novosibirsk İ', 'novosibirsk i', 'novosibirskga', 'novosibirskdan',
+            'yekaterinburg', 'ekaterinburg', 'yekaterinburg İ', 'yekaterinburg i', 'yekaterinburgga', 'yekaterinburgdan',
+            'chelyabinsk', 'chelyabinsk İ', 'chelyabinsk i', 'chelyabinskga', 'chelyabinskdan',
+            'omsk', 'omsk İ', 'omsk i', 'omskga', 'omskdan',
+            'voronezh', 'voronezh İ', 'voronezh i', 'voronezhga', 'voronezhdan',
+            'sochi', 'sochi İ', 'sochi i', 'sochiga', 'sochidan',
+            'tolyatti', 'tolyatti İ', 'tolyatti i', 'tolyattiga', 'tolyattidan',
+            'belgorod', 'belgorod İ', 'belgorod i', 'belgorodga', 'belgroddan',
+
+            # Украина
+            'ukraine', 'ukraina', 'ukraine İ', 'ukraina İ', 'ukraine i', 'ukraina i',
+            'kiev', 'kyiv', 'kiev İ', 'kyiv İ', 'kiev i', 'kyiv i', 'kievga', 'kievdan',
+            'kharkiv', 'kharkov', 'kharkiv İ', 'kharkiv i', 'kharkivga', 'kharkivdan',
+            'odessa', 'odesa', 'odessa İ', 'odessa i', 'odessaga', 'odessadan',
+            'dnipro', 'dnepr', 'dnipro İ', 'dnipro i', 'dniproga', 'dniprodan',
+            'lviv', 'lviv İ', 'lviv i', 'lvivga', 'lvivdan',
+
+            # Казахстан
+            'kazakhstan', 'qazaqstan', 'kazakhstan İ', 'qazaq-stan', 'kazakhstan i', 'qazaqstan i',
+            'almaty', 'alma-ata', 'almaty İ', 'almaty i', 'almatyga', 'almatydan',
+            'astana', 'nur-sultan', 'astana İ', 'astana i', 'astanaga', 'astanadan',
+            'shymkent', 'shymkent İ', 'shymkent i', 'shymkentga', 'shymkentdan',
+            'karaganda', 'karaganda İ', 'karaganda i', 'karagandaga', 'karagandadan',
+            'aktobe', 'aktobe İ', 'aktobe i', 'aktobega', 'aktobedan',
+            'pavlodar', 'pavlodar İ', 'pavlodar i', 'pavlodarga', 'pavlodardan',
+
+            # Кыргызстан
+            'kyrgyzstan', 'kirgiziya', 'kyrgyzstan İ', 'kyrgyzstan i',
+            'bishkek', 'bishkek İ', 'bishkek i', 'bishkekke', 'bishkekdan',
+            'osh', 'osh İ', 'osh i', 'oshga', 'oshdan',
+
+            # Таджикистан
+            'tajikistan', 'tojikiston', 'tajikistan İ', 'tajikistan i',
+            'dushanbe', 'dushanbe İ', 'dushanbe i', 'dushanbega', 'dushanbedan',
+            'khujand', 'khujand İ', 'khujand i', 'khujandga', 'khujanddan',
+
+            # Турция
+            'turkey', 'turkiya', 'turkey İ', 'turkiya İ', 'turkey i', 'turkiya i',
+            'istanbul', 'stambul', 'istanbul İ', 'stambul İ', 'istanbul i', 'stambul i', 'istanbula', 'istanbuldan',
+            'ankara', 'ankara İ', 'ankara i', 'ankaraga', 'ankaradan',
+            'izmir', 'izmir İ', 'izmir i', 'izmirga', 'izmirndan',
+            'antalya', 'antalya İ', 'antalya i', 'antalyaga', 'antalyadan',
+
+            # Общие
+            'international', 'xalqaro', 'import', 'export', 'xalqaro yuk', 'importga', 'exportga'
         ]
     }
 }
@@ -458,7 +628,7 @@ def extract_route_and_cargo(text):
         # Дополнительные паттерны для форматов с эмодзи и разделителями
         emoji_patterns = [
             r'🇺🇿\s*(\w+)\s*🇺🇿\s*(\w+)',  # 🇺🇿 Qoqon 🇺🇿 Samarqand
-            r'🇷🇺\s*([^-]+?)\s*-\s*🇺🇿\s*([^\\n\\r]+)',  # 🇷🇺Москва обл. - 🇺🇿Ташкент
+            r'🇷🇺\s*([^-]+?)\s*-\s*🇺🇿\s*([^\n\r]+)',  # 🇷🇺Москва обл. - 🇺🇿Ташкент
             r'(\w+)\s*🇺🇿\s*(\w+)',         # Qoqon 🇺🇿 Samarqand  
             r'(\w+)\s*[-–→>>>\-\-\-\-]+\s*(\w+)',  # Tosh.Xasanboydan----Fargonaga, >>>
             r'(\w+)\s*>\s*(\w+)',            # Кашкадарёдан>> Чуст
