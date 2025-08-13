@@ -918,8 +918,56 @@ def process_message(message):
             logger.info(f"🚫 Пропуск сообщения: не из основной группы {MAIN_GROUP_ID}")
             return
             
-        logger.info(f"🎯 Обрабатываем сообщение из основной группы")
-        message_count += 1
+                logger.info(f"🎯 Обрабатываем сообщение из основной группы")
+                message_count += 1
+
+        # === НОВАЯ ЛОГИКА: много-маршрутные блоки с флагами ===
+        blocks = [b.strip() for b in text.split('\n\n') if b.strip()]
+        for block in blocks:
+            lines = [l.strip() for l in block.split('\n') if l.strip()]
+            if not lines:
+                continue
+
+            first_line = lines[0]
+            if any(flag in first_line for flag in ['🇷🇺', '🇧🇾', '🇰🇿', '🇺🇸', '🇹🇷']):
+                from_city = first_line
+                to_city = "🇺🇿 Узбекистан"
+                cargo_text = '\n'.join(lines[1:])
+                phone = extract_phone_number(block)
+                transport, desc = format_cargo_text(cargo_text)
+
+                msg = f"""{from_city.upper()}
+🚛 {transport}
+💬 {desc}
+☎️ {phone}
+#XALQARO
+➖➖➖➖➖➖➖
+Другие грузы: @logistika_marka"""
+
+                send_message(MAIN_GROUP_ID, msg,
+                             REGION_KEYWORDS['xalqaro']['topic_id'],
+                             reply_markup=author_button(message.get('from', {})))
+                continue  # блок уже обработан
+
+        # === СТАРАЯ ЛОГИКА: один маршрут ===
+        from_city, to_city, cargo_text = extract_route_and_cargo(text)
+        if not from_city or not to_city:
+            return
+
+        def find_region(txt):
+            txt_norm = normalize_text(txt)
+            words = re.findall(r"\b\w+\b", txt_norm)
+            for key, data in REGION_KEYWORDS.items():
+                for kw in data['keywords']:
+                    kw_norm = normalize_text(kw)
+                    if kw_norm in words or (len(kw_norm) > 4 and kw_norm in txt_norm):
+                        return key
+            return None
+
+        from_reg = find_region(from_city)
+        if from_reg is None:
+            ask_admin_topic(message, from_city, to_city)
+            return
         
         from_city, to_city, cargo_text = extract_route_and_cargo(text)
         if not from_city or not to_city:
