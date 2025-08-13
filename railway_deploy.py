@@ -52,9 +52,9 @@ REGION_KEYWORDS = {
         'keywords': [
             # столица
             'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city',
-            'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent',
+            'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent', 'toshkentdan',
             'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT',
-            'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан', 'ташкент', 'ташкентga',
+            'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан', 'ташкент', 'ташкентga', 
             # районы города
             'yashnobod', 'yashnobod tumani', 'yunusobod', 'yunusobod tumani',
             'mirzo-ulugbek', 'mirzo ulugbek', 'mirzo-ulugbek tumani',
