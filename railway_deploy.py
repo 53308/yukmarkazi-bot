@@ -848,6 +848,10 @@ def process_message(message):
             return None
 
         from_reg = find_region(from_city)
+        print(f"[DEBUG] from_city='{from_city}' | normalized='{normalize_text(from_city)}' | from_reg={from_reg}")
+        if from_reg is None:
+            ask_admin_topic(message, from_city, to_city)
+            return
         if from_reg is None:
             ask_admin_topic(message, from_city, to_city)
             return
