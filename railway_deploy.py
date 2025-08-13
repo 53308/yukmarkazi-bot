@@ -899,10 +899,8 @@ def process_message(message):
         chat_id = message['chat']['id']
         user_id = message['from']['id']
         
-        # Логирование для диагностики
         logger.info(f"📥 Получено сообщение из чата {chat_id}: {text[:50]}...")
         
-        # Обработка команд
         if text.startswith('/'):
             handle_command(message)
             message_count += 1
@@ -913,13 +911,12 @@ def process_message(message):
             message_count += 1
             return
             
-        # Проверка что сообщение из основной группы
         if chat_id != MAIN_GROUP_ID:
             logger.info(f"🚫 Пропуск сообщения: не из основной группы {MAIN_GROUP_ID}")
             return
             
-                logger.info(f"🎯 Обрабатываем сообщение из основной группы")
-                message_count += 1
+        logger.info("🎯 Обрабатываем сообщение из основной группы")
+        message_count += 1
 
         # === НОВАЯ ЛОГИКА: много-маршрутные блоки с флагами ===
         blocks = [b.strip() for b in text.split('\n\n') if b.strip()]
@@ -947,7 +944,7 @@ def process_message(message):
                 send_message(MAIN_GROUP_ID, msg,
                              REGION_KEYWORDS['xalqaro']['topic_id'],
                              reply_markup=author_button(message.get('from', {})))
-                continue  # блок уже обработан
+                continue  # блок обработан
 
         # === СТАРАЯ ЛОГИКА: один маршрут ===
         from_city, to_city, cargo_text = extract_route_and_cargo(text)
@@ -968,31 +965,7 @@ def process_message(message):
         if from_reg is None:
             ask_admin_topic(message, from_city, to_city)
             return
-        
-        from_city, to_city, cargo_text = extract_route_and_cargo(text)
-        if not from_city or not to_city:
-            return
 
-        def find_region(txt):
-            txt_norm = normalize_text(txt)
-            words = re.findall(r"\b\w+\b", txt_norm)
-            for key, data in REGION_KEYWORDS.items():
-                for kw in data['keywords']:
-                    kw_norm = normalize_text(kw)
-                    if kw_norm in words or (len(kw_norm) > 4 and kw_norm in txt_norm):
-                        return key
-            return None
-
-        from_reg = find_region(from_city)
-        print(f"[DEBUG] from_city='{from_city}' | normalized='{normalize_text(from_city)}' | from_reg={from_reg}")
-        if from_reg is None:
-            ask_admin_topic(message, from_city, to_city)
-            return
-        if from_reg is None:
-            ask_admin_topic(message, from_city, to_city)
-            return
-
-        # Определяем топик по месту ОТПРАВКИ
         topic_key = 'xalqaro' if 'xalqaro' == from_reg else from_reg
         topic_id = REGION_KEYWORDS[topic_key]['topic_id']
 
