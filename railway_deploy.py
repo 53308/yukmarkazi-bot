@@ -54,16 +54,19 @@ REGION_KEYWORDS = {
             'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city',
             'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent',
             'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT',
+            'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан',
             # районы города
             'yashnobod', 'yashnobod tumani', 'yunusobod', 'yunusobod tumani',
             'mirzo-ulugbek', 'mirzo ulugbek', 'mirzo-ulugbek tumani',
             'olmazor', 'olmazor tumani', 'uchtepa', 'uchtepa tumani',
             'shayxontoxur', 'shayxontohur', 'shayxontoxur tumani',
             'chilonzor', 'chilon-zor', 'chilonzor tumani',
-            'sergeli', 'sergeli tumani', 'yakkasaroy', 'yakkasaroy tumani',
+            'sergeli', 'sergeli tumani', 'sergili', 'сергели', 'сергили',
+            'yakkasaroy', 'yakkasaray', 'yakkasaroy tumani',
             'mirobod', 'mirabad', 'mirobod tumani', 'bektemir', 'bektemir tumani',
             # области и районы Ташкентской области
             'bekobod', 'bekabad', 'bekobod tumani', 'bekabad tumani',
+            'xasanboy', 'hasanboy', 'xasanboydan', 'хасанбой', 'хасанбойдан',
             'olmaliq', 'alma-lyk', 'olmalik', 'olmaliq tumani', 'olmaliq i',
             'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron tumani', 'ohangaron i',
             'angren', 'angren İ', 'angiren', 'angren i',
@@ -102,10 +105,12 @@ REGION_KEYWORDS = {
             "farg'ona", "fargʻona", 'fargona', 'fergana', 'farg-on-a',
             'fargona İ', 'fargona i', "farg'ona İ", "fargʻona İ",
             'qoqon', 'kokand', 'quqon', 'qoʼqon', 'qoqon İ', 'qoqon i',
+            'коканд', 'кокандga', 'кокандdan',
             'margilon', 'margilan', 'margilon İ', 'margilon i',
             'quvasoy', 'kuvasay', 'quvasoy İ', 'quvasoy i', 'quvasoyʼ', 'quvasoy', 'kuvasay', 'кувасай', 'кувасой', 'quvasoydan', 'кувасойдан',
             'beshariq', 'besharik', 'beshariq İ', 'beshariq i',
             "bog'dod", 'bogdod', "bogʻdod", "bog'dod İ", "bog'dod i",
+            "bog'doddan", 'bogdoddan', 'богдод', 'богдодdan',
             'oltiarik', 'oltiarik İ', 'oltiarik i',
             'rishton', 'rishtan', 'rishton İ', 'rishton i',
             'sox', 'sox tumani', 'sox İ', 'sox i'
@@ -119,6 +124,7 @@ REGION_KEYWORDS = {
             'chortoq', 'chartak', 'chortoq İ', 'chortoq i', 'chortoqʼ',
             'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangikurgan i',
             'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', "chust'",
+            'чуст', 'чустга', 'чустdан',
             'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ', 'kosonsoy i',
             'mullomirsoy', 'mullomirʼsoy', "mullomir'soy",
             'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgon i',
@@ -129,6 +135,7 @@ REGION_KEYWORDS = {
         'topic_id': 101372,
         'keywords': [
             'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ', 'buxoro i', "buxoro'",
+            'бухоро', 'бухорога', 'бухородан', 'бухара',
             'alat', 'alat tumani', 'alat İ', 'alat i',
             "g'ijduvon", 'gijduvon', "gʻijduvon", "g'ijduvon İ", "g'ijduvon i",
             'kogon', 'kogon tumani', 'kogon İ', 'kogon i',
@@ -141,8 +148,10 @@ REGION_KEYWORDS = {
         'topic_id': 101369,
         'keywords': [
             'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', "samarqand'",
+            'самарканд', 'самаркандga', 'самаркандdan',
             'urgut', 'urgut tumani', 'urgut İ', 'urgut i',
             'kattaqorgon', 'kattakurgan', 'katta-qorğon', 'kattaqoʻrgʻon', 'kattaqorgon i',
+            "kattaqo'rg'on", "kattaqo'rg'ondan", 'каттакурган',
             'payariq', 'payariq tumani', 'payarik', 'payariq i',
             'ishtixon', 'ishtixon tumani', 'ishtixon İ', 'ishtixon i',
             'jomboy', 'jomboy tumani', 'jomboy İ', 'jomboy i',
@@ -153,6 +162,7 @@ REGION_KEYWORDS = {
         'topic_id': 101380,
         'keywords': [
             'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ', 'qarshi i', "qarshi'",
+            'qashqadaryo', 'кашкадарё', 'кашкадарёdан', 'кашкадарьё',
             'shahrisabz', 'shahrisabz İ', 'shakhrisabz', 'shahri-sabz', 'shahrisabz i',
             'koson', 'koson tumani', 'koson İ', 'koson i',
             'guzar', 'guzar tumani', 'guzar İ', 'guzar i',
@@ -291,6 +301,7 @@ REGION_KEYWORDS = {
             'perm', 'perm İ', 'perm i',
             'krasnoyarsk', 'krasnoyarsk İ', 'krasnoyarsk i',
             'novosibirsk', 'novosibirsk İ', 'novosibirsk i',
+            'барнаул', 'barnaul', 'barnaulskaya',
             'yekaterinburg', 'ekaterinburg', 'yekaterinburg İ', 'yekaterinburg i',
             'chelyabinsk', 'chelyabinsk İ', 'chelyabinsk i',
             'omsk', 'omsk İ', 'omsk i',
@@ -442,11 +453,13 @@ def extract_route_and_cargo(text):
             
             return from_city, to_city, cargo_text
         
-        # Дополнительные паттерны для форматов с эмодзи
+        # Дополнительные паттерны для форматов с эмодзи и разделителями
         emoji_patterns = [
             r'🇺🇿\s*(\w+)\s*🇺🇿\s*(\w+)',  # 🇺🇿 Qoqon 🇺🇿 Samarqand
+            r'🇷🇺\s*(\w+)\s*-\s*🇺🇿\s*(\w+)',  # 🇷🇺Барнаул - 🇺🇿Коканд
             r'(\w+)\s*🇺🇿\s*(\w+)',         # Qoqon 🇺🇿 Samarqand  
-            r'(\w+)\s*[-–→]\s*(\w+)',        # стандартный формат
+            r'(\w+)\s*[-–→>>>\-\-\-\-]+\s*(\w+)',  # Tosh.Xasanboydan----Fargonaga, >>>
+            r'(\w+)\s*>\s*(\w+)',            # Кашкадарёдан>> Чуст
             r'(\w+)\s+(\w+)',                # простой формат через пробел
         ]
         
@@ -461,7 +474,23 @@ def extract_route_and_cargo(text):
     # Если не найден четкий маршрут, пытаемся извлечь из первой строки
     first_line = lines[0] if lines else text
     clean_first = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', first_line)
-    parts = re.split(r'[\s\-\>\→\—]+', clean_first, 2)
+    
+    # Дополнительные сложные паттерны
+    complex_patterns = [
+        r'([А-Яа-я\w\.]+)дан[\s\-\-\-\-]+([А-Яа-я\w]+)га',  # Tosh.Xasanboydan----Fargonaga
+        r'([А-Яа-я\w\.]+)дан\s+([А-Яа-я\w]+)\s+([А-Яа-я\w]+)',  # Bog'doddan toshkent sergiliga
+        r'([А-Яа-я\w\.]+)дан[\s\n]+([А-Яа-я\w]+)га',  # многострочные формы
+        r'([А-Яа-я\w\.]+)дан[\s\n]+([А-Яа-я\w]+)',  # простые многострочные
+    ]
+    
+    for pattern in complex_patterns:
+        match = re.search(pattern, clean_first, re.IGNORECASE)
+        if match:
+            from_city = match.group(1).strip()
+            to_city = match.group(2).strip()
+            return from_city, to_city, text
+    
+    parts = re.split(r'[\s\-\>\→\—\-\-\-\-]+', clean_first, 2)
     
     if len(parts) >= 2 and len(parts[0]) > 2 and len(parts[1]) > 2:
         return parts[0].strip(), parts[1].strip(), text
