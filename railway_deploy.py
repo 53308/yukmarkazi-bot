@@ -841,6 +841,18 @@ REGION_KEYWORDS = {
     ]
   },
 
+  "qashqadaryo_city": {
+    "topic_id": 101380,
+    "cyrillic_uz": "Қашқадарё вилояти",
+    "latin_uz": "Qashqadaryo viloyati",
+    "russian": "Кашкадарьинская область",
+    "aliases": [
+      "qashqadaryo", "kashkadaryo", "qashqadaryo viloyati", "kashkadarya oblast", "qashqadaryo region",
+      "qashqadaryoga", "qashqadaryodan", "qashqadaryoda", "qashqadaryoga", "qashqadaryodan",
+      "кашкадарья", "Кашкадарья", "Кашкадарьинская область", "қашқадарё", "Қашқадарё"
+    ]
+  },
+
   "qarshi": {
     "topic_id": 101380,
     "cyrillic_uz": "Қарши шаҳри",
@@ -850,6 +862,18 @@ REGION_KEYWORDS = {
       "qarshi", "karshi", "qarshi shaxri", "karshi city",
       "qarshida", "qarshidan", "qarshiga", "qarshilik",
       "Қарши", "Карши", "город Карши"
+    ]
+  },
+
+  "olmos": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Олмос тумани",
+    "latin_uz": "Olmos tumani", 
+    "russian": "Алмалыкский район",
+    "aliases": [
+      "olmos", "almos", "olmos tumani", "almos rayon",
+      "olmosda", "olmosdan", "olmosga", "olmoslik",
+      "Олмос", "Алмалык", "Алмалыкский район"
     ]
   },
 
@@ -2216,9 +2240,12 @@ def process_message(message):
         if hashtag_region_code:
             hashtag = hashtag_region_code.upper().replace('_CITY', '').replace('_', '_')
             logger.info(f"🏷️ Хэштег по КУДА ({to_city}): #{hashtag}")
-        else:
+        elif 'region_code' in locals() and region_code:
             hashtag = region_code.upper().replace('_CITY', '').replace('_', '_')
             logger.info(f"🏷️ Хэштег fallback: #{hashtag}")
+        else:
+            hashtag = "YUKMARKAZI"  # Дефолтный хэштег если ничего не найдено
+            logger.warning(f"⚠️ Не удалось определить хэштег для {to_city}, используем #{hashtag}")
         
         # Формируем сообщение с условными полями
         message_parts = [f"{from_city.upper()} → {to_city.upper()}"]
@@ -2265,8 +2292,8 @@ def process_message(message):
 import unicodedata
 import re
 
-def normalize_text(s: str) -> str:
-    """Нормализует текст для поиска совпадений."""
+def normalize_text_legacy(s: str) -> str:
+    """Альтернативная нормализация текста (переименована для избежания конфликта)."""
     s = s.lower()
     s = re.sub(r"[ʼʻ’`´]", "'", s)
     s = s.replace("ı", "i").replace("İ", "i")
@@ -2288,15 +2315,13 @@ def find_region(text: str) -> str | None:
     if not text:
         return None
     
-    # КРИТИЧЕСКИ ВАЖНО: Проверяем международные маршруты с флагами стран в ПЕРВУЮ очередь
+    text_norm = normalize_text(text)
+    
+    # КРИТИЧЕСКИ ВАЖНО: Проверяем международные маршруты с флагами стран
     # Флаги стран (🇷🇺🇰🇿🇺🇦🇹🇷 и др.) указывают на международный маршрут
     country_flags = ['🇷🇺', '🇰🇿', '🇺🇦', '🇹🇷', '🇮🇷', '🇨🇳', '🇰🇬', '🇹🇯', '🇹🇲', '🇦🇫', '🇮🇳', '🇵🇱', '🇩🇪', '🇫🇷', '🇮🇹', '🇪🇸']
     
-    for flag in country_flags:
-        if flag in text:
-            return 'xalqaro'  # Любой маршрут с флагом страны → Xalqaro yuklar
-        
-    text_norm = normalize_text(text)
+    has_country_flag = any(flag in text for flag in country_flags)
     
     # 1. Поиск в REGION_KEYWORDS (aliases)
     for code, data in REGION_KEYWORDS.items():
@@ -2312,10 +2337,14 @@ def find_region(text: str) -> str | None:
                 if field_norm in text_norm:
                     return code
     
-    # 2. Поиск в специальных топиках 
+    # 2. Поиск в специальных топиках (ключевые слова + флаги для международных)
     special_mappings = {
         'xalqaro': ['international', 'xalqaro', 'россия', 'russia', 'москва', 'moscow', 'казахстан', 'kazakhstan', 
-                    'полша', 'польша', 'poland', 'polsha', 'алматы', 'almaty', 'алмата', 'саратов', 'saratov'],
+                    'полша', 'польша', 'poland', 'polsha', 'алматы', 'almaty', 'алмата', 'саратов', 'saratov',
+                    'belarus', 'беларусь', 'минск', 'minsk', 'borisov', 'борисов', 'vitebsk', 'витебск',
+                    'ukraina', 'украина', 'kiev', 'киев', 'odessa', 'одесса', 'lvov', 'львов',
+                    'turkiya', 'турция', 'istanbul', 'стамбул', 'ankara', 'анкара',
+                    'import', 'eksport', 'экспорт', 'импорт', 'cis', 'снг', 'europa', 'европа'],
         'reklama': ['reklama', 'реклама', 'sotiladi', 'sotuvda', 'продается', 'продаю'],
         'yangiliklar': ['yangilik', 'yangiliklar', 'новости', 'news', 'xabar'],
         'furabozor': ['furabozor', 'fura bozor', 'фурабозор', 'рынок фур']
@@ -2325,7 +2354,15 @@ def find_region(text: str) -> str | None:
         for kw in keywords:
             kw_norm = normalize_text(kw)
             if kw_norm in text_norm:
-                return code
+                # Для международных маршрутов: ключевые слова ИЛИ флаги стран
+                if code == 'xalqaro':
+                    return code
+                else:
+                    return code
+    
+    # Проверка только флагов для международных маршрутов (если ключевые слова не найдены)
+    if has_country_flag:
+        return 'xalqaro'
     
     # 3. Дополнительные региональные ключевые слова
     region_extras = {
