@@ -1978,23 +1978,23 @@ def process_message(message):
         text = message.get('text', '')
         chat_id = message['chat']['id']
         user_id = message['from']['id']
-        
+
         logger.info(f"📥 Получено сообщение из чата {chat_id}: {text[:50]}...")
-        
+
         if text.startswith('/'):
             handle_command(message)
             message_count += 1
             return
-            
+
         if chat_id == ADMIN_USER_ID:
             handle_admin_command(message)
             message_count += 1
             return
-            
+
         if chat_id != MAIN_GROUP_ID:
             logger.info(f"🚫 Пропуск сообщения: не из основной группы {MAIN_GROUP_ID}")
             return
-            
+
         logger.info("🎯 Обрабатываем сообщение из основной группы")
         message_count += 1
 
@@ -2031,14 +2031,19 @@ def process_message(message):
                 )
                 continue  # блок обработан
 
+        # === СТАРАЯ ЛОГИКА: один маршрут ===
+        from_city, to_city, cargo_text = extract_route_and_cargo(text)
+        if not from_city or not to_city:
+            return
+
+        # ... дальше старая логика ...
+
     except Exception:
         logging.exception("process_message error")
 
-# === СТАРАЯ ЛОГИКА: один маршрут ===
-from_city, to_city, cargo_text = extract_route_and_cargo(text)
-if not from_city or not to_city:
-    return
 
+# === ВСЬ ОСТАЛЬНОЙ КОД (normalize_text, find_region, handle_callback) —
+# должен быть на уровне модуля, НЕ внутри process_message ===
 import unicodedata
 import re
 
