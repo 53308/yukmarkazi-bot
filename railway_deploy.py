@@ -1353,7 +1353,7 @@ REGION_KEYWORDS = {
   },
 
   "nukus": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Нукус шаҳри",
     "latin_uз": "Nukus shahri",
     "russian": "город Нукус",
@@ -1365,7 +1365,7 @@ REGION_KEYWORDS = {
   },
 
   "karakalpakstan": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Қорақалпоғистон Республикаси",
     "latin_uз": "Qoraqalpog'iston Respublikasi",
     "russian": "Республика Каракалпакстан",
@@ -1377,7 +1377,7 @@ REGION_KEYWORDS = {
   },
 
   "muynak": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Мўйноқ тумани",
     "latin_uз": "Mo'ynoq tumani",
     "russian": "Муйнакский район",
@@ -1389,7 +1389,7 @@ REGION_KEYWORDS = {
   },
 
   "takhiatash": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Тахиаташ шаҳри",
     "latin_uз": "Taxiatash shahri",
     "russian": "город Тахиаташ",
@@ -1401,7 +1401,7 @@ REGION_KEYWORDS = {
   },
 
   "turtkul": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Тўрткўл шаҳри",
     "latin_uз": "To'rtko'l shahri",
     "russian": "город Турткуль",
@@ -1413,7 +1413,7 @@ REGION_KEYWORDS = {
   },
 
   "beruniy": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Беруний тумани",
     "latin_uз": "Beruniy tumani",
     "russian": "Берунийский район",
@@ -1425,7 +1425,7 @@ REGION_KEYWORDS = {
   },
 
   "karauzyak": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Қараўзяк тумани",
     "latin_uз": "Qaro'zyak tumani",
     "russian": "Караузякский район",
@@ -1437,7 +1437,7 @@ REGION_KEYWORDS = {
   },
 
   "kegeyli": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Кегейли тумани",
     "latin_uз": "Kegeyli tumani",
     "russian": "Кегейлийский район",
@@ -1449,7 +1449,7 @@ REGION_KEYWORDS = {
   },
 
   "amudarya": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Амударё тумани",
     "latin_uз": "Amudaryo tumani",
     "russian": "Амударьинский район",
@@ -1461,7 +1461,7 @@ REGION_KEYWORDS = {
   },
 
   "kanlikol": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Қонлиқўл тумани",
     "latin_uз": "Qonliqo'l tumani",
     "russian": "Канлыкульский район",
@@ -1473,7 +1473,7 @@ REGION_KEYWORDS = {
   },
 
   "chimbay": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Чимбой тумани",
     "latin_uз": "Chimboy tumani",
     "russian": "Чимбайский район",
@@ -1485,7 +1485,7 @@ REGION_KEYWORDS = {
   },
 
   "shumanay": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Шуманай тумани",
     "latin_uз": "Shumanay tumani",
     "russian": "Шуманайский район",
@@ -1497,7 +1497,7 @@ REGION_KEYWORDS = {
   },
 
   "ellikqala": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Элликқала тумани",
     "latin_uз": "Ellikqala tumani",
     "russian": "Элликкалинский район",
@@ -1509,7 +1509,7 @@ REGION_KEYWORDS = {
   },
 
   "bo'zatov": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Бўзатов тумани",
     "latin_uз": "Bo'zatov tumani",
     "russian": "Бозатауский район",
@@ -1521,7 +1521,7 @@ REGION_KEYWORDS = {
   },
 
   "xojeli": {
-    "topic_id": 101661,
+    "topic_id": 101660,
     "cyrillic_uз": "Хўжели шаҳри",
     "latin_uз": "Xo'jeli shahri",
     "russian": "город Ходжейли",
@@ -2015,11 +2015,11 @@ def process_message(message):
 
                 msg = (
                     f"{from_city.upper()}\n"
-                    f"🚛 {transport}\n"
-                    f"💬 {desc}\n"
-                    f"☎️ {phone}\n"
+                    f"TRANSPORT: {transport}\n"
+                    f"DESCRIPTION: {desc}\n"
+                    f"PHONE: {phone}\n"
                     f"#XALQARO\n"
-                    f"➖➖➖➖➖➖➖\n"
+                    f"-------\n"
                     f"Boshqa yuklar: @logistika_marka"
                 )
 
@@ -2117,11 +2117,11 @@ def handle_callback(update):
 
         msg = (
             f"{from_city.upper()} - {to_city.upper()}\n"
-            f"🚛 {transport}\n"
-            f"💬 {desc}\n"
-            f"☎️ {phone}\n"
+            f"TRANSPORT: {transport}\n"
+            f"DESCRIPTION: {desc}\n"
+            f"PHONE: {phone}\n"
             f"#{to_city.upper()}\n"
-            f"➖➖➖➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"--------------\n"
             f"Другие грузы: @logistika_marka"
         )
 
