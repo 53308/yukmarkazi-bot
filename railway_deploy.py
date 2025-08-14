@@ -51,7 +51,8 @@ REGION_KEYWORDS = {
         'topic_id': 101362,
         'keywords': [
             # столица
-            'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city',
+            'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city','toshkentdan', 'tashkentdan', 'toshkent ga', 'toshkentdan',
+            'toshkentdan', 'tashkentdan', 'toshkentdan', 'toshkent', 'tashkent', 'toshkentdan', 'tashkentdan', 'toshkentga', 'tashkentga',
             'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent', 'toshkentdan', 'TOSHKENДАН',
             'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT', 'toshkendan', 'toshken',
             'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан', 'ташкент', 'ташкентga', 
@@ -193,7 +194,9 @@ REGION_KEYWORDS = {
     'namangan': {
         'topic_id': 101383,
         'keywords': [
-            'namangan', 'namangan İ', 'namanganʼ', 'namangan i', "namangan'",
+            'namangan', 'namangan İ', 'namanganʼ', 'namangan i', "namangan'", 'namangan', 'наманган', 'наманганга', 'намангандан', 'наманган',
+            'pop', 'поп', 'попга', 'попдан', 'поп', 'pop', 'pop tumani', 'popga', 'popdan',
+            'pop tumani', 'поп тумани', 'поп туманига', 'поп туманидан',
             'наманган', 'наманганга', 'намангандан', 'наманган',
             'chortoq', 'chartak', 'chortoq İ', 'chortoq i', 'chortoqʼ',
             'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangikurgan i',
@@ -205,7 +208,7 @@ REGION_KEYWORDS = {
             'mullomirsoy', 'mullomirsoyga', 'mullomirsoydan', 'мулломирсой', 'мулломирсойдан',
             'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgonga', 'uchqorgondan', 'учқургон', 'учқургондан',
             'pop', 'popga', 'popdan', 'поп', 'попдан',
-            'чуст', 'чустга', 'чустdан',
+            'чуст', 'чустга', 'чустdан', 'chust', 'chustdan', 'chustga', 'чуст', 'чустдан', 'чустга',
             'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ', 'kosonsoy i',
             'mullomirsoy', 'mullomirʼsoy', "mullomir'soy",
             'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgon i',
