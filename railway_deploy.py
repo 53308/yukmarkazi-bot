@@ -1999,21 +1999,21 @@ def process_message(message):
         message_count += 1
 
         # === НОВАЯ ЛОГИКА: много-маршрутные блоки с флагами ===
-        blocks = [b.strip() for b in text.split('\n\n') if b.strip()]
-        for block in blocks:
-            lines = [l.strip() for l in block.split('\n') if l.strip()]
-            if not lines:
-                continue
+blocks = [b.strip() for b in text.split('\n\n') if b.strip()]
+for block in blocks:
+    lines = [l.strip() for l in block.split('\n') if l.strip()]
+    if not lines:
+        continue
 
-            first_line = lines[0]
-            if any(flag in first_line for flag in ['🇷🇺', '🇧🇾', '🇰🇿', '🇺🇸', '🇹🇷']):
-                from_city = first_line
-                to_city = "🇺🇿 Узбекистан"
-                cargo_text = '\n'.join(lines[1:])
-                phone = extract_phone_number(block)
-                transport, desc = format_cargo_text(cargo_text)
+    first_line = lines[0]
+    if any(flag in first_line for flag in ['🇷🇺', '🇧🇾', '🇰🇿', '🇺🇸', '🇹🇷']):
+        from_city = first_line
+        to_city = "🇺🇿 Узбекистан"
+        cargo_text = '\n'.join(lines[1:])
+        phone = extract_phone_number(block)
+        transport, desc = format_cargo_text(cargo_text)
 
-                           msg = (
+        msg = (
             f"{from_city.upper()}\n"
             f"🚛 {transport}\n"
             f"💬 {desc}\n"
@@ -2023,28 +2023,27 @@ def process_message(message):
             f"Boshqa yuklar: @logistika_marka"
         )
 
-                send_message(MAIN_GROUP_ID, msg,
-                             REGION_KEYWORDS['xalqaro']['topic_id'],
-                             reply_markup=author_button(message.get('from', {})))
-                continue  # блок обработан
+        send_message(
+            MAIN_GROUP_ID,
+            msg,
+            REGION_KEYWORDS['xalqaro']['topic_id'],
+            reply_markup=author_button(message.get('from', {}))
+        )
+        continue  # блок обработан
 
-        # === СТАРАЯ ЛОГИКА: один маршрут ===
-        from_city, to_city, cargo_text = extract_route_and_cargo(text)
-        if not from_city or not to_city:
-            return
+# === СТАРАЯ ЛОГИКА: один маршрут ===
+from_city, to_city, cargo_text = extract_route_and_cargo(text)
+if not from_city or not to_city:
+    return
 
-        
 import unicodedata
 import re
 
 def normalize_text(s: str) -> str:
     """Нормализует текст для поиска совпадений."""
     s = s.lower()
-    # заменяем все виды апострофов и схожих символов
     s = re.sub(r"[ʼʻ’`´]", "'", s)
-    # турецкие буквы в латиницу
     s = s.replace("ı", "i").replace("İ", "i")
-    # кириллические в латинские (основные случаи для узбекского/русского)
     trans_map = {
         "қ": "q", "ў": "o'", "ғ": "g'", "ҳ": "h",
         "ё": "yo", "й": "y", "щ": "sh", "ш": "sh", "ч": "ch",
@@ -2053,10 +2052,8 @@ def normalize_text(s: str) -> str:
     }
     for cyr, lat in trans_map.items():
         s = s.replace(cyr, lat)
-    # убираем диакритику
     s = unicodedata.normalize('NFKD', s)
     s = ''.join(ch for ch in s if not unicodedata.combining(ch))
-    # заменяем двойные пробелы
     s = re.sub(r"\s+", " ", s).strip()
     return s
 
@@ -2070,15 +2067,7 @@ def find_region(text: str) -> str | None:
                 return code
     return None
 
-#{to_city.upper()}
-print("➖➖➖➖➖➖➖➖➖➖➖➖➖➖")
-Boshqa yuklar: @logistika_marka"""
-
-        send_message(MAIN_GROUP_ID, msg, topic_id,
-                     reply_markup=author_button(sender))
-    except Exception:
-        logging.exception("process_message error")
-
+# --- callback handler ---
 def handle_callback(update):
     try:
         query = update['callback_query']
@@ -2118,20 +2107,22 @@ def handle_callback(update):
         cargo_clean = re.sub(ROUTE_REGEX, '', cargo_clean).strip()
         transport, desc = format_cargo_text(cargo_clean)
 
-                msg = f"""{from_city.upper()} - {to_city.upper()}
-f"🚛 {transport}\n"
-f"💬 {desc}\n"
-f"☎️ {phone}\n"
-f"#XALQARO\n"
-f"➖➖➖➖➖➖➖\n"
-f"Boshqa yuklar: @logistika_marka"
+        msg = (
+            f"{from_city.upper()} - {to_city.upper()}\n"
+            f"🚛 {transport}\n"
+            f"💬 {desc}\n"
+            f"☎️ {phone}\n"
+            f"#{to_city.upper()}\n"
+            f"➖➖➖➖➖➖➖➖➖➖➖➖➖➖\n"
+            f"Другие грузы: @logistika_marka"
+        )
 
-        send_message(MAIN_GROUP_ID, msg, topic_id,
-                     reply_markup=author_button({
-                         "id": uid,
-                         "first_name": name,
-                         "username": username
-                     }))
+        send_message(
+            MAIN_GROUP_ID,
+            msg,
+            topic_id,
+            reply_markup=author_button({"id": uid, "first_name": name, "username": username})
+        )
 
         requests.post(f"{API_URL}/answerCallbackQuery", json={
             "callback_query_id": query['id'],
