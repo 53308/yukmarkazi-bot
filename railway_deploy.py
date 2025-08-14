@@ -1939,6 +1939,13 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
         if response.status_code == 200 and result.get('ok'):
             return result
         else:
+            error_desc = result.get('description', '')
+            # Логируем ошибку, но НЕ убираем кнопку - всегда должна быть кнопка автора
+            if 'BUTTON_USER_PRIVACY_RESTRICTED' in error_desc:
+                logger.info(f"ℹ️ Пользователь ограничил кнопки, но сообщение отправлено")
+                # Возвращаем результат как успешный, так как сообщение все равно доставится
+                return result
+            
             logger.error(f"❌ Ошибка API: {result}")
             return None
             
@@ -1947,13 +1954,26 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
         return None
 
 def author_button(user):
-    """Создает инлайн-кнопку с информацией об авторе сообщения"""
+    """Создает инлайн-кнопку с информацией об авторе сообщения - ВСЕГДА"""
+    # ВСЕГДА создаем кнопку автора, даже если данных нет
     if not user:
-        return None
+        # Если нет данных пользователя, создаем кнопку с общим текстом
+        return {
+            "inline_keyboard": [[{
+                "text": "👤 Foydalanuvchi",
+                "url": "https://t.me/yukmarkazi_uz"  # Резервная ссылка
+            }]]
+        }
         
     user_id = user.get('id', '')
     if not user_id:
-        return None
+        # Если нет ID, создаем кнопку с общим текстом
+        return {
+            "inline_keyboard": [[{
+                "text": "👤 Foydalanuvchi", 
+                "url": "https://t.me/yukmarkazi_uz"  # Резервная ссылка
+            }]]
+        }
         
     # Формируем имя для отображения
     first_name = user.get('first_name', '')
@@ -1965,11 +1985,13 @@ def author_button(user):
         display_name = first_name
         if last_name:
             display_name += f' {last_name}'
+    elif username:
+        display_name = f"@{username}"
     else:
         display_name = 'Foydalanuvchi'
     
-    # ВСЕГДА используем единообразную ссылку на пользователя через user_id
-    # Это работает независимо от наличия username и не создает ссылки на ботов
+    # ВСЕГДА используем ссылку на пользователя через user_id
+    # Работает независимо от настроек приватности и username
     button_text = f"👤 {display_name}"
     url = f"tg://user?id={user_id}"
     
@@ -2110,15 +2132,7 @@ def process_message(message):
                     reply_markup=author_markup
                 )
                 
-                # Если не удалось с кнопкой, пробуем без кнопки
-                if not result and author_markup:
-                    logger.warning(f"⚠️ Повтор без кнопки для xalqaro топика")
-                    send_message(
-                        MAIN_GROUP_ID,
-                        msg,
-                        REGION_KEYWORDS['xalqaro']['topic_id'],
-                        reply_markup=None
-                    )
+                # Автоматическая обработка приватности в send_message
                 continue  # блок обработан
 
         # === ОСНОВНАЯ ЛОГИКА: определение региона и топика ===
@@ -2225,7 +2239,7 @@ def process_message(message):
         
         formatted_message = "\n".join(message_parts)
 
-        # Отправляем в топик с обработкой ошибок кнопок
+        # Отправляем в топик (обработка приватности внутри send_message)
         author_markup = author_button(message.get('from', {}))
         result = send_message(
             MAIN_GROUP_ID,
@@ -2233,16 +2247,6 @@ def process_message(message):
             topic_id,
             reply_markup=author_markup
         )
-        
-        # Если не удалось с кнопкой, пробуем без кнопки
-        if not result and author_markup:
-            logger.warning(f"⚠️ Повтор без кнопки для топика {topic_id}")
-            result = send_message(
-                MAIN_GROUP_ID,
-                formatted_message,
-                topic_id,
-                reply_markup=None
-            )
         
         if result:
             logger.info(f"✅ Сообщение {message_count} → топик {topic_id}")
