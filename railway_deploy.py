@@ -2013,7 +2013,7 @@ def process_message(message):
                 phone = extract_phone_number(block)
                 transport, desc = format_cargo_text(cargo_text)
 
-                msg = f"""{from_city.upper()}
+                        msg = f"""{from_city.upper()}
 🚛 {transport}
 💬 {desc}
 ☎️ {phone}
@@ -2069,7 +2069,7 @@ def find_region(text: str) -> str | None:
     return None
 
 #{to_city.upper()}
-➖➖➖➖➖➖➖➖➖➖➖➖➖➖
+print("➖➖➖➖➖➖➖➖➖➖➖➖➖➖")
 Boshqa yuklar: @logistika_marka"""
 
         send_message(MAIN_GROUP_ID, msg, topic_id,
@@ -2116,7 +2116,7 @@ def handle_callback(update):
         cargo_clean = re.sub(ROUTE_REGEX, '', cargo_clean).strip()
         transport, desc = format_cargo_text(cargo_clean)
 
-        msg = f"""{from_city.upper()} - {to_city.upper()}
+                msg = f"""{from_city.upper()} - {to_city.upper()}
 🚛 {transport}
 💬 {desc}
 ☎️ {phone}
