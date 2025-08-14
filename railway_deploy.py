@@ -1999,37 +1999,40 @@ def process_message(message):
         message_count += 1
 
         # === НОВАЯ ЛОГИКА: много-маршрутные блоки с флагами ===
-blocks = [b.strip() for b in text.split('\n\n') if b.strip()]
-for block in blocks:
-    lines = [l.strip() for l in block.split('\n') if l.strip()]
-    if not lines:
-        continue
+        blocks = [b.strip() for b in text.split('\n\n') if b.strip()]
+        for block in blocks:
+            lines = [l.strip() for l in block.split('\n') if l.strip()]
+            if not lines:
+                continue
 
-    first_line = lines[0]
-    if any(flag in first_line for flag in ['🇷🇺', '🇧🇾', '🇰🇿', '🇺🇸', '🇹🇷']):
-        from_city = first_line
-        to_city = "🇺🇿 Узбекистан"
-        cargo_text = '\n'.join(lines[1:])
-        phone = extract_phone_number(block)
-        transport, desc = format_cargo_text(cargo_text)
+            first_line = lines[0]
+            if any(flag in first_line for flag in ['🇷🇺', '🇧🇾', '🇰🇿', '🇺🇸', '🇹🇷']):
+                from_city = first_line
+                to_city = "🇺🇿 Узбекистан"
+                cargo_text = '\n'.join(lines[1:])
+                phone = extract_phone_number(block)
+                transport, desc = format_cargo_text(cargo_text)
 
-        msg = (
-            f"{from_city.upper()}\n"
-            f"🚛 {transport}\n"
-            f"💬 {desc}\n"
-            f"☎️ {phone}\n"
-            f"#XALQARO\n"
-            f"➖➖➖➖➖➖➖\n"
-            f"Boshqa yuklar: @logistika_marka"
-        )
+                msg = (
+                    f"{from_city.upper()}\n"
+                    f"🚛 {transport}\n"
+                    f"💬 {desc}\n"
+                    f"☎️ {phone}\n"
+                    f"#XALQARO\n"
+                    f"➖➖➖➖➖➖➖\n"
+                    f"Boshqa yuklar: @logistika_marka"
+                )
 
-        send_message(
-            MAIN_GROUP_ID,
-            msg,
-            REGION_KEYWORDS['xalqaro']['topic_id'],
-            reply_markup=author_button(message.get('from', {}))
-        )
-        continue  # блок обработан
+                send_message(
+                    MAIN_GROUP_ID,
+                    msg,
+                    REGION_KEYWORDS['xalqaro']['topic_id'],
+                    reply_markup=author_button(message.get('from', {}))
+                )
+                continue  # блок обработан
+
+    except Exception:
+        logging.exception("process_message error")
 
 # === СТАРАЯ ЛОГИКА: один маршрут ===
 from_city, to_city, cargo_text = extract_route_and_cargo(text)
