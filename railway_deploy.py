@@ -2031,32 +2031,43 @@ Boshqa yuklar: @logistika_marka"""
         if not from_city or not to_city:
             return
 
-        def find_region(txt):
-            txt_norm = normalize_text(txt)
-            words = re.findall(r"\b\w+\b", txt_norm)
-            for key, data in REGION_KEYWORDS.items():
-                for kw in data['keywords']:
-                    kw_norm = normalize_text(kw)
-                    if kw_norm in words or (len(kw_norm) > 4 and kw_norm in txt_norm):
-                        return key
-            return None
+        
+import unicodedata
+import re
 
-        from_reg = find_region(from_city)
-        if from_reg is None:
-            ask_admin_topic(message, from_city, to_city)
-            return
+def normalize_text(s: str) -> str:
+    """Нормализует текст для поиска совпадений."""
+    s = s.lower()
+    # заменяем все виды апострофов и схожих символов
+    s = re.sub(r"[ʼʻ’`´]", "'", s)
+    # турецкие буквы в латиницу
+    s = s.replace("ı", "i").replace("İ", "i")
+    # кириллические в латинские (основные случаи для узбекского/русского)
+    trans_map = {
+        "қ": "q", "ў": "o'", "ғ": "g'", "ҳ": "h",
+        "ё": "yo", "й": "y", "щ": "sh", "ш": "sh", "ч": "ch",
+        "ю": "yu", "я": "ya", "э": "e", "ъ": "", "ь": "",
+        "ы": "i", "ә": "a", "ү": "u", "ӱ": "u"
+    }
+    for cyr, lat in trans_map.items():
+        s = s.replace(cyr, lat)
+    # убираем диакритику
+    s = unicodedata.normalize('NFKD', s)
+    s = ''.join(ch for ch in s if not unicodedata.combining(ch))
+    # заменяем двойные пробелы
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
 
-        topic_key = 'xalqaro' if 'xalqaro' == from_reg else from_reg
-        topic_id = REGION_KEYWORDS[topic_key]['topic_id']
+def find_region(text: str) -> str | None:
+    """Ищет регион по любому из синонимов/алиасов, максимально универсально."""
+    text_norm = normalize_text(text)
+    for code, data in REGION_KEYWORDS.items():
+        for kw in data.get('aliases', []):
+            kw_norm = normalize_text(kw)
+            if kw_norm in text_norm or re.search(rf"\b{re.escape(kw_norm)}\b", text_norm):
+                return code
+    return None
 
-        sender = message.get('from', {})
-        phone = extract_phone_number(text)
-        transport, desc = format_cargo_text(cargo_text)
-
-        msg = f"""{from_city.upper()} - {to_city.upper()}
-🚛 {transport}
-💬 {desc}
-☎️ {phone}
 #{to_city.upper()}
 ➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 Boshqa yuklar: @logistika_marka"""
