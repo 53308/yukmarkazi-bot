@@ -1871,7 +1871,7 @@ def format_cargo_text(cargo_text):
     return transport, description
 
 def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
-    """Отправка сообщения в Telegram"""
+    """Отправка сообщения в Telegram с поддержкой топиков"""
     try:
         payload = {
             'chat_id': chat_id,
@@ -1881,14 +1881,22 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
         
         if message_thread_id:
             payload['message_thread_id'] = message_thread_id
+            logger.info(f"📤 Отправка в топик {message_thread_id}")
             
         if reply_markup:
             payload['reply_markup'] = reply_markup
             
         response = requests.post(f"{API_URL}/sendMessage", json=payload, timeout=10)
-        return response.json()
+        result = response.json()
+        
+        if response.status_code == 200 and result.get('ok'):
+            return result
+        else:
+            logger.error(f"❌ Ошибка API: {result}")
+            return None
+            
     except Exception as e:
-        logger.error(f"Ошибка отправки сообщения: {e}")
+        logger.error(f"❌ Ошибка отправки сообщения: {e}")
         return None
 
 def author_button(user):
@@ -2031,12 +2039,67 @@ def process_message(message):
                 )
                 continue  # блок обработан
 
-        # === СТАРАЯ ЛОГИКА: один маршрут ===
+        # === ОСНОВНАЯ ЛОГИКА: определение региона и топика ===
         from_city, to_city, cargo_text = extract_route_and_cargo(text)
         if not from_city or not to_city:
+            logger.info("❌ Не удалось извлечь маршрут из сообщения")
             return
 
-        # ... дальше старая логика ...
+        logger.info(f"📍 Найден маршрут: {from_city} → {to_city}")
+
+        # Приоритет для Qo'qon → Farg'ona
+        if normalize_text(from_city).find("qoqon") != -1 or normalize_text(from_city).find("коканд") != -1:
+            topic_id = 101382  # Farg'ona topic
+            region_code = "fargona"
+            logger.info(f"🎯 Qo'qon приоритет → Farg'ona topic {topic_id}")
+        else:
+            # Ищем регион по from_city
+            region_code = find_region(from_city)
+            if not region_code:
+                # Пробуем to_city
+                region_code = find_region(to_city)
+            
+            if not region_code:
+                # Пробуем весь текст
+                region_code = find_region(text)
+            
+            if region_code and region_code in REGION_KEYWORDS:
+                topic_id = REGION_KEYWORDS[region_code]["topic_id"]
+                logger.info(f"🎯 Найден регион: {region_code} → topic {topic_id}")
+            else:
+                logger.info(f"❌ Регион не найден для: {from_city} → {to_city}")
+                ask_admin_topic(message, from_city, to_city)
+                return
+
+        # Формируем сообщение
+        phone = extract_phone_number(text)
+        transport, description = format_cargo_text(cargo_text)
+        
+        formatted_message = (
+            f"{from_city.upper()} → {to_city.upper()}\n"
+            f"TRANSPORT: {transport}\n"
+            f"DESCRIPTION: {description}\n"
+            f"PHONE: {phone}\n"
+            f"#{region_code.upper()}\n"
+            f"-------\n"
+            f"Boshqa yuklar: @logistika_marka"
+        )
+
+        # Отправляем в топик
+        result = send_message(
+            MAIN_GROUP_ID,
+            formatted_message,
+            topic_id,
+            reply_markup=author_button(message.get('from', {}))
+        )
+        
+        if result:
+            logger.info(f"✅ Сообщение {message_count} → топик {topic_id}")
+        else:
+            logger.error(f"❌ Ошибка отправки в топик {topic_id}")
+
+        # Обновляем активность
+        globals()['last_activity'] = datetime.now()
 
     except Exception:
         logging.exception("process_message error")
