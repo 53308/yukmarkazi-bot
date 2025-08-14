@@ -55,7 +55,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "toshkent", "tashkent", "tosh-kent", "tash-kent", "towkent", "toshkent shahri", "tashkent city",
       "toshkentga", "tashkentga", "toshkentdan", "tashkentdan", "toshkentda", "toshkentdagi",
-      "Тошкент", "Ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
+      "Тошкент", "Ташкент", "ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
       "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy"
     ]
   },
@@ -517,6 +517,8 @@ REGION_KEYWORDS = {
     "aliases": [
       "qoqon", "kokand", "qo'qon", "qo‘qon", "qoqon shaxri", "qoqon city",
       "qoqonda", "qoqondan", "qoqonga", "qoqonlik",
+      "куко", "кукон", "кукондан", "кукон-дан", "кукон дан",
+      "коко", "кокон", "кокондан", "кокон-дан", "кокон дан",
       "Қўқон", "Коканд"
     ]
   },
@@ -1221,7 +1223,7 @@ REGION_KEYWORDS = {
   },
 
   "xorazm_city": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Хоразм вилояти",
     "latin_uз": "Xorazm viloyati",
     "russian": "Хорезмская область",
@@ -1233,7 +1235,7 @@ REGION_KEYWORDS = {
   },
 
   "khiva": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Хива шаҳри",
     "latin_uз": "Xiva shahri",
     "russian": "город Хива",
@@ -1245,7 +1247,7 @@ REGION_KEYWORDS = {
   },
 
   "shovot": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Шовот тумани",
     "latin_uз": "Shovot tumani",
     "russian": "Шаватский район",
@@ -1257,7 +1259,7 @@ REGION_KEYWORDS = {
   },
 
   "yangiariq": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Янгиариқ тумани",
     "latin_uз": "Yangiariq tumani",
     "russian": "Янгиарыкский район",
@@ -1269,7 +1271,7 @@ REGION_KEYWORDS = {
   },
 
   "bogot": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Боғот тумани",
     "latin_uз": "Bog'ot tumani",
     "russian": "Багатский район",
@@ -1281,7 +1283,7 @@ REGION_KEYWORDS = {
   },
 
   "hazarasp": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Хазарасп тумани",
     "latin_uз": "Xazarasp tumani",
     "russian": "Хазараспский район",
@@ -1293,7 +1295,7 @@ REGION_KEYWORDS = {
   },
 
   "gurlan": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Гурлан тумани",
     "latin_uз": "Gurlan tumani",
     "russian": "Гурленский район",
@@ -1305,7 +1307,7 @@ REGION_KEYWORDS = {
   },
 
   "qoshkopir": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Қўшкўпир тумани",
     "latin_uз": "Qoʻshkoʻpir tumani",
     "russian": "Кошкепирский район",
@@ -1317,7 +1319,7 @@ REGION_KEYWORDS = {
   },
 
   "tuproqqala": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Тупроққала тумани",
     "latin_uз": "Tuproqqala tumani",
     "russian": "Тупроккалинский район",
@@ -1329,7 +1331,7 @@ REGION_KEYWORDS = {
   },
 
   "urganch": {
-    "topic_id": 101660,
+    "topic_id": 101375,
     "cyrillic_uз": "Урганч шаҳри",
     "latin_uз": "Urganch shahri",
     "russian": "город Ургенч",
@@ -1353,7 +1355,7 @@ REGION_KEYWORDS = {
   },
 
   "nukus": {
-    "topic_id": 101660,
+    "topic_id": 101376,
     "cyrillic_uз": "Нукус шаҳри",
     "latin_uз": "Nukus shahri",
     "russian": "город Нукус",
@@ -1365,7 +1367,7 @@ REGION_KEYWORDS = {
   },
 
   "karakalpakstan": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Қорақалпоғистон Республикаси",
     "latin_uз": "Qoraqalpog'iston Respublikasi",
     "russian": "Республика Каракалпакстан",
@@ -1377,7 +1379,7 @@ REGION_KEYWORDS = {
   },
 
   "muynak": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Мўйноқ тумани",
     "latin_uз": "Mo'ynoq tumani",
     "russian": "Муйнакский район",
@@ -1389,7 +1391,7 @@ REGION_KEYWORDS = {
   },
 
   "takhiatash": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Тахиаташ шаҳри",
     "latin_uз": "Taxiatash shahri",
     "russian": "город Тахиаташ",
@@ -1401,7 +1403,7 @@ REGION_KEYWORDS = {
   },
 
   "turtkul": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Тўрткўл шаҳри",
     "latin_uз": "To'rtko'l shahri",
     "russian": "город Турткуль",
@@ -1413,7 +1415,7 @@ REGION_KEYWORDS = {
   },
 
   "beruniy": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Беруний тумани",
     "latin_uз": "Beruniy tumani",
     "russian": "Берунийский район",
@@ -1425,7 +1427,7 @@ REGION_KEYWORDS = {
   },
 
   "karauzyak": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Қараўзяк тумани",
     "latin_uз": "Qaro'zyak tumani",
     "russian": "Караузякский район",
@@ -1437,7 +1439,7 @@ REGION_KEYWORDS = {
   },
 
   "kegeyli": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Кегейли тумани",
     "latin_uз": "Kegeyli tumani",
     "russian": "Кегейлийский район",
@@ -1449,7 +1451,7 @@ REGION_KEYWORDS = {
   },
 
   "amudarya": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Амударё тумани",
     "latin_uз": "Amudaryo tumani",
     "russian": "Амударьинский район",
@@ -1461,7 +1463,7 @@ REGION_KEYWORDS = {
   },
 
   "kanlikol": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Қонлиқўл тумани",
     "latin_uз": "Qonliqo'l tumani",
     "russian": "Канлыкульский район",
@@ -1473,7 +1475,7 @@ REGION_KEYWORDS = {
   },
 
   "chimbay": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Чимбой тумани",
     "latin_uз": "Chimboy tumani",
     "russian": "Чимбайский район",
@@ -1485,7 +1487,7 @@ REGION_KEYWORDS = {
   },
 
   "shumanay": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Шуманай тумани",
     "latin_uз": "Shumanay tumani",
     "russian": "Шуманайский район",
@@ -1497,7 +1499,7 @@ REGION_KEYWORDS = {
   },
 
   "ellikqala": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Элликқала тумани",
     "latin_uз": "Ellikqala tumani",
     "russian": "Элликкалинский район",
@@ -1509,7 +1511,7 @@ REGION_KEYWORDS = {
   },
 
   "bo'zatov": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Бўзатов тумани",
     "latin_uз": "Bo'zatov tumani",
     "russian": "Бозатауский район",
@@ -1521,7 +1523,7 @@ REGION_KEYWORDS = {
   },
 
   "xojeli": {
-    "topic_id": 101660,
+    "topic_id": 101381,
     "cyrillic_uз": "Хўжели шаҳри",
     "latin_uз": "Xo'jeli shahri",
     "russian": "город Ходжейли",
@@ -1774,7 +1776,7 @@ def normalize_text(text):
 def extract_phone_number(text):
     """Извлекает номер телефона из текста"""
     match = PHONE_REGEX.search(text)
-    return match.group().strip() if match else 'Номер не указан'
+    return match.group().strip() if match else 'Telefon ko\'rsatilmagan'
 
 def extract_route_and_cargo(text):
     """
@@ -1842,31 +1844,51 @@ def format_cargo_text(cargo_text):
     Возвращает (transport, description)
     """
     if not cargo_text:
-        return "Груз", "Детали не указаны"
+        return "Yuk", "Ma'lumot berilmagan"
+    
+    # Убираем эмодзи и символы из текста
+    clean_text = re.sub(r'[⚡️❗️⚠️📞🔍🚛💬☎️➖\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', cargo_text)
     
     # Список ключевых слов для транспорта
     transport_keywords = [
-        'фура', 'fura', 'камаз', 'kamaz', 'газель', 'gazel', 'прицеп', 'pritsep',
+        'фуру', 'furu', 'фура', 'fura', 'камаз', 'kamaz', 'газель', 'gazel', 'прицеп', 'pritsep',
         'машина', 'mashina', 'автомобиль', 'avtomobil', 'грузовик', 'gruzovik',
-        'рефрижератор', 'refrigerator', 'tent', 'тент', 'открытый', 'ochiq'
+        'рефрижератор', 'refrigerator', 'tent', 'тент', 'открытый', 'ochiq', 'реф', 'ref',
+        'ищу фуру', 'ishu furu', 'нужна фура', 'kerak fura'
     ]
     
-    cargo_lines = cargo_text.strip().split('\n')
-    transport = "Груз"
-    description = "Детали не указаны"
+    cargo_lines = [line.strip() for line in clean_text.strip().split('\n') if line.strip()]
+    transport = "Yuk"
+    description_parts = []
     
     for line in cargo_lines:
-        line_lower = line.lower()
+        line_clean = line.strip()
+        line_lower = line_clean.lower()
         
+        # Пропускаем линии с телефонами
+        if re.search(r'\+?\d{3,4}[\s\-]?\d{2,3}[\s\-]?\d{3,4}[\s\-]?\d{2,4}', line_clean):
+            continue
+            
         # Проверяем, содержит ли строка транспорт
+        found_transport = False
         for keyword in transport_keywords:
             if keyword in line_lower:
-                transport = line.strip()
+                transport = line_clean
+                found_transport = True
                 break
-        else:
-            # Если в строке нет транспорта, считаем её описанием
-            if line.strip() and 'номер' not in line_lower and '+' not in line:
-                description = line.strip()
+                
+        if not found_transport:
+            # Если в строке нет транспорта, добавляем к описанию
+            if line_clean and len(line_clean) > 3:
+                # Исключаем служебные строки
+                if not any(skip in line_lower for skip in ['алокага', 'связь', 'звонить', 'контакт']):
+                    description_parts.append(line_clean)
+    
+    # Формируем описание
+    if description_parts:
+        description = " • ".join(description_parts[:3])  # Максимум 3 части
+    else:
+        description = "Ma'lumot berilmagan"
     
     return transport, description
 
@@ -1901,17 +1923,21 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
 
 def author_button(user):
     """Создает инлайн-кнопку с информацией об авторе"""
-    name = user.get('first_name', 'Пользователь')
+    if not user:
+        return None
+        
     username = user.get('username', '')
+    name = user.get('first_name', 'Пользователь')
     user_id = user.get('id', '')
-
+    
+    # Всегда создаем кнопку - либо с username, либо с user_id
     if username:
         button_text = f"👤 @{username}"
         url = f"https://t.me/{username}"
     else:
         button_text = f"👤 {name}"
         url = f"tg://user?id={user_id}"
-
+    
     return {
         "inline_keyboard": [[{
             "text": button_text,
@@ -2024,9 +2050,9 @@ def process_message(message):
                 msg = (
                     f"{from_city.upper()}\n"
                     f"TRANSPORT: {transport}\n"
-                    f"DESCRIPTION: {desc}\n"
-                    f"PHONE: {phone}\n"
-                    f"#XALQARO\n"
+                    f"TAVSIF: {desc}\n"
+                    f"TELEFON: {phone}\n"
+                    f"#XALQARO_YUKLAR\n"
                     f"-------\n"
                     f"Boshqa yuklar: @logistika_marka"
                 )
@@ -2047,24 +2073,40 @@ def process_message(message):
 
         logger.info(f"📍 Найден маршрут: {from_city} → {to_city}")
 
-        # Приоритет для Qo'qon → Farg'ona
-        if normalize_text(from_city).find("qoqon") != -1 or normalize_text(from_city).find("коканд") != -1:
+        # ПЕРВЫМ ДЕЛОМ проверяем приоритет для Qo'qon → Farg'ona
+        normalized_from = normalize_text(from_city)
+        if (normalized_from.find("qoqon") != -1 or normalized_from.find("куко") != -1 or 
+            normalized_from.find("коко") != -1 or normalized_from.find("коканд") != -1 or
+            normalized_from.find("qo'qon") != -1 or normalized_from.find("kokand") != -1):
             topic_id = 101382  # Farg'ona topic
-            region_code = "fargona"
+            region_code = "fargona_city"
             logger.info(f"🎯 Qo'qon приоритет → Farg'ona topic {topic_id}")
         else:
-            # Ищем регион по from_city
+            # Используем объединенную функцию поиска
             region_code = find_region(from_city)
             if not region_code:
-                # Пробуем to_city
                 region_code = find_region(to_city)
-            
             if not region_code:
-                # Пробуем весь текст
                 region_code = find_region(text)
             
-            if region_code and region_code in REGION_KEYWORDS:
-                topic_id = REGION_KEYWORDS[region_code]["topic_id"]
+            # Проверяем найденный регион
+            if region_code:
+                # Для специальных топиков используем их ID напрямую
+                if region_code == 'xalqaro':
+                    topic_id = 101367
+                elif region_code == 'reklama':
+                    topic_id = 101360
+                elif region_code == 'yangiliklar':
+                    topic_id = 101359
+                elif region_code == 'furabozor':
+                    topic_id = 101361
+                elif region_code in REGION_KEYWORDS:
+                    topic_id = REGION_KEYWORDS[region_code]["topic_id"]
+                else:
+                    logger.info(f"❌ Неизвестный код региона: {region_code}")
+                    ask_admin_topic(message, from_city, to_city)
+                    return
+                    
                 logger.info(f"🎯 Найден регион: {region_code} → topic {topic_id}")
             else:
                 logger.info(f"❌ Регион не найден для: {from_city} → {to_city}")
@@ -2075,22 +2117,25 @@ def process_message(message):
         phone = extract_phone_number(text)
         transport, description = format_cargo_text(cargo_text)
         
+        # Правильный хэштег для региона
+        hashtag = region_code.upper().replace('_CITY', '').replace('_', '_')
         formatted_message = (
             f"{from_city.upper()} → {to_city.upper()}\n"
             f"TRANSPORT: {transport}\n"
-            f"DESCRIPTION: {description}\n"
-            f"PHONE: {phone}\n"
-            f"#{region_code.upper()}\n"
+            f"TAVSIF: {description}\n"
+            f"TELEFON: {phone}\n"
+            f"#{hashtag}\n"
             f"-------\n"
             f"Boshqa yuklar: @logistika_marka"
         )
 
-        # Отправляем в топик
+        # Отправляем в топик (безопасно, без кнопок если есть ограничения)
+        author_markup = author_button(message.get('from', {}))
         result = send_message(
             MAIN_GROUP_ID,
             formatted_message,
             topic_id,
-            reply_markup=author_button(message.get('from', {}))
+            reply_markup=author_markup
         )
         
         if result:
@@ -2129,13 +2174,54 @@ def normalize_text(s: str) -> str:
     return s
 
 def find_region(text: str) -> str | None:
-    """Ищет регион по любому из синонимов/алиасов, максимально универсально."""
+    """Универсальный поиск региона по ВСЕМ данным: aliases, keywords, названиям."""
+    if not text:
+        return None
+        
     text_norm = normalize_text(text)
+    
+    # 1. Поиск в REGION_KEYWORDS (aliases)
     for code, data in REGION_KEYWORDS.items():
         for kw in data.get('aliases', []):
             kw_norm = normalize_text(kw)
             if kw_norm in text_norm or re.search(rf"\b{re.escape(kw_norm)}\b", text_norm):
                 return code
+                
+        # Также проверяем основные названия
+        for field in ['cyrillic_uz', 'latin_uz', 'russian']:
+            if field in data:
+                field_norm = normalize_text(data[field])
+                if field_norm in text_norm:
+                    return code
+    
+    # 2. Поиск в специальных топиках 
+    special_mappings = {
+        'xalqaro': ['international', 'xalqaro', 'россия', 'russia', 'москва', 'moscow', 'казахстан', 'kazakhstan'],
+        'reklama': ['reklama', 'реклама', 'sotiladi', 'sotuvda', 'продается', 'продаю'],
+        'yangiliklar': ['yangilik', 'yangiliklar', 'новости', 'news', 'xabar'],
+        'furabozor': ['furabozor', 'fura bozor', 'фурабозор', 'рынок фур']
+    }
+    
+    for code, keywords in special_mappings.items():
+        for kw in keywords:
+            kw_norm = normalize_text(kw)
+            if kw_norm in text_norm:
+                return code
+    
+    # 3. Дополнительные региональные ключевые слова
+    region_extras = {
+        'tashkent_city': ['столица', 'stolitsa', 'poytaxt', 'capital'],
+        'samarqand_city': ['самарканд', 'samarkand', 'samarqand'],
+        'buxoro_city': ['бухара', 'bukhara', 'buxoro'],
+        'fargona_city': ['фергана', 'fergana', 'kokand', 'коканд', 'qo\'qon']
+    }
+    
+    for code, keywords in region_extras.items():
+        for kw in keywords:
+            kw_norm = normalize_text(kw)
+            if kw_norm in text_norm:
+                return code
+                
     return None
 
 # --- callback handler ---
@@ -2179,13 +2265,13 @@ def handle_callback(update):
         transport, desc = format_cargo_text(cargo_clean)
 
         msg = (
-            f"{from_city.upper()} - {to_city.upper()}\n"
+            f"{from_city.upper()} → {to_city.upper()}\n"
             f"TRANSPORT: {transport}\n"
-            f"DESCRIPTION: {desc}\n"
-            f"PHONE: {phone}\n"
+            f"TAVSIF: {desc}\n"
+            f"TELEFON: {phone}\n"
             f"#{to_city.upper()}\n"
-            f"--------------\n"
-            f"Другие грузы: @logistika_marka"
+            f"-------\n"
+            f"Boshqa yuklar: @logistika_marka"
         )
 
         send_message(
@@ -2315,6 +2401,10 @@ ALLOWED_UA = ("UptimeRobot", "TelegramBot")
 
 @app.before_request
 def block_noise():
+    # Пропускаем главную страницу для мониторинга
+    if request.path == '/':
+        return None
+        
     ua = request.headers.get("User-Agent", "")
     if not any(key in ua for key in ALLOWED_UA):
         return "", 204  # молча отклоняем всё лишнее
