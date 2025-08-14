@@ -488,7 +488,9 @@ REGION_KEYWORDS = {
             'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish', 'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish', 'reklamaga',
             'reklamadan', 'reklama', 'реклама', 'reklama berish', 'reklama joylashtirish',
             'sotiladi', 'sotilad', 'sotaman', 'narxi', 'dastafka', 'dastavka', 'sotiladi', 'narxi', 'dastafka', 'sotuv', 'reklama',
-            'sotuv', 'sotuvda', 'sotib olish', 'sotiladi reklama', 'reklama sotiladi'
+            'sotuv', 'sotuvda', 'sotib olish', 'sotiladi reklama', 'reklama sotiladi', 'reklama', 'реклама', 'sotiladi', 'sotuv', 'narxi',
+            'dastafka', 'ремонт',
+            'йили', 'sotaman', 'olmoq'
         ]
     },
     'yangiliklar': {
