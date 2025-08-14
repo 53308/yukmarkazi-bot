@@ -47,435 +47,1490 @@ def init_logging():
 
 # ========== REGION_KEYWORDS ==========
 REGION_KEYWORDS = {
-    'toshkent': {
-        'topic_id': 101362,
-        'keywords': [
-            # столица
-            'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city','toshkentdan', 'tashkentdan', 'toshkent ga', 'toshkentdan',
-            'toshkentdan', 'tashkentdan', 'toshkentdan', 'toshkent', 'tashkent', 'toshkentdan', 'tashkentdan', 'toshkentga', 'tashkentga',
-            'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent', 'toshkentdan', 'TOSHKENДАН', 'TOSHKENTDAN', 'toshkentdan',
-            'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT', 'toshkendan', 'toshken',
-            'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан', 'ташкент', 'ташкентga', 
-            # районы города
-            'yashnobod', 'yashnobod tumani', 'yunusobod', 'yunusobod tumani',
-            'mirzo-ulugbek', 'mirzo ulugbek', 'mirzo-ulugbek tumani',
-            'olmazor', 'olmazor tumani', 'uchtepa', 'uchtepa tumani',
-            'shayxontoxur', 'shayxontohur', 'shayxontoxur tumani',
-            'chilonzor', 'chilon-zor', 'chilonzor tumani',
-            'sergeli', 'sergeli tumani', 'sergili', 'сергели', 'сергили',
-            'yakkasaroy', 'yakkasaray', 'yakkasaroy tumani',
-            'mirobod', 'mirabad', 'mirobod tumani', 'bektemir', 'bektemir tumani',
-            # области и районы Ташкентской области
-            'bekobod', 'bekabad', 'bekobod tumani', 'bekabad tumani', 'angren', 'angiren', 'angren i', 'angren İ', 'ангрен', 'ангренga', 'ангренdan',
-            'xasanboy', 'hasanboy', 'xasanboydan', 'хасанбой', 'хасанбойдан', 'ангрен', 'ангренga', 'ангренdan', 'angren', 'angren i', 'angren İ', 'angiren',
-            'olmaliq', 'alma-lyk', 'olmalik', 'olmaliq tumani', 'olmaliq i',
-            'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron tumani', 'ohangaron i',
-            'angren', 'angren İ', 'angiren', 'angren i',
-            'chirchiq', 'chirchik', 'chirchik İ', 'chir-chiq', 'chirchiq i',
-            'yangiyul', "yangiyo'l", 'yangiyul tumani', 'yangiyul i', "yangiyo'l tumani",
-            'parkent', 'parkent tumani', 'piskent', 'piskent tumani', 'bekobod', 'bekabad', 'бекабад', 'бекобод',
-            'quyichirchiq', 'quyichirchiq tumani',
-            'boʻka', 'boka', 'boʻka tumani', 'boka tumani', 'chinaz', 'chinazdan', 'chinaz tumani', 'chinoz', 'chinozdan', 'чино', 'чиноз', 'чиноздан',
-            'zangiota', 'zangiota tumani', 
-            'qibray', 'qibray tumani',
-            'yuqorichirchiq', 'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city', 'toshkentga', 'tashkentga', 'toshkentdan', 'tashkentdan',
-            'towkent', 'towkentga', 'towkentdan', 'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent', 'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT',
-            'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан', 'ташкент', 'ташкентга', 'ташкендан', 'taşkent', 'taşkentte', 'taşkentten', 
-            # районы города
-            'yashnobod', 'yashnobod tumani', 'yunusobod', 'yunusobod tumani', 'yunusabad', 'yunusoboddan',
-            'mirzo-ulugbek', 'mirzo ulugbek', 'mirzo-ulugbek tumani', 'mirzoulugbek', 'mirzoulugbekdan',
-            'olmazor', 'olmazor tumani', 'uchtepa', 'uchtepa tumani', 'uchtepadan', 'uchtepaga',
-            'shayxontoxur', 'shayxontohur', 'shayxontoxur tumani', 'shayxontoxurdan',
-            'chilonzor', 'chilon-zor', 'chilonzor tumani', 'chilonzordan', 'chilonzor ga',
-            'sergeli', 'sergeli tumani', 'sergili', 'сергели', 'сергили', 'sergeliga', 'sergelidan',
-            'yakkasaroy', 'yakkasaray', 'yakkasaroy tumani', 'yakkasaroyga', 'yakkasaroydan',
-            'mirobod', 'mirabad', 'mirobod tumani', 'bektemir', 'bektemir tumani', 'bektemirdan',
-            # области Ташкентской области
-            'bekobod', 'bekabad', 'bekobod tumani', 'bekabad tumani', 'бекабад', 'бекобод', 'bekobodga', 'bekoboddan',
-            'xasanboy', 'hasanboy', 'xasanboydan', 'хасанбой', 'хасанбойдан', 'xasanboyga',
-            'olmaliq', 'alma-lyk', 'olmalik', 'olmaliq tumani', 'olmaliq i', 'olmalık', 'olmaliqga', 'olmaliqdan',
-            'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron tumani', 'ohangaron i', 'ohangaronga', 'ohangarondan',
-            'angren', 'angren İ', 'angiren', 'angren i', 'angrenga', 'angrendan',
-            'chirchiq', 'chirchik', 'chirchik İ', 'chir-chiq', 'chirchiq i', 'çirçik', 'chirchiqga', 'chirchiqdan',
-            'yangiyul', "yangiyo'l", 'yangiyul tumani', 'yangiyul i', "yangiyo'l tumani", "yangiyo'ldan", "yangiyo'lga",
-            'parkent', 'parkent tumani', 'parkentga', 'parkentdan',
-            'piskent', 'piskent tumani', 'piskentga', 'piskentdan',
-            'quyichirchiq', 'quyichirchiq tumani', 'quyichirchiqga',
-            'boʻka', 'boka', 'boʻka tumani', 'boka tumani', 'boʻkaga', 'boʻkadan',
-            'chinaz', 'chinazdan', 'chinaz tumani', 'chinoz', 'chinozdan', 'чино', 'чиноз', 'чиноздан', 'chinazga',
-            'zangiota', 'zangiota tumani', 'zangiotaga', 'zangiotadan',
-            'qibray', 'qibray tumani', 'qibrayga', 'qibraydan',
-            'yuqorichirchiq', 'yuqorichirchiq tumani', 'yuqorichirchiqga',
-            'nurafshon', 'nurafshon tumani', 'nurafshonga', 'nurafshondan',
-            'akhangaran', 'axangaran', 'akhangaran tumani', 'akhangaranga', 'akhangarandan', 'yuqorichirchiq tumani',
-            'nurafshon', 'nurafshon tumani',
-            'akhangaran', 'axangaran', 'akhangaran tumani', 'тошкент', 'тош', 'тошkent', 'toshkent', 'tashkent', 'toshkentga', 'toshkentdan',
-            'xasanboy', 'xasanboydan', 'xasanboyga', 'hasanboy', 'hasanboydan',
-            'olmaliq', 'olmaliqdan', 'olmaliqga', 'alma-lyk', 'alma-lykdan',
-            'angren', 'angiren', 'angren i', 'angren dan', 'angren ga', 'ангрен', 'ангрендан', 'ангренга',
-            'chirchiq', 'chirchik', 'chir-chiq', 'chirchiqdan', 'chirchiqga', 'чирчик', 'чирчикдан', 'чирчикга',
-            'ohangaron', 'axangaron', 'ohanʼgaron', 'ohangaron i', 'ohangarondan', 'ohangaronga', 'охангарон', 'охангарондан',
-            'bekobod', 'bekabad', 'bekoboddan', 'bekobodga', 'бекабад', 'бекабаддан', 'бекабадга',
-            'yangiyul', "yangiyo'l", 'yangiyuldan', 'yangiyulga', 'янийул', 'янийулдан',
-            'chinaz', 'chinoz', 'chinazdan', 'chinazga', 'чино', 'чиноз', 'чиноздан', 'чинозга',
-            'parkent', 'parkentdan', 'parkentga', 'паркент', 'паркентдан',
-            'zangiota', 'zangiotadan', 'zangiotaga', 'зангиота', 'зангиотадан',
-            'qibray', 'qibraydan', 'qibrayga', 'кибрай', 'кибрайдан',
-            'quyichirchiq', 'quyichirchiqdan', 'quyichirchiqga', 'куючиричик',
-            'yuqorichirchiq', 'yuqorichirchiqdan', 'yuqorichirchiqga', 'юкори чирчик',
-            'nurafshon', 'nurafshondan', 'nurafshonga', 'нурафшон', 'нурафшондан',
-            'boka', 'boʻka', 'bokadan', 'bokaga', 'бока', 'бокадан', 'бокага',
-            'forish', 'forish tumani', 'ustarkhan', 'ustarkhan tumani',
-            'gazalkent', 'gazalkent tumani', 'keles', 'keles tumani',
-            'tashkent region', 'toshkent viloyati', 'tashkent oblast'
-        ]
-    },
-    'andijon': {
-        'topic_id': 101387,
-        'keywords': [
-            'andijon', 'andijan', 'andijon İ', 'andijonʼ', 'andijon i', "andijon'",
-            'андижон', 'андижонга', 'андижондан', 'андижон', 'андижонга', 'andijon', 'andijan', 'andijondan', 'andijonga', 'андижон', 'андижондан', 'андижонга',
-            'asaka', 'asakadan', 'asakaga', 'асака', 'асакадан',
-            'marhamat', 'marxamat', 'marhamatdan', 'marhamatga', 'мархамат', 'мархаматдан',
-            'shahrixon', 'shaxrixon', 'shahrixondan', 'shahrixonga', 'шахрихон', 'шахрихондан',
-            'xojaobod', 'xoja-obod', "xoja'obod", 'xojaobodga', 'xojaoboddan', 'ходжаабад', 'ходжаабаддан',
-            'qorgontepa', 'qurghontepa', 'qurgʻontepa', 'qorgontepaga', 'qorgontepadan', 'кургантепе', 'кургантепедан',
-            'oltinkol', 'oltinkoʻl', 'oltinkoldan', 'oltinkolga', 'алтынколь', 'алтынкольдан',
-            'andijonga', 'andijon-ga', 'andijon ga',
-            'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', "asaka'",
-            'marhamat', 'marxamat', 'marhamat tumani', 'marhamat i',
-            'shahrixon', 'shahrixon tumani', 'shaxrixon', 'shahrixon i',
-            'xoja-obod', 'xojaobod', 'xojaʼobod', "xoja'obod", "xoja'obod",
-            'qorgontepa', 'qurghontepa', 'qurgʻontepa', 'qurghontepa i',
-            'oltinkol', 'oltinkoʻl', 'oltinkol tumani', 'oltinkol i', 'andijon', 'andijan', 'andijon İ', 'andijonʼ', 'andijon i', "andijon'", 'андижон', 'андижонга', 'андижондан',
-            'andijonga', 'andijon-ga', 'andijon ga', 'andijondan', 'andijan i', 'andijandan',
-            'asaka', 'asaka İ', 'asakaʼ', 'asaka tumani', 'asaka i', "asaka'", 'asakaga', 'asakadan',
-            'marhamat', 'marxamat', 'marhamat tumani', 'marhamat i', 'marhamatga', 'marhamatdan',
-            'shahrixon', 'shahrixon tumani', 'shaxrixon', 'shahrixon i', 'shahrixonga', 'shahrixondan',
-            'xoja-obod', 'xojaobod', 'xojaʼobod', "xoja'obod", "xoja'obod", 'xojaobod tumani', 'xojaobodga',
-            'qorgontepa', 'qurghontepa', 'qurgʻontepa', 'qurghontepa i', 'qorgontepaga', 'qorgontepadan',
-            'oltinkol', 'oltinkoʻl', 'oltinkol tumani', 'oltinkol i', 'oltinkolga', 'oltinkoldan'
-        ]
-    },
-    'fargona': {
-        'topic_id': 101382,
-        'keywords': [
-            "farg'ona", "fargʻona", 'fargona', 'fergana', 'farg-on-a', 'fargona', 'fargʻona', 'fergana', 'fargonadan', 'fargʻonadan', 'fargonaga', 'фаргона', 'фаргонадан', 'фаргонага',
-            'qoqon', 'kokand', 'quqon', 'qoʼqon', 'qoqondan', 'qoqonga', 'коканд', 'коканддан', 'кокандга',
-            'margilon', 'margilan', 'margilondan', 'margilonga', 'маргилан', 'маргиландан',
-            'quvasoy', 'kuvasay', 'quvasoydan', 'quvasoyga', 'кувасай', 'кувасайдан',
-            'beshariq', 'besharik', 'beshariqdan', 'beshariqqa', 'бешариқ', 'бешариқдан',
-            "bog'dod", 'bogdod', 'bogʻdod', 'bogdoddan', 'bogdodga', 'богдод', 'богдоддан',
-            'oltiarik', 'oltiarikdan', 'oltiarikka', 'алтиарик', 'алтиарикдан',
-            'rishton', 'rishtan', 'rishtondan', 'rishtonga', 'риштан', 'риштандан',
-            'sox', 'soxdan', 'soxga', 'сох', 'сохдан', 'fargonaga', 'FARGONAGA',
-            'fargona İ', 'fargona i', "farg'ona İ", "fargʻona İ",
-            'qoqon', 'kokand', 'quqon', 'qoʼqon', 'qoqon İ', 'qoqon i',
-            'коканд', 'кокандga', 'кокандdan', 'kokond', 'коконд', 'кокондан', 'kokondan', 'коконга', 'kokonga',
-            'margilon', 'margilan', 'margilon İ', 'margilon i',
-            'quvasoy', 'kuvasay', 'quvasoy İ', 'quvasoy i', 'quvasoyʼ', 'quvasoy', 'kuvasay', 'кувасай', 'кувасой', 'quvasoydan', 'кувасойдан',
-            'beshariq', 'besharik', 'beshariq İ', 'beshariq i',
-            "bog'dod", 'bogdod', "bogʻdod", "bog'dod İ", "bog'dod i",
-            "bog'doddan", 'bogdoddan', 'богдод', 'богдодdan',
-            'oltiarik', 'oltiarik İ', 'oltiarik i',
-            'rishton', 'rishtan', 'rishton İ', 'rishton i',
-            'sox', 'sox tumani', 'sox İ', 'sox i', 'fargona', 'fergana', 'farg-on-a', 'fargona İ', 'fargona i', "farg'ona İ", "fargʻona İ",
-            'fargʻonaga', 'fargʻonadan', 'ferganaga', 'fergandadan', 'fargʻona viloyati', 'fargona viloyati',
-            'qoqon', 'kokand', 'quqon', "qo'qon", 'qoqon İ', 'qoqon i', 'qoqonga', 'qoqondan', 'коканд', 'кокандga', 'кокандdan',
-            'margilon', 'margilan', 'margilon İ', 'margilon i', 'margilonga', 'margilondan',
-            'quvasoy', 'kuvasay', 'quvasoy İ', 'quvasoy i', 'quvasoyʼ', "quvasoy'", 'quvasoyga', 'quvasoydan',
-            'beshariq', 'besharik', 'beshariq İ', 'beshariq i', 'beshariqqa', 'beshariqdan',
-            "bog'dod", 'bogdod', "bogʻdod", "bog'dod İ", "bog'dod i", "bog'dodga", "bog'doddan",
-            'oltiarik', 'oltiarik İ', 'oltiarik i', 'oltiarikka', 'oltiarikdan',
-            'rishton', 'rishtan', 'rishton İ', 'rishton i', 'rishtonga', 'rishtondan',
-            'sox', 'sox tumani', 'sox İ', 'sox i', 'soxga', 'soxdan'
-        ]
-    },
-    'namangan': {
-        'topic_id': 101383,
-        'keywords': [
-            'namangan', 'namangan İ', 'namanganʼ', 'namangan i', "namangan'", 'namangan', 'наманган', 'наманганга', 'намангандан', 'наманган',
-            'pop', 'поп', 'попга', 'попдан', 'поп', 'pop', 'pop tumani', 'popga', 'popdan',
-            'pop tumani', 'поп тумани', 'поп туманига', 'поп туманидан',
-            'наманган', 'наманганга', 'намангандан', 'наманган',
-            'chortoq', 'chartak', 'chortoq İ', 'chortoq i', 'chortoqʼ',
-            'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangikurgan i',
-            'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', "chust'", 'namangan', 'namangand', 'namanganga', 'namangandan', 'наманган', 'намангандан', 'наманганга',
-            'chortoq', 'chartak', 'chortoqqa', 'chortoqdan', 'чортоқ', 'чортоқдан',
-            'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangiqorgonga', 'yangiqorgondan', 'янгиқурган', 'янгиқургандан',
-            'chust', 'чуст', 'chustga', 'chustdan', 'чустдан',
-            'kosonsoy', 'kosonsoyga', 'kosonsoydan', 'косонсой', 'косонсойдан',
-            'mullomirsoy', 'mullomirsoyga', 'mullomirsoydan', 'мулломирсой', 'мулломирсойдан',
-            'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgonga', 'uchqorgondan', 'учқургон', 'учқургондан',
-            'pop', 'popga', 'popdan', 'поп', 'попдан',
-            'чуст', 'чустга', 'чустdан', 'chust', 'chustdan', 'chustga', 'чуст', 'чустдан', 'чустга',
-            'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ', 'kosonsoy i',
-            'mullomirsoy', 'mullomirʼsoy', "mullomir'soy",
-            'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgon i',
-            'pop', 'pop tumani', 'pop İ', 'pop i', 'namangan', 'namangan İ', 'namanganʼ', 'namangan i', "namangan'", 'наманган', 'наманганга', 'намангандан',
-            'chortoq', 'chartak', 'chortoq İ', 'chortoq i', 'chortoqʼ', "chortoq'", 'chortoqqa', 'chortoqdan',
-            'yangiqorgon', 'yangikurgan', 'yangi-qorğon', 'yangikurgan i', 'yangiqorgonga', 'yangiqorgondan',
-            'chust', 'chust tumani', 'chust İ', 'chust i', 'chustʼ', "chust'", 'чуст', 'чустга', 'чустдан', 'chustga', 'chustdan',
-            'kosonsoy', 'kosonsoy tumani', 'kosonsoy İ', 'kosonsoy i', 'kosonsoyga', 'kosonsoydan',
-            'mullomirsoy', "mullomir'soy", 'mullomirʼsoy', 'mullomirsoy tumani', 'mullomirsoyga', 'mullomirsoydan',
-            'uchqorgon', 'uch-qorğon', 'uchqoʻrgʻon', 'uchqorgon i', 'uchqorgonga', 'uchqorgondan',
-            'pop', 'pop tumani', 'pop İ', 'pop i', 'popga', 'popdan'
-        ]
-    },
-    'buxoro': {
-        'topic_id': 101372,
-        'keywords': [
-            'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ', 'buxoro i', "buxoro'",
-            'бухоро', 'бухорога', 'бухородан', 'бухара', 'buxoro', 'bukhara', 'buxara', 'buxoroga', 'buxorodan', 'бухоро', 'бухорога', 'бухородан',
-            'alat', 'alatdan', 'alatga', 'алат', 'алатдан',
-            "g'ijduvon", 'gijduvon', 'gijduvonga', 'gijduvondan', 'гийдувон', 'гийдувондан',
-            'kogon', 'kogonga', 'kogondan', 'когон', 'когондан',
-            'romitan', 'romitanga', 'romitandan', 'ромитан', 'ромитандан',
-            'shofirkon', 'shofirkonga', 'shofirkondan', 'шофиркон', 'шофиркондан',
-            'qorakoʻl', 'qorakol', 'qorakolga', 'qorakoldan', 'қоракоʻл', 'қоракоʻлдан',
-            'alat', 'alat tumani', 'alat İ', 'alat i',
-            "g'ijduvon", 'gijduvon', "gʻijduvon", "g'ijduvon İ", "g'ijduvon i",
-            'kogon', 'kogon tumani', 'kogon İ', 'kogon i',
-            'romitan', 'romitan tumani', 'romitan İ', 'romitan i',
-            'shofirkon', 'shofirkon İ', 'shofirkon tumani', 'shofirkon i',
-            'qorakoʻl', 'qorakol', 'qorakol İ', 'qorakol i', 'buxoro', 'bukhara', 'buxara', 'buxoro İ', 'buxoroʼ', 'buxoro i', "buxoro'", 'бухоро', 'бухорога', 'бухородан', 'бухара',
-            'alat', 'alat tumani', 'alat İ', 'alat i', 'alatga', 'alatdan',
-            "g'ijduvon", 'gijduvon', "gʻijduvon", "g'ijduvon İ", "g'ijduvon i", "g'ijduvonga", "g'ijduvondan",
-            'kogon', 'kogon tumani', 'kogon İ', 'kogon i', 'kogonga', 'kogondan',
-            'romitan', 'romitan tumani', 'romitan İ', 'romitan i', 'romitanga', 'romitandan',
-            'shofirkon', 'shofirkon İ', 'shofirkon tumani', 'shofirkon i', 'shofirkonga', 'shofirkondan',
-            'qorakoʻl', 'qorakol', 'qorakol İ', 'qorakol i', 'qorakolga', 'qorakoldan'
-        ]
-    },
-    'samarqand': {
-        'topic_id': 101369,
-        'keywords': [
-            'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', "samarqand'", 'samarkand', 'samarqand', 'самарканд', 'самаркандga', 'самаркандdan',
-            'самарканд', 'самаркандga', 'самаркандdan',
-            'urgut', 'urgut tumani', 'urgut İ', 'urgut i',
-            'kattaqorgon', 'kattakurgan', 'katta-qorğon', 'kattaqoʻrgʻon', 'kattaqorgon i',
-            "kattaqo'rg'on", "kattaqo'rg'ondan", 'каттакурган',
-            'payariq', 'payariq tumani', 'payarik', 'payariq i',
-            'ishtixon', 'ishtixon tumani', 'ishtixon İ', 'ishtixon i',
-            'jomboy', 'jomboy tumani', 'jomboy İ', 'jomboy i',
-            'nurabod', 'nurabod tumani', 'nurabod i', 'samarqand', 'samarkand', 'samarqand İ', 'samarqandʼ', 'samarqand i', "samarqand'", 'самарканд', 'самаркандga', 'самаркандdan',
-            'urgut', 'urgut tumani', 'urgut İ', 'urgut i', 'urgutga', 'urgutdan',
-            'kattaqorgon', 'kattakurgan', 'katta-qorğon', 'kattaqoʻrgʻon', 'kattaqorgon i', "kattaqo'rg'on", "kattaqo'rg'ondan", 'каттакурган',
-            'kattaqorgonga', 'kattaqorgondan',
-            'payariq', 'payariq tumani', 'payarik', 'payariq i', 'payariqqa', 'payariqdan',
-            'ishtixon', 'ishtixon tumani', 'ishtixon İ', 'ishtixon i', 'ishtixonga', 'ishtixondan',
-            'jomboy', 'jomboy tumani', 'jomboy İ', 'jomboy i', 'jomboyga', 'jomboydan', 'samarqand', 'samarkand', 'samarqanddan', 'samarqandga', 'самарканд', 'самарканддан', 'самаркандга',
-            'urgut', 'urgutdan', 'urgutga', 'ургут', 'ургутдан',
-            'kattaqorgon', 'kattakurgan', 'kattaqorgondan', 'kattaqorgonga', 'каттакурган', 'каттакургандан',
-            'payariq', 'payariqqa', 'payariqdan', 'паяриқ', 'паяриқдан',
-            'ishtixon', 'ishtixonga', 'ishtixondan', 'иштихон', 'иштихондан',
-            'jomboy', 'jomboyga', 'jomboydan', 'жомбой', 'жомбойдан',
-            'nurabod', 'nurabodga', 'nuraboddan', 'нурабод', 'нурабоддан',
-            'nurabod', 'nurabod tumani', 'nurabod i', 'nurabodga', 'nuraboddan'
-        ]
-    },
-    'qashqadaryo': {
-        'topic_id': 101380,
-        'keywords': [
-            'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ', 'qarshi i', "qarshi'",
-            'qashqadaryo', 'кашкадарё', 'кашкадарёdан', 'кашкадарьё', 'qarshi', 'karshi', 'qarshidan', 'qarshiga', 'карши', 'каршидан',
-            'qashqadaryo', 'qashqadaryodan', 'qashqadaryoga', 'кашкадарё', 'кашкадарёдан', 'кашкадарёга',
-            'shahrisabz', 'shakhrisabz', 'shahrisabzdan', 'shahrisabzga', 'шахрисабз', 'шахрисабздан',
-            'koson', 'kosondan', 'kosonga', 'косон', 'косондан',
-            'guzar', 'guzardan', 'guzarga', 'гузар', 'гузардан',
-            'muborak', 'muborakdan', 'muborakka', 'муборак', 'муборакдан',
-            'chiroqchi', 'chiroqchidan', 'chiroqchiga', 'чирақчи', 'чирақчидан',
-            'yakkabog', 'yakkabogʻ', 'yakkabogdan', 'yakkabogga', 'яккабоғ', 'яккабоғдан',
-            'shahrisabz', 'shahrisabz İ', 'shakhrisabz', 'shahri-sabz', 'shahrisabz i',
-            'koson', 'koson tumani', 'koson İ', 'koson i',
-            'guzar', 'guzar tumani', 'guzar İ', 'guzar i',
-            'muborak', 'muborak tumani', 'muborak İ', 'muborak i',
-            'chiroqchi', 'chiroqchi tumani', 'chiroqchi İ', 'chiroqchi i',
-            'yakkabog', 'yakkabogʻ', 'yakkabog İ', 'yakkabog i', 'qarshi', 'karshi', 'qarshi İ', 'qarshiʼ', 'qarshi i', "qarshi'", 'qarshiga', 'qarshidan',
-            'qashqadaryo', 'кашкадарё', 'кашкадарёga', 'кашкадарёдан', 'кашкадарьё', 'qashqadaryoga', 'qashqadaryodan',
-            'shahrisabz', 'shahrisabz İ', 'shakhrisabz', 'shahri-sabz', 'shahrisabz i', 'shahrisabzga', 'shahrisabzdan',
-            'koson', 'koson tumani', 'koson İ', 'koson i', 'kosonga', 'kosondan',
-            'guzar', 'guzar tumani', 'guzar İ', 'guzar i', 'guzarga', 'guzardan',
-            'muborak', 'muborak tumani', 'muborak İ', 'muborak i', 'muborakka', 'muborakdan',
-            'chiroqchi', 'chiroqchi tumani', 'chiroqchi İ', 'chiroqchi i', 'chiroqchiga', 'chiroqchidan',
-            'yakkabog', 'yakkabogʻ', 'yakkabog İ', 'yakkabog i', 'yakkabogga', 'yakkabogdan'
-        ]
-    },
-    'surxondaryo': {
-        'topic_id': 101363,
-        'keywords': [
-            'termiz', 'termez', 'termiz İ', 'termizʼ', 'termiz i', "termiz'",
-            'denov', 'denau', 'denov İ', 'denovʼ', 'denov i', "denov'",
-            'boysun', 'boysun tumani', 'boysun İ', 'boysun i', 'surxondaryo', 'сурхондарё', 'сурхондарёга', 'сурхондарье',
-            'sherobod', 'sherobod tumani', 'sherobod İ', 'sherobod i', 'termiz', 'termez', 'termizdan', 'termizga', 'термиз', 'термиздан',
-            'denov', 'denau', 'denovdan', 'denovga', 'денов', 'деновдан',
-            'boysun', 'boysundan', 'boysunga', 'бойсун', 'бойсундан',
-            'sherobod', 'sheroboddan', 'sherobodga', 'шерабод', 'шерабоддан',
-            'qumqorgon', 'qumqorğon', 'qumqorgondan', 'qumqorgonga', 'қумқурғон', 'қумқурғондан',
-            'uzun', 'uzundan', 'uzunga', 'узун', 'узундан',
-            'qumqorgon', 'qumqorğon', 'qumqoʻrgʻon', 'qumqorgon i',
-            'uzun', 'uzun tumani', 'uzun i', 'termiz', 'termez', 'termiz İ', 'termizʼ', 'termiz i', "termiz'", 'termizga', 'termizdan',
-            'denov', 'denau', 'denov İ', 'denovʼ', 'denov i', "denov'", 'denovga', 'denovdan',
-            'boysun', 'boysun tumani', 'boysun İ', 'boysun i', 'boysunga', 'boysundan',
-            'surxondaryo', 'сурхондарё', 'сурхондарёga', 'сурхондарёдан', 'сурхондарье', 'surxondaryoga', 'surxondaryodan',
-            'sherobod', 'sherobod tumani', 'sherobod İ', 'sherobod i', 'sherobodga', 'sheroboddan',
-            'qumqorgon', 'qumqorğon', 'qumqoʻrgʻon', 'qumqorgon i', 'qumqorgonga', 'qumqorgondan',
-            'uzun', 'uzun tumani', 'uzun i', 'uzunga', 'uzundan'
-        ]
-    },
-    'navoiy': {
-        'topic_id': 101379,
-        'keywords': [
-            'navoiy', 'navoi', 'navoiy İ', 'navoi İ', 'navoiy i', 'navoi i',
-            'навоий', 'навоийга', 'навоийдан', 'навои',
-            'zarafshon', 'zarafshan', 'zarafshon İ', 'zarafshon i',
-            'karmana', 'karmana tumani', 'karmana İ', 'karmana i', 'navoiy', 'navoi', 'navoiydan', 'navoiyga', 'навоий', 'навоийдан', 'навоийга',
-            'zarafshon', 'zarafshondan', 'zarafshonga', 'зарафшон', 'зарафшондан',
-            'karmana', 'karmanadan', 'karmanaga', 'кармана', 'карманадан',
-            'nurota', 'nurotadan', 'nurotaga', 'нурота', 'нуротадан',
-            'konimex', 'konimexdan', 'konimexga', 'конимех', 'конимехдан',
-            'uchquduq', 'uchquduqdan', 'uchquduqqa', 'учқудуқ', 'учқудуқдан',
-            'nurota', 'nurota tumani', 'nurota İ', 'nurota i',
-            'konimex', 'konimex tumani', 'konimex İ', 'konimex i',
-            'uchquduq', 'uchquduk', 'uch-quduq', 'uchquduq i', 'navoiy', 'navoi', 'navoiy İ', 'navoi İ', 'navoiy i', 'navoi i', 'навоий', 'навоийга', 'навоийдан', 'навои',
-            'navoiyga', 'navoiydan', 'navoiy viloyati', 'navoi viloyati',
-            'zarafshon', 'zarafshan', 'zarafshon İ', 'zarafshon i', 'zarafshonga', 'zarafshondan',
-            'karmana', 'karmana tumani', 'karmana İ', 'karmana i', 'karmanaga', 'karmanadan',
-            'nurota', 'nurota tumani', 'nurota İ', 'nurota i', 'nurotaga', 'nurotadan',
-            'konimex', 'konimex tumani', 'konimex İ', 'konimex i', 'konimexga', 'konimexdan',
-            'uchquduq', 'uchquduk', 'uch-quduq', 'uchquduq i', 'uchquduqqa', 'uchquduqdan'
-        ]
-    },
-    'sirdaryo': {
-        'topic_id': 101378,
-        'keywords': [
-            'guliston', 'gulistan', 'guliston İ', 'gulistonʼ', 'guliston i', "guliston'",
-            'shirin', 'shirin tumani', 'shirin İ', 'shirin i', 'guliston', 'gulistondan', 'gulistonga', 'гулистон', 'гулистондан',
-            'shirin', 'shirindan', 'shiringa', 'ширин', 'шириндан', 'yangier', 'yangiyer', 'yangierga', 'яңгиерга',
-            'boyovut', 'bayaut', 'boyovutdan', 'boyovutga', 'боявут', 'боявутдан',
-            'mirzaobod', 'mirzaoboddan', 'mirzaobodga', 'мирзаобод', 'мирзаободдан',
-            'sirdaryo', 'sirdaryodan', 'sirdaryoga', 'сирдарё', 'сирдарёдан', 'сирдарёга',
-            'boyovut', 'bayaut', 'boyovut tumani', 'boyovut İ', 'boyovut i',
-            'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ', 'sirdaryo i', "sirdaryo'",
-            'сирдарё', 'сирдарёга', 'сирдарёдан', 'сырдарья',
-            'mirzaobod', 'mirzaobod tumani', 'mirzaobod i', 'guliston', 'gulistan', 'guliston İ', 'gulistonʼ', 'guliston i', "guliston'", 'gulistonga', 'gulistondan',
-            'shirin', 'shirin tumani', 'shirin İ', 'shirin i', 'shiringa', 'shirindan',
-            'boyovut', 'bayaut', 'boyovut tumani', 'boyovut İ', 'boyovut i', 'boyovutga', 'boyovutdan',
-            'sirdaryo', 'sirdaryo İ', 'sirdaryoʼ', 'sirdaryo i', "sirdaryo'", 'сирдарё', 'сирдарёga', 'сирдарёдан', 'сырдарья',
-            'mirzaobod', 'mirzaobod tumani', 'mirzaobod i', 'mirzaobodga', 'mirzaoboddan'
-        ]
-    },
-    'jizzax': {
-        'topic_id': 101377,
-        'keywords': [
-            'jizzax', 'jizzax İ', 'jizzax i', 'jizzakh', 'jiz-zax', 'жиззах', 'джизак', 'jizzax', 'jiz-zax', 'jizzaxdan', 'jizzaxga', 'жиззах', 'жиззахдан', 'жиззахга',
-            'gallaaral', 'gallaaraldan', 'gallaaralga', 'галлаарал', 'галлааралдан',
-            'pakhtakor', 'pakhtakordan', 'pakhtakorga', 'пахтакор', 'пахтакордан',
-            'zomin', 'zomindan', 'zominga', 'зомин', 'зоминдан',
-            'pishagar', 'pishagardan', 'pishagarga', 'пишагар', 'пишагардан',
-            'forish', 'forishdan', 'forishga', 'фориш', 'форишдан',
-            'arnasoy', 'arnasoydan', 'arnasoyga', 'арнасой', 'арнасойдан',
-            'baxmal', 'baxmaldan', 'baxmalga', 'бахмал', 'бахмалдан',
-            'gallaaral', 'gallaaral İ', 'gallaaral i', 'galla-aral', 'gallaaʼral', "galla'aral",
-            'pakhtakor', 'pakhtakor İ', 'pakhtakor i', 'pakhtakor tumani',
-            'zomin', 'zomin tumani', 'zomin İ', 'zomin i',
-            'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ', 'pishagar i', "pishagar'",
-            'forish', 'forish tumani', 'forish İ', 'forish i',
-            'arnasoy', 'arnasoy tumani', 'arnasoy İ', 'arnasoy i',
-            'baxmal', 'baxmal tumani', 'baxmal i',
-            'pishagardan', 'пишагардан', 'pishagardan i', 'pishagardan İ', 'jizzax', 'jizzax İ', 'jizzax i', 'jizzakh', 'jiz-zax', 'жиззах', 'джизак', 'jizzaxga', 'jizzaxdan',
-            'gallaaral', 'gallaaral İ', 'gallaaral i', 'galla-aral', 'gallaaʼral', "galla'aral", 'gallaaralga', 'gallaaraldan',
-            'pakhtakor', 'pakhtakor İ', 'pakhtakor i', 'pakhtakor tumani', 'pakhtakorga', 'pakhtakordan',
-            'zomin', 'zomin tumani', 'zomin İ', 'zomin i', 'zominga', 'zomindan',
-            'pishagar', 'pishagaron', 'pishagardan', 'pishagar İ', 'pishagar i', "pishagar'", 'pishagarга', 'pishagardan',
-            'forish', 'forish tumani', 'forish İ', 'forish i', 'forishga', 'forishdan',
-            'arnasoy', 'arnasoy tumani', 'arnasoy İ', 'arnasoy i', 'arnasoyga', 'arnasoydan',
-            'baxmal', 'baxmal tumani', 'baxmal i', 'baxmalga', 'baxmaldan'
-        ]
-    },
-    'xorazm': {
-        'topic_id': 101660,
-        'keywords': [
-            'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ', 'xorazm i', 'xorezm i',
-            'хоразм', 'хоразмга', 'хоразмдан', 'хорезм',
-            'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', "xiva'", 'xorazm', 'xorezm', 'xorazmdan', 'xorazmga', 'хоразм', 'хоразмдан', 'хоразмга',
-            'xiva', 'khiva', 'xivadan', 'xivaga', 'хива', 'хивадан',
-            'shovot', 'shavat', 'shovotdan', 'shovotga', 'шавот', 'шавотдан',
-            'yangiariq', 'yangiariqdan', 'yangiariqqa', 'янгиариқ', 'янгиариқдан',
-            'bogʻot', 'bogot', 'bogotdan', 'bogotga', 'боғот', 'боғотдан',
-            'xazarasp', 'hazarasp', 'xazaraspdan', 'xazaraspga', 'хазарасп', 'хазараспдан',
-            'gurlan', 'gurlandan', 'gurlanga', 'гурлан', 'гурландан',
-            'qoshkopir', 'qoshkopirdan', 'qoshkopirga', 'қошкопир', 'қошкопирдан',
-            'tuproqqala', 'tuproqqaladan', 'tuproqqalaga', 'тупроққала', 'тупроққаладан',
-            'pitnak', 'pitnakka', 'pitnakdan', 'питнак', 'питнакдан',
-            'khanka', 'xanka', 'khankaga', 'khankadan', 'ханка', 'ханкадан',
-            # урганч удален - теперь отдельный регион
-            'shovot', 'shavat', 'shovot İ', 'shovot i', "shovot'", 'shovotʼ',
-            'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i',
-            'bogʻot', 'bogot', 'bogʻot tumani', 'bogʻot İ', 'bogʻot i',
-            'xazarasp', 'hazarasp', 'xazarasp tumani', 'xazarasp i',
-            'gurlan', 'gurlan tumani', 'gurlan İ', 'gurlan i',
-            'qoshkopir', 'koshkupir', 'qoshkopir tumani', 'qoshkopir i',
-            'tuproqqala', 'tuprak kala', 'tuproqqala tumani', 'tuproqqala i',
-            'pitnak', 'pitnak shaharcha', 'pitnak posyolok',
-            'khanka', 'xanka', 'khanka shaharcha',
-            'dashoguz', 'dashoguz yuli', 'urganch-dashoguz', 'xorazm', 'xorezm', 'xorazm İ', 'xorezm İ', 'xorazm i', 'xorezm i', 'хоразм', 'хоразмga', 'хоразмdan', 'хорезм',
-            'xiva', 'khiva', 'xiva İ', 'xivaʼ', 'xiva i', "xiva'", 'xivaga', 'xivadan',
-            'shovot', 'shavat', 'shovot İ', 'shovot i', "shovot'", 'shovotʼ', 'shovotga', 'shovotdan',
-            'yangiariq', 'yangiariq tumani', 'yangiariq İ', 'yangiariq i', 'yangiariqqa', 'yangiariqdan',
-            'bogʻot', 'bogot', 'bogʻot tumani', 'bogʻot İ', 'bogʻot i', 'bogʻotga', 'bogʻotdan',
-            'xazarasp', 'hazarasp', 'xazarasp tumani', 'xazarasp i', 'xazaraspga', 'xazaraspdan',
-            'gurlan', 'gurlan tumani', 'gurlan İ', 'gurlan i', 'gurlanga', 'gurlandan',
-            'qoshkopir', 'koshkupir', 'qoshkopir tumani', 'qoshkopir i', 'qoshkopirga', 'qoshkopirdan',
-            'tuproqqala', 'tuprak kala', 'tuproqqala tumani', 'tuproqqala i', 'tuproqqalaga', 'tuproqqaladan',
-            'pitnak', 'pitnak shaharcha', 'pitnak posyolok', 'pitnakka', 'pitnakdan',
-            'khanka', 'xanka', 'khanka shaharcha', 'khankaga', 'khankadan',
-            'dashoguz', 'dashoguz yuli', 'urganch-dashoguz', 'dashoguzga', 'dashoguzdan'
-        ]
-    },
-    'urganch': {
-        'topic_id': 101375,
-        'keywords': [
-            'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', "urganch'",
-            'ургенч', 'urgench İ', 'urgench i', 'urganchga', 'ургенчга', 'urganch', 'urgench', 'urganchdan', 'urganchga', 'ургенч', 'ургенчдан', 'ургенчга',
-            'urgenchdan', 'urganchdan', 'ургенчдан', 'urgench city', 'urganch shahar', 'urganch', 'urgench', 'urganch İ', 'urganchʼ', 'urganch i', "urganch'", 'ургенч', 'urgench İ', 'urgench i',
-            'urganchga', 'ургенчга', 'urgenchdan', 'urganchdan', 'ургенчдан', 'urgench city', 'urganch shahar'
-        ]
-    },
-    'nukus': {
-        'topic_id': 101376,
-        'keywords': [
-            'nukus', 'nukus İ', 'nukusʼ', 'nukus i', "nukus'", 'noʻkis', 'nokis',
-            'kegeyli', 'kegeyli tumani', 'kegeyli İ', 'kegeyli i',
-            'muynoq', 'muynaq', 'muynoq İ', 'muynoq i', 'nukus', 'noʻkis', 'nokis', 'nukusdan', 'nukusga', 'нукус', 'нукусдан', 'нукусга',
-            'kegeyli', 'kegeylidan', 'kegeyliga', 'кегейли', 'кегейлидан',
-            'muynoq', 'muynaq', 'muynoqqa', 'muynoqdan', 'муйноқ', 'муйноқдан',
-            'takhiatash', 'takhiatashdan', 'takhiatashga', 'такхиаташ', 'такхиаташдан',
-            'takhiatash', 'takhiatash tumani', 'takhiatash İ', 'takhiatash i', 'nukus', 'nukus İ', 'nukusʼ', 'nukus i', "nukus'", 'noʻkis', 'nokis', 'nukusga', 'nukusdan',
-            'kegeyli', 'kegeyli tumani', 'kegeyli İ', 'kegeyli i', 'kegeyliga', 'kegeylidan',
-            'muynoq', 'muynaq', 'muynoq İ', 'muynoq i', 'muynoqqa', 'muynoqdan',
-            'takhiatash', 'takhiatash tumani', 'takhiatash İ', 'takhiatash i', 'takhiatashga', 'takhiatashdan'
-        ]
-    },
-    'qoraqalpoq': {
-        'topic_id': 101381,
-        'keywords': [
-            'qoraqalpoq', 'qaraqalpaqstan', 'qoraqalpoq İ', 'qaraqalpaq-stan', 'qoraqalpoq i',
-            'qorakalpoq', 'karakalpakstan', 'qorakalpoq İ', 'qorakalpoq i', 'qoraqalpoq', 'qaraqalpaqstan', 'qorakalpoq', 'karakalpakstan', 'қорақалпоқ', 'қарақалпақстан',
-            'turtkul', 'turtkuldan', 'turtkulga', 'турткули', 'турткулидан',
-            'khojeli', 'xojeli', 'xojelidan', 'xojeliga', 'хожели', 'хожелидан',
-            'amudarya', 'amudaryo', 'amudaryadan', 'amudaryaga', 'амударья', 'амударьядан',
-            'chimboy', 'chimboydan', 'chimboyga', 'чимбой', 'чимбойдан',
-            'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani', 'turtkul i', "turtkul'",
-            'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'xojeli i', 'khojeliʼ', "xojeli'",
-            'amudarya', 'amudaryo', 'amudarya tumani', 'amudarya İ', 'amudarya i',
-            'chimboy', 'chimboy tumani', 'chimboy İ', 'chimboy i', 'qoraqalpoq', 'qaraqalpaqstan', 'qoraqalpoq İ', 'qaraqalpaq-stan', 'qoraqalpoq i', 'qorakalpoq', 'karakalpakstan',
-            'turtkul', 'turtkul İ', 'turtkulʼ', 'turtkul tumani', 'turtkul i', "turtkul'", 'turtkulga', 'turtkuldan',
-            'khojeli', 'xojeli', 'hodjeyli', 'xojeli İ', 'xojeli i', 'khojeliʼ', "xojeli'", 'xojeliga', 'xojelidan',
-            'amudarya', 'amudaryo', 'amudarya tumani', 'amudarya İ', 'amudarya i', 'amudaryaga', 'amudaryadan',
-            'chimboy', 'chimboy tumani', 'chimboy İ', 'chimboy i', 'chimboyga', 'chimboydan'
-        ]
-    },
+  "tashkent_city": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Тошкент шаҳри",
+    "latin_uz": "Toshkent shahri",
+    "russian": "город Ташкент",
+    "aliases": [
+      "toshkent", "tashkent", "tosh-kent", "tash-kent", "towkent", "toshkent shahri", "tashkent city",
+      "toshkentga", "tashkentga", "toshkentdan", "tashkentdan", "toshkentda", "toshkentdagi",
+      "Тошкент", "Ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
+      "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy"
+    ]
+  },
+
+  "yunusobod": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Юнусобод тумани",
+    "latin_uz": "Yunusobod tumani",
+    "russian": "Юнусабадский район",
+    "aliases": [
+      "yunusobod", "yunusabad", "yunus-obod", "yunus obod", "yunusobod tumani", "yunusobod rayon",
+      "yunusobodda", "yunusoboddan", "yunusobodga", "yunusobodlik",
+      "Юнусобод", "Юнусабад", "Юнус-Абад", "Юнусабадский район"
+    ]
+  },
+
+  "mirzo_ulugbek": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Мирзо-Улуғбек тумани",
+    "latin_uz": "Mirzo-Ulug‘bek tumani",
+    "russian": "Мирзо-Улугбекский район",
+    "aliases": [
+      "mirzo-ulugbek", "mirzo ulugbek", "mirzoulugbek", "mirzo-ulughbek", "mirzo ulug‘bek",
+      "mirzo-ulug'bek", "mirzo ulug'bek", "mirzo-ulugbek tumani", "mirzo ulugbek rayon",
+      "mirzo-ulugbekda", "mirzo-ulugbekdan", "mirzo-ulugbekga",
+      "Мирзо-Улуғбек", "Мирзо Улуғбек", "Мирзо-Улугбекский район"
+    ]
+  },
+
+  "yashnobod": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Яшнобод тумани",
+    "latin_uz": "Yashnobod tumani",
+    "russian": "Яшнабадский район",
+    "aliases": [
+      "yashnobod", "yashnabad", "yashno-bod", "yashnobod tumani", "yashnobod rayon",
+      "yashnobodda", "yashnoboddan", "yashnobodga", "yashnobodlik",
+      "Яшнобод", "Яшнабад", "Яшнабадский район"
+    ]
+  },
+
+  "olmazor": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Олмазор тумани",
+    "latin_uz": "Olmazor tumani",
+    "russian": "Алмазарский район",
+    "aliases": [
+      "olmazor", "olma-zor", "olma zor", "almazar", "almazar rayon", "olmazor tumani",
+      "olmazorda", "olmazordan", "olmazorlik",
+      "Олмазор", "Олма-зор", "Алмазар", "Алмазарский район"
+    ]
+  },
+
+  "uchtepa": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Учтепа тумани",
+    "latin_uz": "Uchtepa tumani",
+    "russian": "Учтепинский район",
+    "aliases": [
+      "uchtepa", "uch-tepa", "uch tepa", "uchtepa tumani", "uchtepa rayon",
+      "uchtepada", "uchtepadan", "uchtepaga",
+      "Учтепа", "Уч-Тепа", "Учтепинский район"
+    ]
+  },
+
+  "shayxontohur": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Шайхонтоҳур тумани",
+    "latin_uz": "Shayxontohur tumani",
+    "russian": "Шайхантаурский район",
+    "aliases": [
+      "shayxontohur", "shayxontoxur", "shaykhontohur", "shayxontahur",
+      "shayxontohur tumani", "shayxontohur rayon",
+      "shayxontohurda", "shayxontohurdan", "shayxontohurga",
+      "Шайхонтоҳур", "Шайхантаур", "Шайхантаурский район"
+    ]
+  },
+
+  "chilonzor": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Чилонзор тумани",
+    "latin_uz": "Chilonzor tumani",
+    "russian": "Чиланзарский район",
+    "aliases": [
+      "chilonzor", "chilon-zor", "chilon zor", "chilonzor tumani", "chilonzor rayon",
+      "chilonzorda", "chilonzordan", "chilonzorlik",
+      "Чилонзор", "Чиланзар", "Чиланзарский район"
+    ]
+  },
+
+  "sergeli": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Сергели тумани",
+    "latin_uz": "Sergeli tumani",
+    "russian": "Сергелийский район",
+    "aliases": [
+      "sergeli", "sergili", "sergeli tumani", "sergili tumani", "sergeli rayon",
+      "sergelida", "sergelidan", "sergeliga", "sergelilik",
+      "Сергели", "Сергелийский район"
+    ]
+  },
+
+  "yakkasaroy": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Яккасарай тумани",
+    "latin_uz": "Yakkasaroy tumani",
+    "russian": "Яккасарайский район",
+    "aliases": [
+      "yakkasaroy", "yakkasaray", "yakka-saroy", "yakka saroy", "yakkasaroy tumani",
+      "yakkasaroyda", "yakkasaroydan", "yakkasaroyga", "yakkasaroylik",
+      "Яккасарай", "Яккасарайский район"
+    ]
+  },
+
+  "mirobod": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Мирабод тумани",
+    "latin_uz": "Mirobod tumani",
+    "russian": "Мирабадский район",
+    "aliases": [
+      "mirobod", "mirabad", "miro-bod", "mirobod tumani", "mirabad rayon",
+      "mirobodda", "miroboddan", "mirobodga", "mirobodlik",
+      "Мирабод", "Мирабад", "Мирабадский район"
+    ]
+  },
+
+  "bektemir": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Бектемир тумани",
+    "latin_uz": "Bektemir tumani",
+    "russian": "Бектемирский район",
+    "aliases": [
+      "bektemir", "bek-temir", "bektemir tumani", "bektemir rayon",
+      "bektemirga", "bektemirdan", "bektemirlik",
+      "Бектемир", "Бектемирский район"
+    ]
+  },
+
+  "tashkent_region": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Тошкент вилояти",
+    "latin_uz": "Toshkent viloyati",
+    "russian": "Ташкентская область",
+    "aliases": [
+      "toshkent viloyati", "tashkent oblast", "toshkent region",
+      "toshkent viloyatiga", "toshkent viloyatidan", "toshkent viloyatda",
+      "Тошкент вилояти", "Ташкентская область"
+    ]
+  },
+
+  "bekobod": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Бекобод шаҳри",
+    "latin_uz": "Bekobod shahri",
+    "russian": "город Бекабад",
+    "aliases": [
+      "bekobod", "bekabad", "bekobod shaxri", "bekobod city",
+      "bekobodda", "bekoboddan", "bekobodga", "bekobodlik",
+      "Бекобод", "Бекабад"
+    ]
+  },
+
+  "angren": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Ангрен шаҳри",
+    "latin_uz": "Angren shahri",
+    "russian": "город Ангрен",
+    "aliases": [
+      "angren", "angiren", "angren shaxri", "angren city",
+      "angrenda", "angrendan", "angrenga", "angrenlik",
+      "Ангрен", "Ангирен"
+    ]
+  },
+
+  "almalyk": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Олмалиқ шаҳри",
+    "latin_uz": "Olmaliq shahri",
+    "russian": "город Алмалык",
+    "aliases": [
+      "olmaliq", "olmalik", "almalyk", "almalik", "olmaliq shaxri", "olmaliq city",
+      "olmaliqda", "olmaliqdan", "olmaliqlik",
+      "Олмалиқ", "Алмалык"
+    ]
+  },
+
+  "ohangaron": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Оҳангарон тумани",
+    "latin_uz": "Ohangaron tumani",
+    "russian": "Ахангаранский район",
+    "aliases": [
+      "ohangaron", "axangaron", "ohan'garon", "ohangaron tumani", "ahangaran rayon",
+      "ohangaronda", "ohangarondan", "ohangaronga",
+      "Оҳангарон", "Ахангаран"
+    ]
+  },
+
+  "yangiyul": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Янгиюл шаҳри",
+    "latin_uz": "Yangiyul shahri",
+    "russian": "город Янгиюль",
+    "aliases": [
+      "yangiyul", "yangiyo'l", "yangiyul shaxri", "yangiyul city",
+      "yangiyulda", "yangiyuldan", "yangiyulga", "yangiyullik",
+      "Янгиюл", "Янгиюль"
+    ]
+  },
+
+  "parkent": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Паркент тумани",
+    "latin_uz": "Parkent tumani",
+    "russian": "Паркентский район",
+    "aliases": [
+      "parkent", "parkent tumani", "parkent rayon",
+      "parkentda", "parkentdan", "parkentga", "parkentlik",
+      "Паркент", "Паркентский район"
+    ]
+  },
+
+  "piskent": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Пискент тумани",
+    "latin_uz": "Piskent tumani",
+    "russian": "Пискентский район",
+    "aliases": [
+      "piskent", "piskent tumani", "piskent rayon",
+      "piskentda", "piskentdan", "piskentga", "piskentlik",
+      "Пискент", "Пискентский район"
+    ]
+  },
+
+  "quyichirchiq": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Қуйичирчиқ тумани",
+    "latin_uz": "Quyichirchiq tumani",
+    "russian": "Куйичирчикский район",
+    "aliases": [
+      "quyichirchiq", "quyi-chirchiq", "quyi chirchiq", "kuyichirchiq", "kuyi-chirchiq",
+      "quyichirchiq tumani", "kuyichirchiq rayon",
+      "quyichirchiqda", "quyichirchiqdan", "quyichirchiqga",
+      "Қуйичирчиқ", "Куйичирчикский район"
+    ]
+  },
+
+  "yuqorichirchiq": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Юқоричирчиқ тумани",
+    "latin_uz": "Yuqorichirchiq tumani",
+    "russian": "Юкоричирчикский район",
+    "aliases": [
+      "yuqorichirchiq", "yuqori-chirchiq", "yuqori chirchiq", "yukorichirchiq", "yukori-chirchiq",
+      "yuqorichirchiq tumani", "yukorichirchiq rayon",
+      "yuqorichirchiqda", "yuqorichirchiqdan", "yuqorichirchiqga",
+      "Юқоричирчиқ", "Юкоричирчикский район"
+    ]
+  },
+
+  "boka": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Бўка тумани",
+    "latin_uz": "Bo'ka tumani",
+    "russian": "Букинский район",
+    "aliases": [
+      "boka", "bo'ka", "buka", "boka tumani", "buka rayon",
+      "bokada", "bokadan", "bokaga", "bokalik",
+      "Бўка", "Бука", "Букинский район"
+    ]
+  },
+
+  "chinaz": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Чиноз тумани",
+    "latin_uz": "Chinoz tumani",
+    "russian": "Чиназский район",
+    "aliases": [
+      "chinaz", "chinz", "chinoz", "chinaz tumani", "chinoz tumani", "chinaz rayon",
+      "chinazda", "chinazdan", "chinazga", "chinazlik",
+      "Чиназ", "Чиноз", "Чиназский район"
+    ]
+  },
+
+  "zangiota": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Зангиота тумани",
+    "latin_uz": "Zangiota tumani",
+    "russian": "Зангиатинский район",
+    "aliases": [
+      "zangiota", "zangi-ota", "zangi ota", "zangiota tumani", "zangiota rayon",
+      "zangiotalik", "zangiota-da", "zangiota-dan",
+      "Зангиота", "Зангиатинский район"
+    ]
+  },
+
+  "qibray": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Қибрай тумани",
+    "latin_uz": "Qibray tumani",
+    "russian": "Кибрайский район",
+    "aliases": [
+      "qibray", "kibray", "qibray tumani", "kibray rayon",
+      "qibrayda", "qibraydan", "qibrayga", "qibraylik",
+      "Қибрай", "Кибрайский район"
+    ]
+  },
+
+  "nurafshon": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Нурафшон шаҳри",
+    "latin_uz": "Nurafshon shahri",
+    "russian": "город Нурафшон",
+    "aliases": [
+      "nurafshon", "nurafshan", "nurafshon shaxri", "nurafshon city",
+      "nurafshonda", "nurafshondan", "nurafshonlik",
+      "Нурафшон", "город Нурафшон"
+    ]
+  },
+
+  "akhangaran": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Охонгирон тумани",
+    "latin_uz": "Oxong‘iron tumani",
+    "russian": "Ахангаранский район",
+    "aliases": [
+      "akhangaran", "axangaran", "oxongiron", "oxong‘iron", "ahan'garan",
+      "akhangaran tumani", "akhangaran rayon",
+      "akhangaranda", "akhangarandan", "akhangaranlik",
+      "Ахангаран", "Ахангаранский район"
+    ]
+  },
+
+  "gazalkent": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Газалкент тумани",
+    "latin_uz": "Gazalkent tumani",
+    "russian": "Газалкентский район",
+    "aliases": [
+      "gazalkent", "gazal-kent", "gazalkent tumani", "gazalkent rayon",
+      "gazalkentda", "gazalkentdan", "gazalkentlik",
+      "Газалкент", "Газалкентский район"
+    ]
+  },
+
+  "keles": {
+    "topic_id": 101362,
+    "cyrillic_uz": "Келес тумани",
+    "latin_uz": "Keles tumani",
+    "russian": "Келесский район",
+    "aliases": [
+      "keles", "keles tumani", "keles rayon",
+      "kelesda", "kelesdan", "kelesga", "keleslik",
+      "Келес", "Келесский район"
+    ]
+  },
+
+  "andijon_city": {
+    "topic_id": 101387,
+    "cyrillic_uz": "Андижон шаҳри",
+    "latin_uz": "Andijon shahri",
+    "russian": "город Андижан",
+    "aliases": [
+      "andijon", "andijan", "andijon shaxri", "andijon city",
+      "andijonda", "andijondan", "andijonga", "andijonlik",
+      "Андижон", "Андижан", "город Андижан"
+    ]
+  },
+
+  "asaka": {
+    "topic_id": 101387,
+    "cyrillic_uz": "Асака шаҳри",
+    "latin_uz": "Asaka shahri",
+    "russian": "город Асака",
+    "aliases": [
+      "asaka", "asaka shaxri", "asaka city",
+      "asakada", "asakadan", "asakaga", "asakalik",
+      "Асака", "город Асака"
+    ]
+  },
+
+  "marhamat": {
+    "topic_id": 101387,
+    "cyrillic_uz": "Марҳамат тумани",
+    "latin_uz": "Marhamat tumani",
+    "russian": "Мархаматский район",
+    "aliases": [
+      "marhamat", "marxamat", "marhamat tumani", "marhamat rayon",
+      "marhamatda", "marhamatdan", "marhamatga", "marhamatlik",
+      "Марҳамат", "Мархамат", "Мархаматский район"
+    ]
+  },
+
+  "shahrixon": {
+    "topic_id": 101387,
+    "cyrillic_uz": "Шаҳрихон тумани",
+    "latin_uz": "Shahrixon tumani",
+    "russian": "Шахриханский район",
+    "aliases": [
+      "shahrixon", "shaxrixon", "shahrixon tumani", "shaxrixon tumani", "shahrixon rayon",
+      "shahrixonda", "shahrixondan", "shahrixonlik",
+      "Шаҳрихон", "Шахрихан", "Шахриханский район"
+    ]
+  },
+
+  "xojaobod": {
+    "topic_id": 101387,
+    "cyrillic_uz": "Хўжаобод тумани",
+    "latin_uz": "Xo'jaobod tumani",
+    "russian": "Ходжаабадский район",
+    "aliases": [
+      "xojaobod", "xo'jaobod", "xoja-obod", "xoja obod", "xojaobod tumani", "xojaobod rayon",
+      "xojaobodda", "xojaoboddan", "xojaobodga", "xojaobodlik",
+      "Хўжаобод", "Ходжаабад", "Ходжаабадский район"
+    ]
+  },
+
+  "qorgontepa": {
+    "topic_id": 101387,
+    "cyrillic_uz": "Қўрғонтепа тумани",
+    "latin_uz": "Qoʻrgʻontepa tumani",
+    "russian": "Кургантепинский район",
+    "aliases": [
+      "qorgontepa", "qurghontepa", "qoʻrgʻontepa", "qorgontepa tumani", "kurgan-tepa",
+      "qorgontepada", "qorgontepadan", "qorgontepaga",
+      "Қўрғонтепа", "Кургантепа", "Кургантепинский район"
+    ]
+  },
+
+  "oltinkol": {
+    "topic_id": 101387,
+    "cyrillic_uz": "Олтинкўл тумани",
+    "latin_uz": "Oltinkoʻl tumani",
+    "russian": "Алтыкульский район",
+    "aliases": [
+      "oltinkol", "oltinkoʻl", "altinkul", "oltinkol tumani", "altinkul rayon",
+      "oltinkolda", "oltinkoldan", "oltinkolga", "oltinkollik",
+      "Олтинкўл", "Алтыкуль", "Алтыкульский район"
+    ]
+  },
+
+  "fargona_city": {
+    "topic_id": 101382,
+    "cyrillic_uz": "Фарғона шаҳри",
+    "latin_uz": "Farg'ona shahri",
+    "russian": "город Фергана",
+    "aliases": [
+      "farg'ona", "fargʻona", "fargona", "fergana", "farg'ona shaxri", "fargona city",
+      "farg'onada", "farg'onadan", "farg'onga", "farg'onalik",
+      "Фарғона", "Фергана", "город Фергана"
+    ]
+  },
+
+  "kokand": {
+    "topic_id": 101382,
+    "cyrillic_uz": "Қўқон шаҳри",
+    "latin_uz": "Qo'qon shahri",
+    "russian": "город Коканд",
+    "aliases": [
+      "qoqon", "kokand", "qo'qon", "qo‘qon", "qoqon shaxri", "qoqon city",
+      "qoqonda", "qoqondan", "qoqonga", "qoqonlik",
+      "Қўқон", "Коканд"
+    ]
+  },
+
+  "margilan": {
+    "topic_id": 101382,
+    "cyrillic_uz": "Марғилон шаҳри",
+    "latin_uz": "Marg'ilon shahri",
+    "russian": "город Маргилан",
+    "aliases": [
+      "margilon", "marg'ilon", "margilan", "margilon shaxri", "margilon city",
+      "margilonda", "margilondan", "margilonlik",
+      "Марғилон", "Маргилан"
+    ]
+  },
+
+  "quvasoy": {
+    "topic_id": 101382,
+    "cyrillic_uz": "Қувасой шаҳри",
+    "latin_uz": "Quvasoy shahri",
+    "russian": "город Кувасай",
+    "aliases": [
+      "quvasoy", "kuvasay", "quvasoy shaxri", "quvasoy city",
+      "quvasoyda", "quvasoydan", "quvasoylik",
+      "Қувасой", "Кувасай"
+    ]
+  },
+
+  "beshariq": {
+    "topic_id": 101382,
+    "cyrillic_uz": "Бешариқ тумани",
+    "latin_uz": "Beshariq tumani",
+    "russian": "Бешарыкский район",
+    "aliases": [
+      "beshariq", "besharik", "beshariq tumani", "beshariq rayon",
+      "beshariqda", "beshariqdan", "beshariqga", "beshariqlik",
+      "Бешариқ", "Бешарык", "Бешарыкский район"
+    ]
+  },
+
+  "bogdod": {
+    "topic_id": 101382,
+    "cyrillic_uz": "Боғдод тумани",
+    "latin_uz": "Bog'dod tumani",
+    "russian": "Багдадский район",
+    "aliases": [
+      "bogdod", "bog'dod", "bogʻdod", "bagdad", "bogdod tumani", "bagdad rayon",
+      "bogdodda", "bogdoddan", "bogdodga", "bogdodlik",
+      "Боғдод", "Багдад", "Багдадский район"
+    ]
+  },
+
+  "oltiarik": {
+    "topic_id": 101382,
+    "cyrillic_uz": "Олтиориқ тумани",
+    "latin_uz": "Oltiariq tumani",
+    "russian": "Алтыарыкский район",
+    "aliases": [
+      "oltiarik", "oltiariq", "altiarik", "oltiarik tumani", "altiarik rayon",
+      "oltiarikda", "oltiarikdan", "oltiariklik",
+      "Олтиориқ", "Алтыарык", "Алтыарыкский район"
+    ]
+  },
+
+  "rishton": {
+    "topic_id": 101382,
+    "cyrillic_uz": "Риштон тумани",
+    "latin_uz": "Rishton tumani",
+    "russian": "Риштанский район",
+    "aliases": [
+      "rishton", "rishtan", "rishton tumani", "rishton rayon",
+      "rishtonda", "rishtondan", "rishtonlik",
+      "Риштон", "Риштан", "Риштанский район"
+    ]
+  },
+
+  "sox": {
+    "topic_id": 101382,
+    "cyrillic_uz": "Сўх тумани",
+    "latin_uz": "Sox tumani",
+    "russian": "Сухский район",
+    "aliases": [
+      "sox", "sux", "sox tumani", "sux rayon",
+      "soxda", "soxdan", "soxga", "soxlik",
+      "Сўх", "Сух", "Сухский район"
+    ]
+  },
+
+  "namangan_city": {
+    "topic_id": 101383,
+    "cyrillic_uz": "Наманган шаҳри",
+    "latin_uz": "Namangan shahri",
+    "russian": "город Наманган",
+    "aliases": [
+      "namangan", "namangan shaxri", "namangan city",
+      "namanganda", "namangandan", "namanganga", "namanganlik",
+      "Наманган"
+    ]
+  },
+
+  "pop_namangan": {
+    "topic_id": 101383,
+    "cyrillic_uz": "Поп тумани",
+    "latin_uz": "Pop tumani",
+    "russian": "Папский район",
+    "aliases": [
+      "pop", "pop tumani", "pop rayon",
+      "popda", "popdan", "popga", "poplik",
+      "Поп", "Папский район"
+    ]
+  },
+
+  "chust": {
+    "topic_id": 101383,
+    "cyrillic_uz": "Чуст тумани",
+    "latin_uz": "Chust tumani",
+    "russian": "Чустский район",
+    "aliases": [
+      "chust", "chust tumani", "chust rayon",
+      "chustda", "chustdan", "chustga", "chustlik",
+      "Чуст", "Чустский район"
+    ]
+  },
+
+  "kosonsoy": {
+    "topic_id": 101383,
+    "cyrillic_uz": "Косонсой тумани",
+    "latin_uz": "Kosonsoy tumani",
+    "russian": "Касансайский район",
+    "aliases": [
+      "kosonsoy", "kasan-say", "kosonsoy tumani", "kasan-say rayon",
+      "kosonsoyda", "kosonsoydan", "kosonsoyga", "kosonsoylik",
+      "Косонсой", "Касансай", "Касансайский район"
+    ]
+  },
+
+  "yangiqorgon": {
+    "topic_id": 101383,
+    "cyrillic_uz": "Янгикўрган тумани",
+    "latin_uz": "Yangiqoʻrgʻon tumani",
+    "russian": "Янги-Курганский район",
+    "aliases": [
+      "yangiqorgon", "yangikurgan", "yangiqoʻrgʻon", "yangiqurgan",
+      "yangiqorgon tumani", "yangikurgan rayon",
+      "yangiqorgonda", "yangiqorgondan", "yangiqorgonga", "yangiqorgonlik",
+      "Янгикўрган", "Янги-Курган", "Янги-Курганский район"
+    ]
+  },
+
+  "uchqorgon": {
+    "topic_id": 101383,
+    "cyrillic_uz": "Учқўрғон тумани",
+    "latin_uz": "Uchqoʻrgʻon tumani",
+    "russian": "Уч-Курганский район",
+    "aliases": [
+      "uchqorgon", "uchqurgan", "uchqoʻrgʻon", "uchqorgon tumani", "uch-kurgan rayon",
+      "uchqorgonda", "uchqorgondan", "uchqorgonga", "uchqorgonlik",
+      "Учқўрғон", "Уч-Курган", "Уч-Курганский район"
+    ]
+  },
+
+  "buxoro_city": {
+    "topic_id": 101372,
+    "cyrillic_uz": "Бухоро шаҳри",
+    "latin_uz": "Buxoro shahri",
+    "russian": "город Бухара",
+    "aliases": [
+      "buxoro", "buxara", "bukhara", "buxoro shaxri", "buxoro city",
+      "buxoroda", "buxorodan", "buxoroga", "buxorolik",
+      "Бухоро", "Бухара", "город Бухара"
+    ]
+  },
+
+  "kogon": {
+    "topic_id": 101372,
+    "cyrillic_uz": "Когон шаҳри",
+    "latin_uz": "Kogon shahri",
+    "russian": "город Каган",
+    "aliases": [
+      "kogon", "kagan", "kogon shaxri", "kogon city",
+      "kogon-da", "kogon-dan", "kogon-ga", "kogonlik",
+      "Когон", "Каган"
+    ]
+  },
+
+  "gijduvon": {
+    "topic_id": 101372,
+    "cyrillic_uz": "Ғиждувон тумани",
+    "latin_uz": "G'ijduvon tumani",
+    "russian": "Гиждувонский район",
+    "aliases": [
+      "g'ijduvon", "gijduvon", "g‘ijduvon", "gijduvon tumani", "gijduvon rayon",
+      "gijduvonda", "gijduvondan", "gijduvonga", "gijduvonlik",
+      "Ғиждувон", "Гиждувон", "Гиждувонский район"
+    ]
+  },
+
+  "romitan": {
+    "topic_id": 101372,
+    "cyrillic_uz": "Ромитан тумани",
+    "latin_uz": "Romitan tumani",
+    "russian": "Ромитанский район",
+    "aliases": [
+      "romitan", "romitan tumani", "romitan rayon",
+      "romitanda", "romitandan", "romitanga", "romitanlik",
+      "Ромитан", "Ромитанский район"
+    ]
+  },
+
+  "shofirkon": {
+    "topic_id": 101372,
+    "cyrillic_uz": "Шофиркон тумани",
+    "latin_uz": "Shofirkon tumani",
+    "russian": "Шафирканский район",
+    "aliases": [
+      "shofirkon", "shafirkon", "shofirkon tumani", "shafirkon rayon",
+      "shofirkonda", "shofirkondan", "shofirkonga", "shofirkonlik",
+      "Шофиркон", "Шафиркан", "Шафирканский район"
+    ]
+  },
+
+  "qorakol": {
+    "topic_id": 101372,
+    "cyrillic_uz": "Қоракўл тумани",
+    "latin_uz": "Qorakoʻl tumani",
+    "russian": "Каракульский район",
+    "aliases": [
+      "qorakol", "qorakul", "qorakoʻl", "qorakol tumani", "karakul rayon",
+      "qorakolda", "qorakoldan", "qorakolga", "qorakollik",
+      "Қоракўл", "Каракуль", "Каракульский район"
+    ]
+  },
+
+  "samarqand_city": {
+    "topic_id": 101369,
+    "cyrillic_uz": "Самарқанд шаҳри",
+    "latin_uz": "Samarqand shahri",
+    "russian": "город Самарканд",
+    "aliases": [
+      "samarqand", "samarkand", "samarqand shaxri", "samarqand city",
+      "samarqanda", "samarqandan", "samarqandga", "samarqandlik",
+      "Самарқанд", "Самарканд"
+    ]
+  },
+
+  "urgut": {
+    "topic_id": 101369,
+    "cyrillic_uz": "Ургут тумани",
+    "latin_uz": "Urgut tumani",
+    "russian": "Ургутский район",
+    "aliases": [
+      "urgut", "urgut tumani", "urgut rayon",
+      "urgutda", "urgutdan", "urgutga", "urgutlik",
+      "Ургут", "Ургутский район"
+    ]
+  },
+
+  "kattaqorgon": {
+    "topic_id": 101369,
+    "cyrillic_uz": "Каттақўрғон шаҳри",
+    "latin_uz": "Kattaqoʻrgʻon shahri",
+    "russian": "город Катта-Курган",
+    "aliases": [
+      "kattaqorgon", "kattakurgan", "kattaqoʻrgʻon", "katta-qurghon", "katta-qurgan",
+      "kattaqorgon shaxri", "kattaqorgon city",
+      "kattaqorgonda", "kattaqorgondan", "kattaqorgonga", "kattaqorgonlik",
+      "Каттақўрғон", "Катта-Курган", "город Катта-Курган"
+    ]
+  },
+
+  "payariq": {
+    "topic_id": 101369,
+    "cyrillic_uz": "Паяриқ тумани",
+    "latin_uz": "Payariq tumani",
+    "russian": "Паярыкский район",
+    "aliases": [
+      "payariq", "payariq tumani", "payariq rayon", "payarik",
+      "payariqda", "payariqdan", "payariqga", "payariqlik",
+      "Паяриқ", "Паярык", "Паярыкский район"
+    ]
+  },
+
+  "ishtixon": {
+    "topic_id": 101369,
+    "cyrillic_uz": "Иштихон тумани",
+    "latin_uz": "Ishtixon tumani",
+    "russian": "Иштиханский район",
+    "aliases": [
+      "ishtixon", "ishtixan", "ishtixon tumani", "ishtixon rayon",
+      "ishtixonda", "ishtixondan", "ishtixonga", "ishtixonlik",
+      "Иштихон", "Иштихан", "Иштиханский район"
+    ]
+  },
+
+  "jomboy": {
+    "topic_id": 101369,
+    "cyrillic_uz": "Жомбой тумани",
+    "latin_uz": "Jomboy tumani",
+    "russian": "Джамбайский район",
+    "aliases": [
+      "jomboy", "jambay", "jomboy tumani", "jambay rayon",
+      "jomboyda", "jomboydan", "jomboyga", "jomboylik",
+      "Жомбой", "Джамбай", "Джамбайский район"
+    ]
+  },
+
+  "nurabod": {
+    "topic_id": 101369,
+    "cyrillic_uz": "Нурабод тумани",
+    "latin_uz": "Nurabod tumani",
+    "russian": "Нурабадский район",
+    "aliases": [
+      "nurabod", "nurabad", "nurabod tumani", "nurabad rayon",
+      "nurabodda", "nuraboddan", "nurabodga", "nurabodlik",
+      "Нурабод", "Нурабад", "Нурабадский район"
+    ]
+  },
+
+  "qarshi": {
+    "topic_id": 101380,
+    "cyrillic_uz": "Қарши шаҳри",
+    "latin_uz": "Qarshi shahri",
+    "russian": "город Карши",
+    "aliases": [
+      "qarshi", "karshi", "qarshi shaxri", "karshi city",
+      "qarshida", "qarshidan", "qarshiga", "qarshilik",
+      "Қарши", "Карши", "город Карши"
+    ]
+  },
+
+  "shahrisabz": {
+    "topic_id": 101380,
+    "cyrillic_uz": "Шаҳрисабз шаҳри",
+    "latin_uz": "Shahrisabz shahri",
+    "russian": "город Шахрисабз",
+    "aliases": [
+      "shahrisabz", "shakhrisabz", "shahrisabz shaxri", "shahrisabz city",
+      "shahrisabzda", "shahrisabzdan", "shahrisabzga", "shahrisabzlik",
+      "Шаҳрисабз", "Шахрисабз"
+    ]
+  },
+
+  "koson": {
+    "topic_id": 101380,
+    "cyrillic_uz": "Косон тумани",
+    "latin_uz": "Koson tumani",
+    "russian": "Касанский район",
+    "aliases": [
+      "koson", "kason", "koson tumani", "kason rayon",
+      "kosonda", "kosondan", "kosonga", "kosonlik",
+      "Косон", "Касан", "Касанский район"
+    ]
+  },
+
+  "guzar": {
+    "topic_id": 101380,
+    "cyrillic_uz": "Гузар тумани",
+    "latin_uz": "Guzar tumani",
+    "russian": "Гузарский район",
+    "aliases": [
+      "guzar", "guzar tumani", "guzar rayon",
+      "guzarda", "guzardan", "guzarga", "guzarlik",
+      "Гузар", "Гузарский район"
+    ]
+  },
+
+  "muborak": {
+    "topic_id": 101380,
+    "cyrillic_uz": "Муборак тумани",
+    "latin_uz": "Muborak tumani",
+    "russian": "Мубарекский район",
+    "aliases": [
+      "muborak", "mubarak", "muborak tumani", "muborak rayon",
+      "muborakda", "muborakdan", "muborakga", "muboraklik",
+      "Муборак", "Мубарек", "Мубарекский район"
+    ]
+  },
+
+  "chiroqchi": {
+    "topic_id": 101380,
+    "cyrillic_uz": "Чироқчи тумани",
+    "latin_uz": "Chiroqchi tumani",
+    "russian": "Чиракчинский район",
+    "aliases": [
+      "chiroqchi", "chiroq-chi", "chiroqchi tumani", "chiroqchi rayon",
+      "chiroqchida", "chiroqchidan", "chiroqchiga", "chiroqchilik",
+      "Чироқчи", "Чиракча", "Чиракчинский район"
+    ]
+  },
+
+  "yakkabog": {
+    "topic_id": 101380,
+    "cyrillic_uz": "Яккабоғ тумани",
+    "latin_uz": "Yakkabog' tumani",
+    "russian": "Яккабагский район",
+    "aliases": [
+      "yakkabog", "yakkabog'", "yakka-bog", "yakka-bog'", "yakkabog tumani",
+      "yakkabogda", "yakkabogdan", "yakkabogga", "yakkaboglik",
+      "Яккабоғ", "Яккабаг", "Яккабагский район"
+    ]
+  },
+
+  "termiz": {
+    "topic_id": 101363,
+    "cyrillic_uz": "Термиз шаҳри",
+    "latin_uz": "Termiz shahri",
+    "russian": "город Термез",
+    "aliases": [
+      "termiz", "termez", "termiz shaxri", "termiz city",
+      "termizda", "termizdan", "termizga", "termizlik",
+      "Термиз", "Термез"
+    ]
+  },
+
+  "denov": {
+    "topic_id": 101363,
+    "cyrillic_uz": "Денов тумани",
+    "latin_uz": "Denov tumani",
+    "russian": "Денауский район",
+    "aliases": [
+      "denov", "denau", "denov tumani", "denau rayon",
+      "denovda", "denovdan", "denovga", "denovlik",
+      "Денов", "Денау", "Денауский район"
+    ]
+  },
+
+  "boysun": {
+    "topic_id": 101363,
+    "cyrillic_uz": "Бойсун тумани",
+    "latin_uz": "Boysun tumani",
+    "russian": "Байсунский район",
+    "aliases": [
+      "boysun", "baysun", "boysun tumani", "baysun rayon",
+      "boysunda", "boysundan", "boysunga", "boysunlik",
+      "Бойсун", "Байсун", "Байсунский район"
+    ]
+  },
+
+  "sherobod": {
+    "topic_id": 101363,
+    "cyrillic_uz": "Шеробод тумани",
+    "latin_uz": "Sherobod tumani",
+    "russian": "Шерабадский район",
+    "aliases": [
+      "sherobod", "sherabad", "sherobod tumani", "sherabad rayon",
+      "sherobodda", "sheroboddan", "sherobodga", "sherobodlik",
+      "Шеробод", "Шерабад", "Шерабадский район"
+    ]
+  },
+
+  "qumqorgon": {
+    "topic_id": 101363,
+    "cyrillic_uz": "Қумқўрғон тумани",
+    "latin_uz": "Qumqoʻrgʻon tumani",
+    "russian": "Кум-Курганский район",
+    "aliases": [
+      "qumqorgon", "qumqorğon", "qumqoʻrgʻon", "qumqurgan", "qum-kurgan",
+      "qumqorgon tumani", "qumqorgon rayon",
+      "qumqorgonda", "qumqorgondan", "qumqorgonga", "qumqorgonlik",
+      "Қумқўрғон", "Кум-Курган", "Кум-Курганский район"
+    ]
+  },
+
+  "uzun": {
+    "topic_id": 101363,
+    "cyrillic_uz": "Узун тумани",
+    "latin_uz": "Uzun tumani",
+    "russian": "Узунский район",
+    "aliases": [
+      "uzun", "uzun tumani", "uzun rayon",
+      "uzunda", "uzundan", "uzunga", "uzunlik",
+      "Узун", "Узунский район"
+    ]
+  },
+
+  "navoi_city": {
+    "topic_id": 101379,
+    "cyrillic_uz": "Навоий шаҳри",
+    "latin_uz": "Navoiy shahri",
+    "russian": "город Навои",
+    "aliases": [
+      "navoiy", "navoi", "navoiy shaxri", "navoi city",
+      "navoiyda", "navoiydan", "navoiyga", "navoiylik",
+      "Навоий", "Навои"
+    ]
+  },
+
+  "zarafshan": {
+    "topic_id": 101379,
+    "cyrillic_uz": "Зарафшон шаҳри",
+    "latin_uz": "Zarafshon shahri",
+    "russian": "город Зарафшан",
+    "aliases": [
+      "zarafshon", "zarafshan", "zarafshon shaxri", "zarafshon city",
+      "zarafshonda", "zarafshondan", "zarafshonga", "zarafshonlik",
+      "Зарафшон", "Зарафшан"
+    ]
+  },
+
+  "karmana": {
+    "topic_id": 101379,
+    "cyrillic_uз": "Кармана тумани",
+    "latin_uз": "Karmana tumani",
+    "russian": "Карманинский район",
+    "aliases": [
+      "karmana", "karmana tumani", "karmana rayon",
+      "karmanada", "karmanadan", "karmanaga", "karmanalik",
+      "Кармана", "Карманинский район"
+    ]
+  },
+
+  "nurota": {
+    "topic_id": 101379,
+    "cyrillic_uз": "Нурота тумани",
+    "latin_uз": "Nurota tumani",
+    "russian": "Нуратинский район",
+    "aliases": [
+      "nurota", "nurat", "nurota tumani", "nurat rayon",
+      "nurotada", "nurotadan", "nurotaga", "nurotalik",
+      "Нурота", "Нурат", "Нуратинский район"
+    ]
+  },
+
+  "konimex": {
+    "topic_id": 101379,
+    "cyrillic_uз": "Конимех тумани",
+    "latin_uз": "Konimex tumani",
+    "russian": "Канимехский район",
+    "aliases": [
+      "konimex", "kanimeh", "konimex tumani", "kanimeh rayon",
+      "konimexda", "konimexdan", "konimexga", "konimexlik",
+      "Конимех", "Канимех", "Канимехский район"
+    ]
+  },
+
+  "uchquduq": {
+    "topic_id": 101379,
+    "cyrillic_uз": "Учқудуқ тумани",
+    "latin_uз": "Uchquduq tumani",
+    "russian": "Учкудукский район",
+    "aliases": [
+      "uchquduq", "uchkuduk", "uchquduq tumani", "uchkuduk rayon",
+      "uchquduqda", "uchquduqdan", "uchquduqga", "uchquduqlik",
+      "Учқудуқ", "Учкудук", "Учкудукский район"
+    ]
+  },
+
+  "guliston": {
+    "topic_id": 101378,
+    "cyrillic_uз": "Гулистон шаҳри",
+    "latin_uз": "Guliston shahri",
+    "russian": "город Гулистан",
+    "aliases": [
+      "guliston", "gulistan", "guliston shaxri", "guliston city",
+      "gulistonda", "gulistondan", "gulistonga", "gulistonlik",
+      "Гулистон", "Гулистан"
+    ]
+  },
+
+  "shirin": {
+    "topic_id": 101378,
+    "cyrillic_uз": "Ширин шаҳри",
+    "latin_uз": "Shirin shahri",
+    "russian": "город Ширин",
+    "aliases": [
+      "shirin", "shirin shaxri", "shirin city",
+      "shirinda", "shirindan", "shiringa", "shirinlik",
+      "Ширин"
+    ]
+  },
+
+  "yangier": {
+    "topic_id": 101378,
+    "cyrillic_uз": "Янгиёр шаҳри",
+    "latin_uз": "Yangiyer shahri",
+    "russian": "город Янгиёр",
+    "aliases": [
+      "yangier", "yangiyer", "yangiyer shaxri", "yangiyer city",
+      "yangiyerda", "yangiyerdan", "yangiyerga", "yangiyerlik",
+      "Янгиёр", "Янгиёр"
+    ]
+  },
+
+  "boyovut": {
+    "topic_id": 101378,
+    "cyrillic_uз": "Боёвут тумани",
+    "latin_uз": "Boyovut tumani",
+    "russian": "Баяутский район",
+    "aliases": [
+      "boyovut", "bayaut", "boyovut tumani", "bayaut rayon",
+      "boyovutda", "boyovutdan", "boyovutga", "boyovutlik",
+      "Боёвут", "Баяут", "Баяутский район"
+    ]
+  },
+
+  "mirzaobod": {
+    "topic_id": 101378,
+    "cyrillic_uз": "Мирзаобод тумани",
+    "latin_uз": "Mirzaobod tumani",
+    "russian": "Мирзаабадский район",
+    "aliases": [
+      "mirzaobod", "mirzaabad", "mirza-obod", "mirzaobod tumani", "mirzaabad rayon",
+      "mirzaobodda", "mirzaoboddan", "mirzaobodga", "mirzaobodlik",
+      "Мирзаобод", "Мирзаабад", "Мирзаабадский район"
+    ]
+  },
+
+  "sirdaryo": {
+    "topic_id": 101378,
+    "cyrillic_uз": "Сирдарё вилояти",
+    "latin_uз": "Sirdaryo viloyati",
+    "russian": "Сырдарьинская область",
+    "aliases": [
+      "sirdaryo", "sirdaryo viloyati", "sirdarya oblast", "sirdarya region",
+      "sirdaryoga", "sirdaryodan", "sirdaryoda",
+      "Сирдарё", "Сырдарья", "Сырдарьинская область"
+    ]
+  },
+
+  "jizzakh_city": {
+    "topic_id": 101377,
+    "cyrillic_uз": "Жиззах шаҳри",
+    "latin_uз": "Jizzax shahri",
+    "russian": "город Джизак",
+    "aliases": [
+      "jizzax", "jizzakh", "jizzax shaxri", "jizzax city",
+      "jizzaxda", "jizzaxdan", "jizzaxga", "jizzaxlik",
+      "Жиззах", "Джизак"
+    ]
+  },
+
+  "gallaaral": {
+    "topic_id": 101377,
+    "cyrillic_uз": "Ғаллаорал тумани",
+    "latin_uз": "G'allaoʻral tumani",
+    "russian": "Галлааральский район",
+    "aliases": [
+      "gallaaral", "g'allao'ral", "galla-aral", "gallaaral tumani", "gallaaral rayon",
+      "gallaaralda", "gallaaraldan", "gallaaralga", "gallaarallik",
+      "Ғаллаорал", "Галлаараль", "Галлааральский район"
+    ]
+  },
+
+  "pakhtakor": {
+    "topic_id": 101377,
+    "cyrillic_uз": "Пахтакор тумани",
+    "latin_uз": "Pakhtakor tumani",
+    "russian": "Пахтакорский район",
+    "aliases": [
+      "pakhtakor", "pakhta-kor", "pakhtakor tumani", "pakhtakor rayon",
+      "pakhtakorda", "pakhtakordan", "pakhtakorga", "pakhtakorlik",
+      "Пахтакор", "Пахтакорский район"
+    ]
+  },
+
+  "zomin": {
+    "topic_id": 101377,
+    "cyrillic_uз": "Зомин тумани",
+    "latin_uз": "Zomin tumani",
+    "russian": "Зааминский район",
+    "aliases": [
+      "zomin", "zaamin", "zomin tumani", "zaamin rayon",
+      "zominda", "zomindan", "zominga", "zominlik",
+      "Зомин", "Заамин", "Зааминский район"
+    ]
+  },
+
+  "forish": {
+    "topic_id": 101377,
+    "cyrillic_uз": "Фориш тумани",
+    "latin_uз": "Forish tumani",
+    "russian": "Фаришский район",
+    "aliases": [
+      "forish", "farish", "forish tumani", "farish rayon",
+      "forishda", "forishdan", "forishga", "forishlik",
+      "Фориш", "Фариш", "Фаришский район"
+    ]
+  },
+
+  "arnasoy": {
+    "topic_id": 101377,
+    "cyrillic_uз": "Арнасой тумани",
+    "latin_uз": "Arnasoy tumani",
+    "russian": "Арнасайский район",
+    "aliases": [
+      "arnasoy", "arnasay", "arnasoy tumani", "arnasay rayon",
+      "arnasoyda", "arnasoydan", "arnasoyga", "arnasoylik",
+      "Арнасой", "Арнасай", "Арнасайский район"
+    ]
+  },
+
+  "baxmal": {
+    "topic_id": 101377,
+    "cyrillic_uз": "Бахмал тумани",
+    "latin_uз": "Baxmal tumani",
+    "russian": "Бахмальский район",
+    "aliases": [
+      "baxmal", "bakhmal", "baxmal tumani", "bakhmal rayon",
+      "baxmalda", "baxmaldan", "baxmalga", "baxmallik",
+      "Бахмал", "Бахмаль", "Бахмальский район"
+    ]
+  },
+
+  "xorazm_city": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Хоразм вилояти",
+    "latin_uз": "Xorazm viloyati",
+    "russian": "Хорезмская область",
+    "aliases": [
+      "xorazm", "xorezm", "xorazm viloyati", "khorezm oblast", "xorazm region",
+      "xorazmga", "xorazmdan", "xorazmda",
+      "Хоразм", "Хорезм", "Хорезмская область"
+    ]
+  },
+
+  "khiva": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Хива шаҳри",
+    "latin_uз": "Xiva shahri",
+    "russian": "город Хива",
+    "aliases": [
+      "xiva", "khiva", "xiva shaxri", "khiva city",
+      "xivada", "xivadan", "xivaga", "xivalik",
+      "Хива"
+    ]
+  },
+
+  "shovot": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Шовот тумани",
+    "latin_uз": "Shovot tumani",
+    "russian": "Шаватский район",
+    "aliases": [
+      "shovot", "shavat", "shovot tumani", "shavat rayon",
+      "shovotda", "shovotdan", "shovotga", "shovotlik",
+      "Шовот", "Шават", "Шаватский район"
+    ]
+  },
+
+  "yangiariq": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Янгиариқ тумани",
+    "latin_uз": "Yangiariq tumani",
+    "russian": "Янгиарыкский район",
+    "aliases": [
+      "yangiariq", "yangi-arik", "yangiarik", "yangiariq tumani", "yangiarik rayon",
+      "yangiariqda", "yangiariqdan", "yangiariqga", "yangiariqlik",
+      "Янгиариқ", "Янгиарык", "Янгиарыкский район"
+    ]
+  },
+
+  "bogot": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Боғот тумани",
+    "latin_uз": "Bog'ot tumani",
+    "russian": "Багатский район",
+    "aliases": [
+      "bogot", "bog'ot", "bogʻot", "bogat", "bogot tumani", "bogat rayon",
+      "bogotda", "bogotdan", "bogotga", "bogotlik",
+      "Боғот", "Багат", "Багатский район"
+    ]
+  },
+
+  "hazarasp": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Хазарасп тумани",
+    "latin_uз": "Xazarasp tumani",
+    "russian": "Хазараспский район",
+    "aliases": [
+      "xazarasp", "hazarasp", "xazarasp tumani", "hazarasp rayon",
+      "xazaraspda", "xazaraspdan", "xazaraspga", "xazarasplik",
+      "Хазарасп", "Хазараспский район"
+    ]
+  },
+
+  "gurlan": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Гурлан тумани",
+    "latin_uз": "Gurlan tumani",
+    "russian": "Гурленский район",
+    "aliases": [
+      "gurlan", "gurlan tumani", "gurlan rayon",
+      "gurlanda", "gurlandan", "gurlanga", "gurlanlik",
+      "Гурлан", "Гурленский район"
+    ]
+  },
+
+  "qoshkopir": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Қўшкўпир тумани",
+    "latin_uз": "Qoʻshkoʻpir tumani",
+    "russian": "Кошкепирский район",
+    "aliases": [
+      "qoshkopir", "koshkepir", "qo`shko`pir", "qoshkopir tumani", "koshkepir rayon",
+      "qoshkopirda", "qoshkopirdan", "qoshkopirga", "qoshkopirlik",
+      "Қўшкўпир", "Кошкепир", "Кошкепирский район"
+    ]
+  },
+
+  "tuproqqala": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Тупроққала тумани",
+    "latin_uз": "Tuproqqala tumani",
+    "russian": "Тупроккалинский район",
+    "aliases": [
+      "tuproqqala", "tuprok-kala", "tuproqqala tumani", "tuprok-kala rayon",
+      "tuproqqalada", "tuproqqaladan", "tuproqqalaga", "tuproqqalalik",
+      "Тупроққала", "Тупроккала", "Тупроккалинский район"
+    ]
+  },
+
+  "urganch": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Урганч шаҳри",
+    "latin_uз": "Urganch shahri",
+    "russian": "город Ургенч",
+    "aliases": [
+      "urganch", "urgench", "urganch shaxri", "urgench city",
+      "urganchda", "urganchdan", "urganchga", "urganchlik",
+      "Урганч", "Ургенч"
+    ]
+  },
+
+  "khorezm": {
+    "topic_id": 101660,
+    "cyrillic_uз": "Хоразм вилояти",
+    "latin_uз": "Xorazm viloyati",
+    "russian": "Хорезмская область",
+    "aliases": [
+      "xorazm", "xorezm", "xorazm viloyati", "khorezm oblast", "khorezm region",
+      "xorazmga", "xorazmdan", "xorazmda",
+      "Хоразм", "Хорезм", "Хорезмская область"
+    ]
+  },
+
+  "nukus": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Нукус шаҳри",
+    "latin_uз": "Nukus shahri",
+    "russian": "город Нукус",
+    "aliases": [
+      "nukus", "nukus shaxri", "nukus city",
+      "nukusda", "nukusdan", "nukusga", "nukuslik",
+      "Нукус"
+    ]
+  },
+
+  "karakalpakstan": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Қорақалпоғистон Республикаси",
+    "latin_uз": "Qoraqalpog'iston Respublikasi",
+    "russian": "Республика Каракалпакстан",
+    "aliases": [
+      "qoraqalpog'iston", "qoraqalpoqiston", "karakalpakstan", "karakalpak republic",
+      "qoraqalpog'iston respublikasi", "karakalpakstan respublikasi",
+      "Қорақалпоғистон", "Каракалпакстан", "Республика Каракалпакстан"
+    ]
+  },
+
+  "muynak": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Мўйноқ тумани",
+    "latin_uз": "Mo'ynoq tumani",
+    "russian": "Муйнакский район",
+    "aliases": [
+      "mo'ynoq", "muynak", "moynoq", "muynak tumani", "muynak rayon",
+      "mo'ynoqda", "mo'ynoqdan", "mo'ynoqqa", "mo'ynoqlik",
+      "Мўйноқ", "Муйнак", "Муйнакский район"
+    ]
+  },
+
+  "takhiatash": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Тахиаташ шаҳри",
+    "latin_uз": "Taxiatash shahri",
+    "russian": "город Тахиаташ",
+    "aliases": [
+      "taxiatash", "takhiatash", "taxiatash shaxri", "takhiatash city",
+      "taxiatashda", "taxiatashdan", "taxiatashga", "taxiatashlik",
+      "Тахиаташ"
+    ]
+  },
+
+  "turtkul": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Тўрткўл шаҳри",
+    "latin_uз": "To'rtko'l shahri",
+    "russian": "город Турткуль",
+    "aliases": [
+      "to'rtko'l", "tortkul", "turtkul", "to'rtko'l shaxri", "turtkul city",
+      "to'rtko'lda", "to'rtko'ldan", "to'rtko'lga", "to'rtko'llik",
+      "Тўрткўл", "Турткуль"
+    ]
+  },
+
+  "beruniy": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Беруний тумани",
+    "latin_uз": "Beruniy tumani",
+    "russian": "Берунийский район",
+    "aliases": [
+      "beruniy", "beruni", "beruniy tumani", "beruni rayon",
+      "beruniyda", "beruniidan", "beruniiga", "beruniilik",
+      "Беруний", "Берунийский район"
+    ]
+  },
+
+  "karauzyak": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Қараўзяк тумани",
+    "latin_uз": "Qaro'zyak tumani",
+    "russian": "Караузякский район",
+    "aliases": [
+      "qaro'zyak", "karauzyak", "qaro'zyak tumani", "karauzyak rayon",
+      "qaro'zyakda", "qaro'zyakdan", "qaro'zyakga", "qaro'zyaklik",
+      "Қараўзяк", "Караузяк", "Караузякский район"
+    ]
+  },
+
+  "kegeyli": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Кегейли тумани",
+    "latin_uз": "Kegeyli tumani",
+    "russian": "Кегейлийский район",
+    "aliases": [
+      "kegeyli", "kegeyli tumani", "kegeyli rayon",
+      "kegeylida", "kegeylidan", "kegeyliga", "kegeylilik",
+      "Кегейли", "Кегейлийский район"
+    ]
+  },
+
+  "amudarya": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Амударё тумани",
+    "latin_uз": "Amudaryo tumani",
+    "russian": "Амударьинский район",
+    "aliases": [
+      "amudaryo", "amudarya", "amudaryo tumani", "amudarya rayon",
+      "amudaryoda", "amudaryodan", "amudaryoga", "amudaryolik",
+      "Амударё", "Амударьинский район"
+    ]
+  },
+
+  "kanlikol": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Қонлиқўл тумани",
+    "latin_uз": "Qonliqo'l tumani",
+    "russian": "Канлыкульский район",
+    "aliases": [
+      "qonliqo'l", "qonliko'l", "konlikul", "kanlikol", "qonliqo'l tumani", "kanlikol rayon",
+      "qonliqo'lda", "qonliqo'ldan", "qonliqo'lga", "qonliqo'llik",
+      "Қонлиқўл", "Канлыкуль", "Канлыкульский район"
+    ]
+  },
+
+  "chimbay": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Чимбой тумани",
+    "latin_uз": "Chimboy tumani",
+    "russian": "Чимбайский район",
+    "aliases": [
+      "chimboy", "chimbay", "chimboy tumani", "chimbay rayon",
+      "chimboyda", "chimboydan", "chimboyga", "chimboylik",
+      "Чимбой", "Чимбай", "Чимбайский район"
+    ]
+  },
+
+  "shumanay": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Шуманай тумани",
+    "latin_uз": "Shumanay tumani",
+    "russian": "Шуманайский район",
+    "aliases": [
+      "shumanay", "shumanai", "shumanay tumani", "shumanay rayon",
+      "shumanayda", "shumanaydan", "shumanayga", "shumanaylik",
+      "Шуманай", "Шуманайский район"
+    ]
+  },
+
+  "ellikqala": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Элликқала тумани",
+    "latin_uз": "Ellikqala tumani",
+    "russian": "Элликкалинский район",
+    "aliases": [
+      "ellikqala", "ellik-kala", "ellikqala tumani", "ellik-kala rayon",
+      "ellikqalada", "ellikqaladan", "ellikqalaga", "ellikqalalik",
+      "Элликқала", "Элликкала", "Элликкалинский район"
+    ]
+  },
+
+  "bo'zatov": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Бўзатов тумани",
+    "latin_uз": "Bo'zatov tumani",
+    "russian": "Бозатауский район",
+    "aliases": [
+      "bo'zatov", "bozatov", "bo'zatov tumani", "bozatau rayon",
+      "bo'zatovda", "bo'zatovdan", "bo'zatovga", "bo'zatovlik",
+      "Бўзатов", "Бозатау", "Бозатауский район"
+    ]
+  },
+
+  "xojeli": {
+    "topic_id": 101661,
+    "cyrillic_uз": "Хўжели шаҳри",
+    "latin_uз": "Xo'jeli shahri",
+    "russian": "город Ходжейли",
+    "aliases": [
+      "xo'jeli", "khodjeyli", "xojeli", "xo'jeli shaxri", "khodjeyli city",
+      "xo'jelida", "xo'jelidan", "xo'jeliga", "xo'jelilik",
+      "Хўжели", "Ходжейли"
+    ]
+  },
     'fura_bozor': {
         'topic_id': 101361,
         'keywords': [
