@@ -2013,7 +2013,7 @@ def process_message(message):
                 phone = extract_phone_number(block)
                 transport, desc = format_cargo_text(cargo_text)
 
-                                msg = (
+                           msg = (
             f"{from_city.upper()}\n"
             f"🚛 {transport}\n"
             f"💬 {desc}\n"
@@ -2119,12 +2119,12 @@ def handle_callback(update):
         transport, desc = format_cargo_text(cargo_clean)
 
                 msg = f"""{from_city.upper()} - {to_city.upper()}
-🚛 {transport}
-💬 {desc}
-☎️ {phone}
-#{to_city.upper()}
-➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-Другие грузы: @logistika_marka"""
+f"🚛 {transport}\n"
+f"💬 {desc}\n"
+f"☎️ {phone}\n"
+f"#XALQARO\n"
+f"➖➖➖➖➖➖➖\n"
+f"Boshqa yuklar: @logistika_marka"
 
         send_message(MAIN_GROUP_ID, msg, topic_id,
                      reply_markup=author_button({
