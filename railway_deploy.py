@@ -1840,58 +1840,28 @@ def extract_route_and_cargo(text):
 
 def format_cargo_text(cargo_text):
     """
-    Форматирует описание груза на узбекском латинице
+    Простая функция - просто копирует исходное сообщение в TAVSIF
     Возвращает (transport, description)
     """
     if not cargo_text:
-        return "Yuk", "Ma'lumot berilmagan"
+        return "", cargo_text or ""
     
-    # Убираем эмодзи и символы из текста
-    clean_text = re.sub(r'[⚡️❗️⚠️📞🔍🚛💬☎️➖\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', cargo_text)
-    
-    # Ключевые слова для транспорта только на узбекском латинице и английском
+    # Ключевые слова для транспорта
     transport_keywords = [
-        'furu', 'fura', 'kamaz', 'gazel', 'pritsep', 'mashina', 'avtomobil', 'gruzovik',
-        'refrigerator', 'tent', 'ochiq', 'ref', 'ishu furu', 'kerak fura', 'yuk mashina',
-        'truck', 'trailer', 'semi', 'lorry'
+        'furu', 'fura', 'kamaz', 'gazel', 'pritsep', 'mashina', 'avtomobil', 
+        'refrigerator', 'tent', 'ochiq', 'ref', 'truck', 'trailer', 'yuk'
     ]
     
-    cargo_lines = [line.strip() for line in clean_text.strip().split('\n') if line.strip()]
-    transport = "Yuk"
-    description_parts = []
+    # Ищем транспорт в тексте
+    transport = ""
+    text_lower = cargo_text.lower()
+    for keyword in transport_keywords:
+        if keyword in text_lower:
+            transport = keyword.capitalize()
+            break
     
-    for line in cargo_lines:
-        line_clean = line.strip()
-        line_lower = line_clean.lower()
-        
-        # Пропускаем линии с телефонами
-        if re.search(r'\+?\d{3,4}[\s\-]?\d{2,3}[\s\-]?\d{3,4}[\s\-]?\d{2,4}', line_clean):
-            continue
-            
-        # Проверяем, содержит ли строка транспорт
-        found_transport = False
-        for keyword in transport_keywords:
-            if keyword in line_lower:
-                transport = line_clean
-                found_transport = True
-                break
-                
-        if not found_transport:
-            # Если в строке нет транспорта, добавляем к описанию
-            if line_clean and len(line_clean) > 3:
-                # Исключаем служебные строки
-                if not any(skip in line_lower for skip in ['алокага', 'связь', 'звонить', 'контакт']):
-                    description_parts.append(line_clean)
-    
-    # Формируем описание - если не можем распознать детали, копируем весь текст
-    if description_parts:
-        description = " • ".join(description_parts[:3])  # Максимум 3 части
-    else:
-        # Копируем весь исходный текст без телефонов и лишних символов
-        clean_full_text = re.sub(r'\+?\d{3,4}[\s\-]?\d{2,3}[\s\-]?\d{3,4}[\s\-]?\d{2,4}', '', cargo_text)
-        clean_full_text = re.sub(r'[⚡️❗️⚠️📞🔍🚛💬☎️➖\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', clean_full_text)
-        clean_full_text = ' '.join(clean_full_text.split()[:10])  # Максимум 10 слов
-        description = clean_full_text.strip() if clean_full_text.strip() else "Ma'lumot berilmagan"
+    # TAVSIF - просто копируем исходный текст
+    description = cargo_text.strip()
     
     return transport, description
 
@@ -2060,22 +2030,43 @@ def process_message(message):
                 phone = extract_phone_number(block)
                 transport, desc = format_cargo_text(cargo_text)
 
-                msg = (
-                    f"{from_city.upper()}\n"
-                    f"TRANSPORT: {transport}\n"
-                    f"TAVSIF: {desc}\n"
-                    f"TELEFON: {phone}\n"
-                    f"#XALQARO\n"
-                    f"-------\n"
-                    f"Boshqa yuklar: @logistika_marka"
-                )
+                # Формируем сообщение с условными полями
+                msg_parts = [f"{from_city.upper()}"]
+                
+                if transport:
+                    msg_parts.append(f"TRANSPORT: {transport}")
+                
+                msg_parts.append(f"TAVSIF: {desc}")
+                
+                if phone != "Telefon ko'rsatilmagan":
+                    msg_parts.append(f"TELEFON: {phone}")
+                
+                msg_parts.extend([
+                    "#XALQARO",
+                    "➖➖➖➖➖➖➖➖➖➖➖➖➖➖",
+                    "Boshqa yuklar: @logistika_marka"
+                ])
+                
+                msg = "\n".join(msg_parts)
 
-                send_message(
+                # Отправляем с обработкой ошибок кнопок
+                author_markup = author_button(message.get('from', {}))
+                result = send_message(
                     MAIN_GROUP_ID,
                     msg,
                     REGION_KEYWORDS['xalqaro']['topic_id'],
-                    reply_markup=author_button(message.get('from', {}))
+                    reply_markup=author_markup
                 )
+                
+                # Если не удалось с кнопкой, пробуем без кнопки
+                if not result and author_markup:
+                    logger.warning(f"⚠️ Повтор без кнопки для xalqaro топика")
+                    send_message(
+                        MAIN_GROUP_ID,
+                        msg,
+                        REGION_KEYWORDS['xalqaro']['topic_id'],
+                        reply_markup=None
+                    )
                 continue  # блок обработан
 
         # === ОСНОВНАЯ ЛОГИКА: определение региона и топика ===
@@ -2095,10 +2086,10 @@ def process_message(message):
             region_code = "fargona_city"
             logger.info(f"🎯 Qo'qon приоритет → Farg'ona topic {topic_id}")
         else:
-            # Ищем регион по from_city (откуда отправляется груз) - это правильно для логистики
-            region_code = find_region(from_city)
+            # Ищем регион по to_city (куда едет товар) для хэштега
+            region_code = find_region(to_city)
             if not region_code:
-                region_code = find_region(to_city)
+                region_code = find_region(from_city)
             if not region_code:
                 region_code = find_region(text)
             
@@ -2128,21 +2119,31 @@ def process_message(message):
 
         # Формируем сообщение
         phone = extract_phone_number(text)
-        transport, description = format_cargo_text(cargo_text)
+        transport, description = format_cargo_text(text)  # Передаем весь текст
         
         # Правильный хэштег для региона
         hashtag = region_code.upper().replace('_CITY', '').replace('_', '_')
-        formatted_message = (
-            f"{from_city.upper()} → {to_city.upper()}\n"
-            f"TRANSPORT: {transport}\n"
-            f"TAVSIF: {description}\n"
-            f"TELEFON: {phone}\n"
-            f"#{hashtag}\n"
-            f"-------\n"
-            f"Boshqa yuklar: @logistika_marka"
-        )
+        
+        # Формируем сообщение с условными полями
+        message_parts = [f"{from_city.upper()} → {to_city.upper()}"]
+        
+        if transport:
+            message_parts.append(f"TRANSPORT: {transport}")
+        
+        message_parts.append(f"TAVSIF: {description}")
+        
+        if phone != "Telefon ko'rsatilmagan":
+            message_parts.append(f"TELEFON: {phone}")
+        
+        message_parts.extend([
+            f"#{hashtag}",
+            "➖➖➖➖➖➖➖➖➖➖➖➖➖➖",
+            "Boshqa yuklar: @logistika_marka"
+        ])
+        
+        formatted_message = "\n".join(message_parts)
 
-        # Отправляем в топик (безопасно, без кнопок если есть ограничения)
+        # Отправляем в топик с обработкой ошибок кнопок
         author_markup = author_button(message.get('from', {}))
         result = send_message(
             MAIN_GROUP_ID,
@@ -2150,6 +2151,16 @@ def process_message(message):
             topic_id,
             reply_markup=author_markup
         )
+        
+        # Если не удалось с кнопкой, пробуем без кнопки
+        if not result and author_markup:
+            logger.warning(f"⚠️ Повтор без кнопки для топика {topic_id}")
+            result = send_message(
+                MAIN_GROUP_ID,
+                formatted_message,
+                topic_id,
+                reply_markup=None
+            )
         
         if result:
             logger.info(f"✅ Сообщение {message_count} → топик {topic_id}")
