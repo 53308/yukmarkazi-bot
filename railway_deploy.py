@@ -507,7 +507,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "farg'ona", "fargʻona", "fargona", "fergana", "farg'ona shaxri", "fargona city",
       "farg'onada", "farg'onadan", "farg'onga", "farg'onalik",
-      "Фарғона", "Фергана", "город Фергана"
+      "фаргона", "фергана", "Фарғона", "Фергана", "город Фергана"
     ]
   },
 
@@ -545,7 +545,9 @@ REGION_KEYWORDS = {
     "aliases": [
       "quvasoy", "kuvasay", "quvasoy shaxri", "quvasoy city",
       "quvasoyda", "quvasoydan", "quvasoylik",
-      "Қувасой", "Кувасай"
+      "кувадан", "кува", "кувада", "кувасой", "кувасойдан", "кувасай", "кувган", "кувга",
+      "кувасойга", "кувасойда", "кувасоймен", "кувларга", "кувсой", "quvadan", "quvga", "quvada",
+      "Қувасой", "Кувасай", "Кува"
     ]
   },
 
@@ -1147,6 +1149,7 @@ REGION_KEYWORDS = {
     "russian": "город Джизак",
     "aliases": [
       "jizzax", "jizzakh", "jizzax shaxri", "jizzax city",
+      "jizzaq", "jizzaq zomin", "jizzaq zomindan",  # Альтернативное написание
       "jizzaxda", "jizzaxdan", "jizzaxga", "jizzaxlik",
       "гагарин", "gagarin", "гагариндан", "gagarindan",  # Гагарин = Жиззах
       "Жиззах", "Джизак"
@@ -1232,10 +1235,10 @@ REGION_KEYWORDS = {
     "russian": "Хорезмская область",
     "aliases": [
       "xorazm", "xorezm", "xorazm viloyati", "khorezm oblast", "xorazm region",
-      "xorazmga", "xorazmdan", "xorazmda",
-      "urganch", "urgench", "urganch shaxri", "urgench city",  # Объединено с urganch
+      "xorazmga", "xorazmdan", "xorazmda", "хоразмга", "хоразмдан",
+      "urganch", "urgench", "urganch shaxri", "urgench city",
       "urganchda", "urganchdan", "urganchga", "urganchlik",
-      "Хоразм", "Хорезм", "Хорезмская область", "Урганч", "Ургенч"
+      "хоразм", "Хоразм", "Хорезм", "Хорезмская область", "Урганч", "Ургенч"
     ]
   },
 
@@ -1760,26 +1763,80 @@ def extract_phone_number(text):
     match = PHONE_REGEX.search(text)
     return match.group().strip() if match else 'Telefon ko\'rsatilmagan'
 
+def validate_city_name(city_name):
+    """
+    Проверяет, является ли название реальным городом/регионом
+    """
+    if not city_name or len(city_name) < 3:
+        return False
+    
+    # Исключаем технические термины и цифры
+    technical_terms = ['metrlik', 'tonna', 'transport', 'fura', 'traller', 'yuk', 'bor', 'kerak', 'kk', 'kg', 'ton']
+    city_lower = city_name.lower()
+    
+    # Проверяем на цифры
+    if city_name.isdigit() or any(char.isdigit() for char in city_name if len(city_name) < 8):
+        return False
+    
+    # Проверяем технические термины
+    if any(term in city_lower for term in technical_terms):
+        return False
+    
+    # Проверяем через find_region (есть ли в REGION_KEYWORDS)
+    return find_region(city_name) is not None
+
 def extract_route_and_cargo(text):
     """
-    Извлекает откуда/куда и описание груза
+    Извлекает откуда/куда и описание груза (только реальные названия городов)
     Возвращает (from_city, to_city, cargo_text)
     """
     lines = [re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line).strip()
              for line in text.strip().split('\n') if line.strip()]
 
+    # ПРИОРИТЕТ 1: Паттерны "дан...га" (самый высокий приоритет)
+    # Очищаем текст от переносов строк для лучшего поиска
+    full_text_clean = re.sub(r'\s+', ' ', ' '.join(lines)).strip()
+    
+    dan_ga_patterns = [
+        r'(\w+)dan\s+(\w+)ga',      # Toshkentdan termizga (латиница)
+        r'(\w+)дан\s+(\w+)га',      # Тошкентдан термизга (кириллица)
+        r'(\w+)dan\s+(\w+)',        # Toshkentdan termiz (латиница)
+        r'(\w+)дан\s+(\w+)',        # Тошкентдан термиз (кириллица)
+        r'(\w+)\s+(\w+)ga',         # Toshkent termizga (латиница)
+        r'(\w+)\s+(\w+)га'          # Тошкент термизга (кириллица)
+    ]
+    
+    for pattern in dan_ga_patterns:
+        match = re.search(pattern, full_text_clean, re.IGNORECASE)
+        if match and len(match.group(1)) > 2 and len(match.group(2)) > 2:
+            from_city = match.group(1).strip()
+            to_city = match.group(2).strip()
+            # Убираем окончания -dan/-дан и -ga/-га
+            if from_city.lower().endswith('dan') or from_city.lower().endswith('дан'):
+                from_city = from_city[:-3]
+            if to_city.lower().endswith('ga') or to_city.lower().endswith('га'):
+                to_city = to_city[:-2]
+            
+            # ВАЛИДАЦИЯ: проверяем, что это реальные города
+            if validate_city_name(from_city) and validate_city_name(to_city):
+                cargo_text = text
+                return from_city, to_city, cargo_text
+
     for line in lines:
         clean_line = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line)
 
-        # 1. ROUTE_REGEX (основной)
+        # ПРИОРИТЕТ 2: ROUTE_REGEX (основной)
         route_match = ROUTE_REGEX.search(clean_line)
         if route_match:
             from_city = route_match.group(1).strip()
             to_city = route_match.group(2).strip()
-            cargo_text = text.replace(line, '').strip()
-            return from_city, to_city, cargo_text
+            
+            # ВАЛИДАЦИЯ: проверяем, что это реальные города
+            if validate_city_name(from_city) and validate_city_name(to_city):
+                cargo_text = text.replace(line, '').strip()
+                return from_city, to_city, cargo_text
 
-        # 2. Emoji-паттерны с флагами стран (для международных маршрутов)
+        # ПРИОРИТЕТ 3: Emoji-паттерны с флагами стран (для международных маршрутов)
         emoji_patterns = [
             r'🇷🇺([^🇷🇺🇺🇿]+?)🇷🇺[\s\n]+🇺🇿\s*([^🇺🇿\n]+?)🇺🇿',  # 🇷🇺Саратов🇷🇺 🇺🇿 Термиз🇺🇿
             r'🇺🇿\s*(\w+)\s*🇺🇿\s*(\w+)',  # 🇺🇿 Qoqon 🇺🇿 Samarqand
@@ -1787,22 +1844,24 @@ def extract_route_and_cargo(text):
             r'(\w+)\s*🇺🇿\s*(\w+)',         # Qoqon 🇺🇿 Samarqand
             r'(\w+)\s*[-–→>>>\-\-\-\-]+\s*(\w+)',  # Tosh----Fargona
             r'(\w+)\s*>\s*(\w+)',            # Tosh>Fargona
-            r'(\w+)\s+(\w+)',                # Tosh Fargona
         ]
         for pattern in emoji_patterns:
             match = re.search(pattern, clean_line)
             if match and len(match.group(1)) > 2 and len(match.group(2)) > 2:
                 from_city = match.group(1).strip()
                 to_city = match.group(2).strip()
-                cargo_text = text.replace(line, '').strip()
-                return from_city, to_city, cargo_text
+                
+                # ВАЛИДАЦИЯ: проверяем, что это реальные города
+                if validate_city_name(from_city) and validate_city_name(to_city):
+                    cargo_text = text.replace(line, '').strip()
+                    return from_city, to_city, cargo_text
 
-    # 3. Специальная проверка для международных маршрутов с флагами
+    # ПРИОРИТЕТ 4: Построчный анализ для простых маршрутов
     if len(lines) >= 2:
         first_line = lines[0]
         second_line = lines[1]
         
-        # Проверяем флаги стран в первых двух строках
+        # Проверяем флаги стран в первых двух строках (международные маршруты)
         country_flags = ['🇷🇺', '🇰🇿', '🇺🇦', '🇹🇷', '🇮🇷', '🇨🇳', '🇰🇬', '🇹🇯', '🇹🇲']
         if any(flag in first_line for flag in country_flags) or any(flag in second_line for flag in country_flags):
             return first_line.strip(), second_line.strip(), '\n'.join(lines[2:])
@@ -1813,24 +1872,19 @@ def extract_route_and_cargo(text):
         
         if (len(first_clean) > 2 and len(second_clean) > 2 and 
             len(first_clean.split()) <= 3 and len(second_clean.split()) <= 3):
-            return first_line.strip(), second_line.strip(), '\n'.join(lines[2:])
+            # ВАЛИДАЦИЯ: проверяем, что это реальные города
+            if validate_city_name(first_clean) and validate_city_name(second_clean):
+                return first_line.strip(), second_line.strip(), '\n'.join(lines[2:])
 
-    # 4. Fallback: сложные паттерны "дан...га"
+    # ПРИОРИТЕТ 5: Последний fallback - только если ничего не найдено
     first_line = lines[0] if lines else text
     clean_first = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', first_line)
-    complex_patterns = [
-        r'([А-Яа-я\w\.]+)дан[\s\-\-\-\-]+([А-Яа-я\w]+)га',
-        r'([А-Яа-я\w\.]+)дан[\s\n]+([А-Яа-я\w]+)га',
-        r'([А-Яа-я\w\.]+)дан[\s\n]+([А-Яа-я\w]+)',
-    ]
-    for pattern in complex_patterns:
-        match = re.search(pattern, clean_first, re.IGNORECASE)
-        if match:
-            return match.group(1).strip(), match.group(2).strip(), text
-
-    # 5. Последний fallback
+    
+    # Избегаем fallback на цифры и технические термины
     parts = re.split(r'[\s\-\>\→\—\-\-\-\-]+', clean_first, 2)
-    if len(parts) >= 2 and len(parts[0]) > 2 and len(parts[1]) > 2:
+    if (len(parts) >= 2 and len(parts[0]) > 2 and len(parts[1]) > 2 and
+        not parts[0].isdigit() and not parts[1].isdigit() and
+        'metr' not in parts[1].lower() and 'tonna' not in parts[1].lower()):
         return parts[0].strip(), parts[1].strip(), text
 
     return None, None, text
@@ -2086,8 +2140,24 @@ def process_message(message):
             
         # 2. Определяем хэштег по TO_CITY (куда)
         hashtag_region_code = find_region(to_city)
+        
+        # Если не найден, пробуем убрать окончания -ga/-дан/-ga и попробовать снова
         if not hashtag_region_code:
-            hashtag_region_code = topic_region_code  # fallback
+            clean_to_city = to_city
+            # Убираем узбекские окончания
+            if clean_to_city.lower().endswith('ga') or clean_to_city.lower().endswith('га'):
+                clean_to_city = clean_to_city[:-2]
+            elif clean_to_city.lower().endswith('dan') or clean_to_city.lower().endswith('дан'):
+                clean_to_city = clean_to_city[:-3]
+            elif clean_to_city.lower().endswith('da') or clean_to_city.lower().endswith('да'):
+                clean_to_city = clean_to_city[:-2]
+            
+            hashtag_region_code = find_region(clean_to_city)
+            logger.info(f"🔍 Повторный поиск для хэштега: '{to_city}' → '{clean_to_city}' → {hashtag_region_code}")
+        
+        if not hashtag_region_code:
+            hashtag_region_code = topic_region_code  # fallback только если совсем не найден
+            logger.info(f"⚠️ Хэштег fallback: используем топик региона {hashtag_region_code}")
             
         # ПЕРВЫМ ДЕЛОМ проверяем приоритет для Qo'qon → Farg'ona
         normalized_from = normalize_text(from_city)
@@ -2394,7 +2464,7 @@ def bot_main_loop():
                         logger.info(f"🔍 Update {update_id}: чат {chat_id}, текст: {text[:30]}...")
                         
                         process_message(msg)
-                        logger.info(f"✅ Сообщение {message_count} → топик {thread_id}")
+                        # Убираем неправильное логирование thread_id
                         # Обновляем активность
                         globals()['last_activity'] = datetime.now()
                         
