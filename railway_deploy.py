@@ -1797,8 +1797,9 @@ def extract_route_and_cargo(text):
             cargo_text = text.replace(line, '').strip()
             return from_city, to_city, cargo_text
 
-        # 2. Emoji-паттерны
+        # 2. Emoji-паттерны с флагами стран (для международных маршрутов)
         emoji_patterns = [
+            r'🇷🇺([^🇷🇺🇺🇿]+?)🇷🇺[\s\n]+🇺🇿\s*([^🇺🇿\n]+?)🇺🇿',  # 🇷🇺Саратов🇷🇺 🇺🇿 Термиз🇺🇿
             r'🇺🇿\s*(\w+)\s*🇺🇿\s*(\w+)',  # 🇺🇿 Qoqon 🇺🇿 Samarqand
             r'🇷🇺\s*([^-]+?)\s*-\s*🇺🇿\s*([^\n\r]+)',  # 🇷🇺Москва - 🇺🇿Ташкент
             r'(\w+)\s*🇺🇿\s*(\w+)',         # Qoqon 🇺🇿 Samarqand
@@ -1814,15 +1815,23 @@ def extract_route_and_cargo(text):
                 cargo_text = text.replace(line, '').strip()
                 return from_city, to_city, cargo_text
 
-    # 3. Fallback: первая и вторая строка (для случаев как "Тошкент\nСирдарё янгиер")
+    # 3. Специальная проверка для международных маршрутов с флагами
     if len(lines) >= 2:
-        # Проверяем, что первые две строки содержат названия городов/регионов
-        first_clean = re.sub(r'[^\w\s]', '', lines[0]).strip()
-        second_clean = re.sub(r'[^\w\s]', '', lines[1]).strip()
+        first_line = lines[0]
+        second_line = lines[1]
+        
+        # Проверяем флаги стран в первых двух строках
+        country_flags = ['🇷🇺', '🇰🇿', '🇺🇦', '🇹🇷', '🇮🇷', '🇨🇳', '🇰🇬', '🇹🇯', '🇹🇲']
+        if any(flag in first_line for flag in country_flags) or any(flag in second_line for flag in country_flags):
+            return first_line.strip(), second_line.strip(), '\n'.join(lines[2:])
+        
+        # Обычная проверка для построчных маршрутов
+        first_clean = re.sub(r'[^\w\s]', '', first_line).strip()
+        second_clean = re.sub(r'[^\w\s]', '', second_line).strip()
         
         if (len(first_clean) > 2 and len(second_clean) > 2 and 
             len(first_clean.split()) <= 3 and len(second_clean.split()) <= 3):
-            return lines[0].strip(), lines[1].strip(), '\n'.join(lines[2:])
+            return first_line.strip(), second_line.strip(), '\n'.join(lines[2:])
 
     # 4. Fallback: сложные паттерны "дан...га"
     first_line = lines[0] if lines else text
@@ -1855,7 +1864,8 @@ def format_cargo_text(cargo_text):
     # Ключевые слова для транспорта
     transport_keywords = [
         'furu', 'fura', 'kamaz', 'gazel', 'pritsep', 'mashina', 'avtomobil', 
-        'refrigerator', 'tent', 'ochiq', 'ref', 'truck', 'trailer', 'yuk'
+        'refrigerator', 'tent', 'ochiq', 'ref', 'truck', 'trailer', 'yuk',
+        'tentfura', 'тентфура', 'фура', 'рефрижератор'
     ]
     
     # Ищем транспорт в тексте
@@ -2037,7 +2047,7 @@ def process_message(message):
                 transport, desc = format_cargo_text(cargo_text)
 
                 # Формируем сообщение с условными полями
-                msg_parts = [f"{from_city.upper()}"]
+                msg_parts = [f"{from_city.upper()} → {to_city.upper()}"]
                 
                 if transport:
                     msg_parts.append(f"TRANSPORT: {transport}")
@@ -2083,23 +2093,32 @@ def process_message(message):
 
         logger.info(f"📍 Найден маршрут: {from_city} → {to_city}")
 
+        # ПРАВИЛЬНАЯ ЛОГИКА: 
+        # - Топик определяется по FROM_CITY (откуда едет товар)
+        # - Хэштег указывает TO_CITY (куда едет товар)
+        
+        # 1. Сначала определяем топик по FROM_CITY (откуда)
+        topic_region_code = find_region(from_city)
+        if not topic_region_code:
+            topic_region_code = find_region(text)
+            
+        # 2. Определяем хэштег по TO_CITY (куда)
+        hashtag_region_code = find_region(to_city)
+        if not hashtag_region_code:
+            hashtag_region_code = topic_region_code  # fallback
+            
         # ПЕРВЫМ ДЕЛОМ проверяем приоритет для Qo'qon → Farg'ona
         normalized_from = normalize_text(from_city)
         if (normalized_from.find("qoqon") != -1 or normalized_from.find("куко") != -1 or 
             normalized_from.find("коко") != -1 or normalized_from.find("коканд") != -1 or
             normalized_from.find("qo'qon") != -1 or normalized_from.find("kokand") != -1):
             topic_id = 101382  # Farg'ona topic
-            region_code = "fargona_city"
+            topic_region_code = "fargona_city"
             logger.info(f"🎯 Qo'qon приоритет → Farg'ona topic {topic_id}")
         else:
-            # Ищем регион по to_city (куда едет товар) для хэштега
-            region_code = find_region(to_city)
-            if not region_code:
-                region_code = find_region(from_city)
-            if not region_code:
-                region_code = find_region(text)
+            region_code = topic_region_code
             
-            # Проверяем найденный регион
+            # Проверяем найденный регион для топика
             if region_code:
                 # Для специальных топиков используем их ID напрямую
                 if region_code == 'xalqaro':
@@ -2117,7 +2136,7 @@ def process_message(message):
                     ask_admin_topic(message, from_city, to_city)
                     return
                     
-                logger.info(f"🎯 Найден регион: {region_code} → topic {topic_id}")
+                logger.info(f"🎯 Топик по ОТКУДА ({from_city}): {region_code} → topic {topic_id}")
             else:
                 logger.info(f"❌ Регион не найден для: {from_city} → {to_city}")
                 ask_admin_topic(message, from_city, to_city)
@@ -2127,8 +2146,13 @@ def process_message(message):
         phone = extract_phone_number(text)
         transport, description = format_cargo_text(text)  # Передаем весь текст
         
-        # Правильный хэштег для региона
-        hashtag = region_code.upper().replace('_CITY', '').replace('_', '_')
+        # Правильный хэштег для назначения (КУДА едет товар)
+        if hashtag_region_code:
+            hashtag = hashtag_region_code.upper().replace('_CITY', '').replace('_', '_')
+            logger.info(f"🏷️ Хэштег по КУДА ({to_city}): #{hashtag}")
+        else:
+            hashtag = region_code.upper().replace('_CITY', '').replace('_', '_')
+            logger.info(f"🏷️ Хэштег fallback: #{hashtag}")
         
         # Формируем сообщение с условными полями
         message_parts = [f"{from_city.upper()} → {to_city.upper()}"]
@@ -2207,6 +2231,14 @@ def find_region(text: str) -> str | None:
     """Универсальный поиск региона по ВСЕМ данным: aliases, keywords, названиям."""
     if not text:
         return None
+    
+    # КРИТИЧЕСКИ ВАЖНО: Проверяем международные маршруты с флагами стран в ПЕРВУЮ очередь
+    # Флаги стран (🇷🇺🇰🇿🇺🇦🇹🇷 и др.) указывают на международный маршрут
+    country_flags = ['🇷🇺', '🇰🇿', '🇺🇦', '🇹🇷', '🇮🇷', '🇨🇳', '🇰🇬', '🇹🇯', '🇹🇲', '🇦🇫', '🇮🇳', '🇵🇱', '🇩🇪', '🇫🇷', '🇮🇹', '🇪🇸']
+    
+    for flag in country_flags:
+        if flag in text:
+            return 'xalqaro'  # Любой маршрут с флагом страны → Xalqaro yuklar
         
     text_norm = normalize_text(text)
     
