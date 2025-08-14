@@ -1567,6 +1567,9 @@ REGION_KEYWORDS = {
             'vladivostok', 'vladivostok İ', 'vladivostok i',
             'irkutsk', 'irkutsk İ', 'irkutsk i',
             'khabarovsk', 'khabarovsk İ', 'khabarovsk i',
+            'vologda', 'vologda İ', 'vologda i', 'волгода', 'вологде', 'вологды',
+            'cherepovets', 'cherepovec', 'череповец', 'череповце', 'череповца',
+            'sheksna', 'sheksna İ', 'sheksna i', 'шексна', 'шексне', 'шексны',
 
             # Украина
             'ukraine', 'ukraina', 'ukraine İ', 'ukraina İ', 'ukraine i', 'ukraina i',
@@ -1577,11 +1580,13 @@ REGION_KEYWORDS = {
             'lviv', 'lviv İ', 'lviv i',
 
             # Беларусь
-            'belarus', 'belarus İ', 'belarus i',
-            'minsk', 'minsk İ', 'minsk i',
-            'brest', 'brest İ', 'brest i',
-            'grodno', 'grodno İ', 'grodno i',
-            'gomel', 'gomel İ', 'gomel i',
+            'belarus', 'belarus İ', 'belarus i', 'беларусь', 'беларуси', 'беларуся',
+            'minsk', 'minsk İ', 'minsk i', 'минск', 'минске', 'минска',
+            'brest', 'brest İ', 'brest i', 'брест', 'бресте', 'бреста',
+            'grodno', 'grodno İ', 'grodno i', 'гродно', 'гродне', 'гродна',
+            'gomel', 'gomel İ', 'gomel i', 'гомель', 'гомеле', 'гомеля',
+            'borisov', 'borisov İ', 'borisov i', 'борисов', 'борисове', 'борисова',
+            'ivatsevichi', 'ivatsevichy', 'ивацевичи', 'ивацевичах', 'ивацевичей',
 
             # Казахстан
             'kazakhstan', 'qazaqstan', 'kazakhstan İ', 'qazaq-stan', 'kazakhstan i',
