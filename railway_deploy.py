@@ -2013,13 +2013,15 @@ def process_message(message):
                 phone = extract_phone_number(block)
                 transport, desc = format_cargo_text(cargo_text)
 
-                        msg = f"""{from_city.upper()}
-🚛 {transport}
-💬 {desc}
-☎️ {phone}
-#XALQARO
-➖➖➖➖➖➖➖
-Boshqa yuklar: @logistika_marka"""
+                                msg = (
+            f"{from_city.upper()}\n"
+            f"🚛 {transport}\n"
+            f"💬 {desc}\n"
+            f"☎️ {phone}\n"
+            f"#XALQARO\n"
+            f"➖➖➖➖➖➖➖\n"
+            f"Boshqa yuklar: @logistika_marka"
+        )
 
                 send_message(MAIN_GROUP_ID, msg,
                              REGION_KEYWORDS['xalqaro']['topic_id'],
