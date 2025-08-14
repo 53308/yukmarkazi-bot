@@ -942,7 +942,7 @@ def process_message(message):
 ☎️ {phone}
 #XALQARO
 ➖➖➖➖➖➖➖
-Другие грузы: @logistika_marka"""
+Boshqa yuklar: @logistika_marka"""
 
                 send_message(MAIN_GROUP_ID, msg,
                              REGION_KEYWORDS['xalqaro']['topic_id'],
@@ -982,7 +982,7 @@ def process_message(message):
 ☎️ {phone}
 #{to_city.upper()}
 ➖➖➖➖➖➖➖➖➖➖➖➖➖➖
-Другие грузы: @logistika_marka"""
+Boshqa yuklar: @logistika_marka"""
 
         send_message(MAIN_GROUP_ID, msg, topic_id,
                      reply_markup=author_button(sender))
