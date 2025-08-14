@@ -2069,7 +2069,7 @@ def find_region(text: str) -> str | None:
     return None
 
 #{to_city.upper()}
-➖➖➖➖➖➖➖➖➖➖➖➖➖➖
+print("➖➖➖➖➖➖➖➖➖➖➖➖➖➖")
 Boshqa yuklar: @logistika_marka"""
 
         send_message(MAIN_GROUP_ID, msg, topic_id,
@@ -2121,7 +2121,7 @@ def handle_callback(update):
 💬 {desc}
 ☎️ {phone}
 #{to_city.upper()}
-➖➖➖➖➖➖➖➖➖➖➖➖➖➖
+print("➖➖➖➖➖➖➖➖➖➖➖➖➖➖")
 Другие грузы: @logistika_marka"""
 
         send_message(MAIN_GROUP_ID, msg, topic_id,
