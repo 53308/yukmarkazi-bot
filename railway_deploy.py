@@ -55,6 +55,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "toshkent", "tashkent", "tosh-kent", "tash-kent", "towkent", "toshkent shahri", "tashkent city",
       "toshkentga", "tashkentga", "toshkentdan", "tashkentdan", "toshkentda", "toshkentdagi",
+      "toshkenga", "toshkentga",  # Дополнительные варианты для "куда"
       "Тошкент", "Ташкент", "ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
       "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy"
     ]
@@ -421,6 +422,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "andijon", "andijan", "andijon shaxri", "andijon city",
       "andijonda", "andijondan", "andijonga", "andijonlik",
+      "andjondan", "andjon", "andjondan",  # Дополнительные варианты написания
       "Андижон", "Андижан", "город Андижан"
     ]
   },
@@ -1146,6 +1148,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "jizzax", "jizzakh", "jizzax shaxri", "jizzax city",
       "jizzaxda", "jizzaxdan", "jizzaxga", "jizzaxlik",
+      "гагарин", "gagarin", "гагариндан", "gagarindan",  # Гагарин = Жиззах
       "Жиззах", "Джизак"
     ]
   },
@@ -1223,19 +1226,21 @@ REGION_KEYWORDS = {
   },
 
   "xorazm_city": {
-    "topic_id": 101381,
+    "topic_id": 101660,
     "cyrillic_uз": "Хоразм вилояти",
     "latin_uз": "Xorazm viloyati",
     "russian": "Хорезмская область",
     "aliases": [
       "xorazm", "xorezm", "xorazm viloyati", "khorezm oblast", "xorazm region",
       "xorazmga", "xorazmdan", "xorazmda",
-      "Хоразм", "Хорезм", "Хорезмская область"
+      "urganch", "urgench", "urganch shaxri", "urgench city",  # Объединено с urganch
+      "urganchda", "urganchdan", "urganchga", "urganchlik",
+      "Хоразм", "Хорезм", "Хорезмская область", "Урганч", "Ургенч"
     ]
   },
 
   "khiva": {
-    "topic_id": 101381,
+    "topic_id": 101660,
     "cyrillic_uз": "Хива шаҳри",
     "latin_uз": "Xiva shahri",
     "russian": "город Хива",
@@ -1247,7 +1252,7 @@ REGION_KEYWORDS = {
   },
 
   "shovot": {
-    "topic_id": 101381,
+    "topic_id": 101660,
     "cyrillic_uз": "Шовот тумани",
     "latin_uз": "Shovot tumani",
     "russian": "Шаватский район",
@@ -1259,7 +1264,7 @@ REGION_KEYWORDS = {
   },
 
   "yangiariq": {
-    "topic_id": 101381,
+    "topic_id": 101660,
     "cyrillic_uз": "Янгиариқ тумани",
     "latin_uз": "Yangiariq tumani",
     "russian": "Янгиарыкский район",
@@ -1271,7 +1276,7 @@ REGION_KEYWORDS = {
   },
 
   "bogot": {
-    "topic_id": 101381,
+    "topic_id": 101660,
     "cyrillic_uз": "Боғот тумани",
     "latin_uз": "Bog'ot tumani",
     "russian": "Багатский район",
@@ -1283,7 +1288,7 @@ REGION_KEYWORDS = {
   },
 
   "hazarasp": {
-    "topic_id": 101381,
+    "topic_id": 101660,
     "cyrillic_uз": "Хазарасп тумани",
     "latin_uз": "Xazarasp tumani",
     "russian": "Хазараспский район",
@@ -1295,7 +1300,7 @@ REGION_KEYWORDS = {
   },
 
   "gurlan": {
-    "topic_id": 101381,
+    "topic_id": 101660,
     "cyrillic_uз": "Гурлан тумани",
     "latin_uз": "Gurlan tumani",
     "russian": "Гурленский район",
@@ -1307,7 +1312,7 @@ REGION_KEYWORDS = {
   },
 
   "qoshkopir": {
-    "topic_id": 101381,
+    "topic_id": 101660,
     "cyrillic_uз": "Қўшкўпир тумани",
     "latin_uз": "Qoʻshkoʻpir tumani",
     "russian": "Кошкепирский район",
@@ -1319,7 +1324,7 @@ REGION_KEYWORDS = {
   },
 
   "tuproqqala": {
-    "topic_id": 101381,
+    "topic_id": 101660,
     "cyrillic_uз": "Тупроққала тумани",
     "latin_uз": "Tuproqqala tumani",
     "russian": "Тупроккалинский район",
@@ -1330,41 +1335,11 @@ REGION_KEYWORDS = {
     ]
   },
 
-  "urganch": {
-    "topic_id": 101375,
-    "cyrillic_uз": "Урганч шаҳри",
-    "latin_uз": "Urganch shahri",
-    "russian": "город Ургенч",
-    "aliases": [
-      "urganch", "urgench", "urganch shaxri", "urgench city",
-      "urganchda", "urganchdan", "urganchga", "urganchlik",
-      "Урганч", "Ургенч"
-    ]
-  },
 
-  "khorezm": {
-    "topic_id": 101660,
-    "cyrillic_uз": "Хоразм вилояти",
-    "latin_uз": "Xorazm viloyati",
-    "russian": "Хорезмская область",
-    "aliases": [
-      "xorazm", "xorezm", "xorazm viloyati", "khorezm oblast", "khorezm region",
-      "xorazmga", "xorazmdan", "xorazmda",
-      "Хоразм", "Хорезм", "Хорезмская область"
-    ]
-  },
 
-  "nukus": {
-    "topic_id": 101376,
-    "cyrillic_uз": "Нукус шаҳри",
-    "latin_uз": "Nukus shahri",
-    "russian": "город Нукус",
-    "aliases": [
-      "nukus", "nukus shaxri", "nukus city",
-      "nukusda", "nukusdan", "nukusga", "nukuslik",
-      "Нукус"
-    ]
-  },
+
+
+
 
   "karakalpakstan": {
     "topic_id": 101381,
@@ -1374,7 +1349,9 @@ REGION_KEYWORDS = {
     "aliases": [
       "qoraqalpog'iston", "qoraqalpoqiston", "karakalpakstan", "karakalpak republic",
       "qoraqalpog'iston respublikasi", "karakalpakstan respublikasi",
-      "Қорақалпоғистон", "Каракалпакстан", "Республика Каракалпакстан"
+      "nukus", "nukus shaxri", "nukus city",  # Объединено с nukus
+      "nukusda", "nukusdan", "nukusga", "nukuslik",
+      "Қорақалпоғистон", "Каракалпакстан", "Республика Каракалпакстан", "Нукус"
     ]
   },
 
@@ -1915,12 +1892,15 @@ def author_button(user):
     if not user:
         return None
         
-    username = user.get('username', '')
+    user_id = user.get('id', '')
+    if not user_id:
+        return None
+        
+    # Формируем имя для отображения
     first_name = user.get('first_name', '')
     last_name = user.get('last_name', '')
-    user_id = user.get('id', '')
+    username = user.get('username', '')
     
-    # Формируем имя для отображения
     display_name = ''
     if first_name:
         display_name = first_name
@@ -1929,13 +1909,10 @@ def author_button(user):
     else:
         display_name = 'Foydalanuvchi'
     
-    # Всегда создаем кнопку - приоритет username, если нет - то user_id
-    if username:
-        button_text = f"👤 @{username}"
-        url = f"https://t.me/{username}"
-    else:
-        button_text = f"👤 {display_name}"
-        url = f"tg://user?id={user_id}"
+    # ВСЕГДА используем единообразную ссылку на пользователя через user_id
+    # Это работает независимо от наличия username и не создает ссылки на ботов
+    button_text = f"👤 {display_name}"
+    url = f"tg://user?id={user_id}"
     
     return {
         "inline_keyboard": [[{
@@ -2258,7 +2235,8 @@ def find_region(text: str) -> str | None:
     
     # 2. Поиск в специальных топиках 
     special_mappings = {
-        'xalqaro': ['international', 'xalqaro', 'россия', 'russia', 'москва', 'moscow', 'казахстан', 'kazakhstan'],
+        'xalqaro': ['international', 'xalqaro', 'россия', 'russia', 'москва', 'moscow', 'казахстан', 'kazakhstan', 
+                    'полша', 'польша', 'poland', 'polsha', 'алматы', 'almaty', 'алмата', 'саратов', 'saratov'],
         'reklama': ['reklama', 'реклама', 'sotiladi', 'sotuvda', 'продается', 'продаю'],
         'yangiliklar': ['yangilik', 'yangiliklar', 'новости', 'news', 'xabar'],
         'furabozor': ['furabozor', 'fura bozor', 'фурабозор', 'рынок фур']
