@@ -1840,7 +1840,7 @@ def extract_route_and_cargo(text):
 
 def format_cargo_text(cargo_text):
     """
-    Форматирует описание груза, разделяя на транспорт и описание
+    Форматирует описание груза на узбекском латинице
     Возвращает (transport, description)
     """
     if not cargo_text:
@@ -1849,12 +1849,11 @@ def format_cargo_text(cargo_text):
     # Убираем эмодзи и символы из текста
     clean_text = re.sub(r'[⚡️❗️⚠️📞🔍🚛💬☎️➖\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', cargo_text)
     
-    # Список ключевых слов для транспорта
+    # Ключевые слова для транспорта только на узбекском латинице и английском
     transport_keywords = [
-        'фуру', 'furu', 'фура', 'fura', 'камаз', 'kamaz', 'газель', 'gazel', 'прицеп', 'pritsep',
-        'машина', 'mashina', 'автомобиль', 'avtomobil', 'грузовик', 'gruzovik',
-        'рефрижератор', 'refrigerator', 'tent', 'тент', 'открытый', 'ochiq', 'реф', 'ref',
-        'ищу фуру', 'ishu furu', 'нужна фура', 'kerak fura'
+        'furu', 'fura', 'kamaz', 'gazel', 'pritsep', 'mashina', 'avtomobil', 'gruzovik',
+        'refrigerator', 'tent', 'ochiq', 'ref', 'ishu furu', 'kerak fura', 'yuk mashina',
+        'truck', 'trailer', 'semi', 'lorry'
     ]
     
     cargo_lines = [line.strip() for line in clean_text.strip().split('\n') if line.strip()]
@@ -1884,11 +1883,15 @@ def format_cargo_text(cargo_text):
                 if not any(skip in line_lower for skip in ['алокага', 'связь', 'звонить', 'контакт']):
                     description_parts.append(line_clean)
     
-    # Формируем описание
+    # Формируем описание - если не можем распознать детали, копируем весь текст
     if description_parts:
         description = " • ".join(description_parts[:3])  # Максимум 3 части
     else:
-        description = "Ma'lumot berilmagan"
+        # Копируем весь исходный текст без телефонов и лишних символов
+        clean_full_text = re.sub(r'\+?\d{3,4}[\s\-]?\d{2,3}[\s\-]?\d{3,4}[\s\-]?\d{2,4}', '', cargo_text)
+        clean_full_text = re.sub(r'[⚡️❗️⚠️📞🔍🚛💬☎️➖\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', clean_full_text)
+        clean_full_text = ' '.join(clean_full_text.split()[:10])  # Максимум 10 слов
+        description = clean_full_text.strip() if clean_full_text.strip() else "Ma'lumot berilmagan"
     
     return transport, description
 
@@ -1922,20 +1925,30 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
         return None
 
 def author_button(user):
-    """Создает инлайн-кнопку с информацией об авторе"""
+    """Создает инлайн-кнопку с информацией об авторе сообщения"""
     if not user:
         return None
         
     username = user.get('username', '')
-    name = user.get('first_name', 'Пользователь')
+    first_name = user.get('first_name', '')
+    last_name = user.get('last_name', '')
     user_id = user.get('id', '')
     
-    # Всегда создаем кнопку - либо с username, либо с user_id
+    # Формируем имя для отображения
+    display_name = ''
+    if first_name:
+        display_name = first_name
+        if last_name:
+            display_name += f' {last_name}'
+    else:
+        display_name = 'Foydalanuvchi'
+    
+    # Всегда создаем кнопку - приоритет username, если нет - то user_id
     if username:
         button_text = f"👤 @{username}"
         url = f"https://t.me/{username}"
     else:
-        button_text = f"👤 {name}"
+        button_text = f"👤 {display_name}"
         url = f"tg://user?id={user_id}"
     
     return {
@@ -2052,7 +2065,7 @@ def process_message(message):
                     f"TRANSPORT: {transport}\n"
                     f"TAVSIF: {desc}\n"
                     f"TELEFON: {phone}\n"
-                    f"#XALQARO_YUKLAR\n"
+                    f"#XALQARO\n"
                     f"-------\n"
                     f"Boshqa yuklar: @logistika_marka"
                 )
@@ -2082,7 +2095,7 @@ def process_message(message):
             region_code = "fargona_city"
             logger.info(f"🎯 Qo'qon приоритет → Farg'ona topic {topic_id}")
         else:
-            # Используем объединенную функцию поиска
+            # Ищем регион по from_city (откуда отправляется груз) - это правильно для логистики
             region_code = find_region(from_city)
             if not region_code:
                 region_code = find_region(to_city)
