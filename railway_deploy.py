@@ -53,7 +53,7 @@ REGION_KEYWORDS = {
             # столица
             'toshkent', 'tashkent', 'toshkent shahri', 'tashkent city','toshkentdan', 'tashkentdan', 'toshkent ga', 'toshkentdan',
             'toshkentdan', 'tashkentdan', 'toshkentdan', 'toshkent', 'tashkent', 'toshkentdan', 'tashkentdan', 'toshkentga', 'tashkentga',
-            'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent', 'toshkentdan', 'TOSHKENДАН',
+            'tosh-kent', 'tash-kent', 'toshʼkent', 'tashʼkent', 'toshkentdan', 'TOSHKENДАН', 'TOSHKENTDAN', 'toshkentdan',
             'toshkent İ', 'toshkent i', 'TOSHKENT', 'TASHKENT', 'toshkendan', 'toshken',
             'tosh', 'toshkentga', 'тошкент', 'тошкентга', 'тошкендан', 'ташкент', 'ташкентga', 
             # районы города
@@ -168,10 +168,10 @@ REGION_KEYWORDS = {
             "bog'dod", 'bogdod', 'bogʻdod', 'bogdoddan', 'bogdodga', 'богдод', 'богдоддан',
             'oltiarik', 'oltiarikdan', 'oltiarikka', 'алтиарик', 'алтиарикдан',
             'rishton', 'rishtan', 'rishtondan', 'rishtonga', 'риштан', 'риштандан',
-            'sox', 'soxdan', 'soxga', 'сох', 'сохдан',
+            'sox', 'soxdan', 'soxga', 'сох', 'сохдан', 'fargonaga', 'FARGONAGA',
             'fargona İ', 'fargona i', "farg'ona İ", "fargʻona İ",
             'qoqon', 'kokand', 'quqon', 'qoʼqon', 'qoqon İ', 'qoqon i',
-            'коканд', 'кокандga', 'кокандdan',
+            'коканд', 'кокандga', 'кокандdan', 'kokond', 'коконд', 'кокондан', 'kokondan', 'коконга', 'kokonga',
             'margilon', 'margilan', 'margilon İ', 'margilon i',
             'quvasoy', 'kuvasay', 'quvasoy İ', 'quvasoy i', 'quvasoyʼ', 'quvasoy', 'kuvasay', 'кувасай', 'кувасой', 'quvasoydan', 'кувасойдан',
             'beshariq', 'besharik', 'beshariq İ', 'beshariq i',
@@ -351,7 +351,7 @@ REGION_KEYWORDS = {
         'keywords': [
             'guliston', 'gulistan', 'guliston İ', 'gulistonʼ', 'guliston i', "guliston'",
             'shirin', 'shirin tumani', 'shirin İ', 'shirin i', 'guliston', 'gulistondan', 'gulistonga', 'гулистон', 'гулистондан',
-            'shirin', 'shirindan', 'shiringa', 'ширин', 'шириндан',
+            'shirin', 'shirindan', 'shiringa', 'ширин', 'шириндан', 'yangier', 'yangiyer', 'yangierga', 'яңгиерга',
             'boyovut', 'bayaut', 'boyovutdan', 'boyovutga', 'боявут', 'боявутдан',
             'mirzaobod', 'mirzaoboddan', 'mirzaobodga', 'мирзаобод', 'мирзаободдан',
             'sirdaryo', 'sirdaryodan', 'sirdaryoga', 'сирдарё', 'сирдарёдан', 'сирдарёга',
@@ -485,7 +485,10 @@ REGION_KEYWORDS = {
     'reklama': {
         'topic_id': 101360,
         'keywords': [
-            'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish', 'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish', 'reklamaga', 'reklamadan'
+            'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish', 'reklama', 'reklama post', 'реклама', 'reklama berish', 'reklama joylashtirish', 'reklamaga',
+            'reklamadan', 'reklama', 'реклама', 'reklama berish', 'reklama joylashtirish',
+            'sotiladi', 'sotilad', 'sotaman', 'narxi', 'dastafka', 'dastavka', 'sotiladi', 'narxi', 'dastafka', 'sotuv', 'reklama',
+            'sotuv', 'sotuvda', 'sotib olish', 'sotiladi reklama', 'reklama sotiladi'
         ]
     },
     'yangiliklar': {
@@ -651,7 +654,24 @@ REGION_KEYWORDS = {
 # ========== Рядом с REGION_KEYWORDS нужно добавить константы для номеров телефонов и маршрутов ==========
 
 PHONE_REGEX = re.compile(r'[\+]?[\d\s\-\(\)]{9,18}')
-ROUTE_REGEX = re.compile(r'(?:^\s*)?(.+?)(?:\s*>\s*|\s*—\s*|\s*-\s*|\s*[-—>→]+\s*|\s+)(.+?)(?:\s|$)', re.IGNORECASE | re.MULTILINE)
+ROUTE_REGEX = re.compile(
+    r'(?:^\s*)?(.+?)'                                   # «откуда»
+    r'(?:'
+        # 1. Одиночные символы
+        r'\s*[>→➔➤➢➣➥➦➧➨➩➪➫➬➭➮➯➱➲➳➵➸➹➺➻➼➽➾⟶⟷⟵⟴⟵⟶⟷⟹⟺⟻⟼⟽⟾⟿⤀⤁⤂⤃⤄⤅⤆⤇⤈⤉⤊⤋⤌⤍⤎⤏⤐⤑⤒⤓⤔⤕⤖⤗⤘⤙⤚⤛⤜⤝⤞⤟⤠⤡⤢⤣⤤⤥⤦⤧⤨⤩⤪⤫⤬⤭⤮⤯⤰⤱⤲⤳⤴⤵⤶⤷⤸⤹⤺⤻⤼⤽⤾⤿⥀⥁⥂⥃⥄⥅⥆⥇⥈⥉⥊⥋⥌⥍⥎⥏⥐⥑⥒⥓⥔⥕⥖⥗⥘⥙⥚⥛⥜⥝⥞⥟⥠⥡⥢⥣⥤⥥⥦⥧⥨⥩⥪⥫⥬⥭⥮⥯⥰⥱⥲⥳⥴⥵⥶⥷⥸⥹⥺⥻⥼⥽⥾⥿⦀⦁⦂⦃⦄⦄⦅⦆⦇⦈⦉⦊⦋⦌⦍⦎⦏⦐⦑⦒⦓⦔⦕⦖⦗⦘⦙⦚⦛⦜⦝⦞⦟⦠⦡⦢⦣⦤⦥⦦⦧⦨⦩⦪⦫⦬⦭⦮⦯⦰⦱⦲⦳⦴⦵⦶⦷⦸⦹⦺⦻⦼⦽⦾⦿⧀⧁⧂⧃⧄⧅⧆⧇⧈⧉⧊⧋⧌⧍⧎⧏⧐⧑⧒⧓⧔⧕⧖⧗⧘⧙⧚⧛⧜⧝⧞⧟⧠⧡⧢⧣⧤⧥⧦⧧⧨⧩⧪⧫⧬⧭⧮⧯⧰⧱⧲⧳⧴⧵⧶⧷⧸⧹⧺⧻⧼⧽⧾⧿✀✁✂✃✄✅✆✇✈✉✊✋✌✍✎✏✐✑✒✓✔✕✖✗✘✙✚✛✜✝✞✟✠✡✢✣✤✤✥✦✧✨✩✪✫✬✭✮✯✰✱✲✳✴✵✶✷✸✹✺✻✼✽✾✿❀❁❂❃❄❅❆❇❈❉❊❋❌❍❎❏❐❑❒❓❔❕❖❗❘❙❚❛❜❝❞❟❠❡❢❣❤❥❦❧❨❩❪❫❬❭❮❯❰❱❲❳❴❵❛❜❝❞❟❠❡❢❣❤❥❦❧❨❩❪❫❬❭❮❯❰❱❲❳❴❵➔➘➙➚➛➜➝➞➟➠➡➢➣➤➥➦➧➨➩➪➫➬➭➮➯➱➲➳➵➸➹➺➻➼➽➾⟶⟷⟵⟴⟵⟶⟷⟹⟺⟻⟼⟽⟾⟿⤀⤁⤂⤃⤄⤅⤆⤇⤈⤉⤊⤋⤌⤍⤎⤏⤐⤑⤒⤓⤔⤕⤖⤗⤘⤙⤚⤛⤜⤝⤞⤟⤠⤡⤢⤣⤤⤥⤦⤧⤨⤩⤪⤫⤬⤭⤮⤯⤰⤱⤲⤳⤴⤵⤶⤷⤸⤹⤺⤻⤼⤽⤾⤿⥀⥁⥂⥃⥄⥅⥆⥇⥈⥉⥊⥋⥌⥍⥎⥏⥐⥑⥒⥓⥔⥕⥖⥗⥘⥙⥚⥛⥜⥝⥞⥟⥠⥡⥢⥣⥤⥥⥦⥧⥨⥩⥪⥫⥬⥭⥮⥯⥰⥱⥲⥳⥴⥵⥶⥷⥸⥹⥺⥻⥼⥽⥾⥿⦀⦁⦂⦃⦄⦄⦅⦆⦇⦈⦉⦊⦋⦌⦍⦎⦏⦐⦑⦒⦓⦔⦕⦖⦗⦘⦙⦚⦛⦜⦝⦞⦟⦠⦡⦢⦣⦤⦥⦦⦧⦨⦩⦪⦫⦬⦭⦮⦯⦰⦱⦲⦳⦴⦵⦶⦷⦸⦹⦺⦻⦼⦽⦾⦿⧀⧁⧂⧃⧄⧅⧆⧇⧈⧉⧊⧋⧌⧍⧎⧏⧐⧑⧒⧓⧔⧕⧖⧗⧘⧙⧚⧛⧜⧝⧞⧟⧠⧡⧢⧣⧤⧥⧦⧧⧨⧩⧪⧫⧬⧭⧮⧯⧰⧱⧲⧳⧴⧵⧶⧷⧸⧹⧺⧻⧼⧽⧾⧿'  # все Unicode-стрелки
+        r'|'
+        # 2. Эмодзи-стрелки
+        r'\s*[➡➢➣➤➥➦➧➨➩➪➫➬➭➮➯➱➲➳➵➸➹➺➻➼➽➾]\s*'
+        r'|'
+        # 3. Слова-разделители на узбекском и русском
+        r'\s+(?:to|dan|ga|dan|в|из|на)\s+'
+        r'|'
+        # 4. Любая комбинация символов выше (1-5 повторов)
+        r'\s*[-—–→➔➡➢➣➤➥➦➧➨➩➪➫➬➭➮➯➱➲➳➵➸➹➺➻➼➽➾⟶⟷⟵]{1,5}\s*'
+    r')'
+    r'(.+?)(?:\s|$)',                               # «куда»
+    re.IGNORECASE | re.MULTILINE | re.UNICODE
+)
 
 # ========== Функции нормализации ==========
 
