@@ -1814,9 +1814,15 @@ def extract_route_and_cargo(text):
                 cargo_text = text.replace(line, '').strip()
                 return from_city, to_city, cargo_text
 
-    # 3. Fallback: первая и вторая строка
-    if len(lines) >= 2 and len(lines[0]) > 2 and len(lines[1]) > 2:
-        return lines[0], lines[1], '\n'.join(lines[2:])
+    # 3. Fallback: первая и вторая строка (для случаев как "Тошкент\nСирдарё янгиер")
+    if len(lines) >= 2:
+        # Проверяем, что первые две строки содержат названия городов/регионов
+        first_clean = re.sub(r'[^\w\s]', '', lines[0]).strip()
+        second_clean = re.sub(r'[^\w\s]', '', lines[1]).strip()
+        
+        if (len(first_clean) > 2 and len(second_clean) > 2 and 
+            len(first_clean.split()) <= 3 and len(second_clean.split()) <= 3):
+            return lines[0].strip(), lines[1].strip(), '\n'.join(lines[2:])
 
     # 4. Fallback: сложные паттерны "дан...га"
     first_line = lines[0] if lines else text
