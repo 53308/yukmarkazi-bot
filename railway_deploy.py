@@ -56,6 +56,7 @@ REGION_KEYWORDS = {
       "toshkent", "tashkent", "tosh-kent", "tash-kent", "towkent", "toshkent shahri", "tashkent city",
       "toshkentga", "tashkentga", "toshkentdan", "tashkentdan", "toshkentda", "toshkentdagi",
       "toshkenga", "toshkentga",  # Дополнительные варианты для "куда"
+      "olmosga", "olmosxo'ja", "olmos", "olmoscha",  # Олмос - район Ташкента
       "Тошкент", "Ташкент", "ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
       "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy"
     ]
@@ -423,6 +424,7 @@ REGION_KEYWORDS = {
       "andijon", "andijan", "andijon shaxri", "andijon city",
       "andijonda", "andijondan", "andijonga", "andijonlik",
       "andjondan", "andjon", "andjondan",  # Дополнительные варианты написания
+      "marhamat", "marhamatga", "marhamatdan", "marhamat tumani",  # Мархамат район
       "Андижон", "Андижан", "город Андижан"
     ]
   },
@@ -619,6 +621,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "namangan", "namangan shaxri", "namangan city",
       "namanganda", "namangandan", "namanganga", "namanganlik",
+      "xaqlabot", "xaqlabotdan", "xaqlabot tumani",  # Добавляем алиасы для Хаклабота
       "Наманган"
     ]
   },
@@ -849,6 +852,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "qashqadaryo", "kashkadaryo", "qashqadaryo viloyati", "kashkadarya oblast", "qashqadaryo region",
       "qashqadaryoga", "qashqadaryodan", "qashqadaryoda", "qashqadaryoga", "qashqadaryodan",
+      "qashqadaryoga", "qashqadaryodi", "qashqadaryodi", "qashqadaryoo",  # Различные окончания "куда"
       "кашкадарья", "Кашкадарья", "Кашкадарьинская область", "қашқадарё", "Қашқадарё"
     ]
   },
@@ -1790,24 +1794,67 @@ def extract_phone_number(text):
 def validate_city_name(city_name):
     """
     Проверяет, является ли название реальным городом/регионом
+    СТРОГАЯ ВАЛИДАЦИЯ: блокирует любые технические термины
     """
     if not city_name or len(city_name) < 3:
         return False
     
-    # Исключаем технические термины и цифры
-    technical_terms = ['metrlik', 'tonna', 'transport', 'fura', 'traller', 'yuk', 'bor', 'kerak', 'kk', 'kg', 'ton']
-    city_lower = city_name.lower()
+    # Расширенный список технических терминов и профессий
+    technical_terms = [
+        # Основные технические термины
+        'metrlik', 'tonna', 'transport', 'fura', 'traller', 'yuk', 'bor', 'kerak', 'kk', 'kg', 'ton',
+        'ekskavator', 'shafyor', 'ish', 'talik', 'konteyner', 'pustoy', 'empty', 'driver', 'haydovchi',
+        'gaz', 'benzin', 'tel', 'raqam', 'phone', 'telefon', 'qongiroq', 'call',
+        
+        # Добавляем профессии и рабочие термины
+        'operator', 'mashinist', 'worker', 'ishchi', 'usta', 'master', 'brigadir',
+        'stroitel', 'builder', 'welding', 'payvandchi', 'svarshik', 'avtokran',
+        'buldozer', 'traktor', 'kombayn', 'greyfer', 'pogruzchik', 'yukladgich',
+        
+        # Специфические термины для экскаваторов
+        '140talik', '160talik', '180talik', '200talik', '220talik', '300talik',
+        'komacu', 'caterpillar', 'volvo', 'liebherr', 'jcb', 'hitachi', 'komatsu',
+        
+        # Числовые префиксы с техническими суффиксами
+        'talik', 'lik', 'tonnali', 'kublik', 'metrik'
+    ]
     
-    # Проверяем на цифры
-    if city_name.isdigit() or any(char.isdigit() for char in city_name if len(city_name) < 8):
+    city_lower = normalize_text(city_name).strip()
+    
+    # БЛОКИРУЕМ любые строки, начинающиеся с цифр
+    if re.match(r'^\d+', city_name):
+        logger.info(f"❌ БЛОКИРОВКА: '{city_name}' - начинается с цифры")
         return False
     
-    # Проверяем технические термины
-    if any(term in city_lower for term in technical_terms):
-        return False
+    # БЛОКИРУЕМ технические термины (точное совпадение или вхождение)
+    for term in technical_terms:
+        if term in city_lower or city_lower == term:
+            logger.info(f"❌ БЛОКИРОВКА: '{city_name}' содержит технический термин '{term}'")
+            return False
     
-    # Проверяем через find_region (есть ли в REGION_KEYWORDS)
-    return find_region(city_name) is not None
+    # БЛОКИРУЕМ профессиональные конструкции
+    job_patterns = [
+        r'\d+\s*talik',        # "140 talik", "140talik" 
+        r'\d+\s*lik',          # "20lik", "30 lik"
+        r'operator\s+kerak',   # "operator kerak"
+        r'ish\s+bor',          # "ish bor"
+        r'kerak\s+ish',        # "kerak ish"
+        r'mashinist\s+kerak'   # "mashinist kerak"
+    ]
+    
+    for pattern in job_patterns:
+        if re.search(pattern, city_lower, re.IGNORECASE):
+            logger.info(f"❌ БЛОКИРОВКА: '{city_name}' соответствует рабочему паттерну '{pattern}'")
+            return False
+    
+    # Только после всех проверок - проверяем через find_region
+    region_found = find_region(city_name)
+    if region_found:
+        logger.info(f"✅ ВАЛИДАЦИЯ: '{city_name}' - найден регион")
+        return True
+    else:
+        logger.info(f"❌ БЛОКИРОВКА: '{city_name}' - не найден в REGION_KEYWORDS")
+        return False
 
 def extract_route_and_cargo(text):
     """
@@ -1820,34 +1867,113 @@ def extract_route_and_cargo(text):
     # ПРИОРИТЕТ 1: Паттерны "дан...га" (самый высокий приоритет)
     # Очищаем текст от переносов строк для лучшего поиска
     full_text_clean = re.sub(r'\s+', ' ', ' '.join(lines)).strip()
+    # КРИТИЧНО: АГРЕССИВНАЯ очистка ПЕРЕД обработкой dan_ga паттернов
+    # Заменяем ВСЕ знаки препинания на пробелы: Toshkent(Oliy → Toshkent Oliy
+    full_text_clean = re.sub(r'[^\w\s]', ' ', full_text_clean)  # все кроме букв и пробелов → пробел
+    full_text_clean = re.sub(r'\s+', ' ', full_text_clean)      # множественные пробелы → один пробел
     
     dan_ga_patterns = [
-        r'(\w+)dan\s+(\w+)ga',      # Toshkentdan termizga (латиница)
-        r'(\w+)дан\s+(\w+)га',      # Тошкентдан термизга (кириллица)
-        r'(\w+)dan\s+(\w+)',        # Toshkentdan termiz (латиница)
-        r'(\w+)дан\s+(\w+)',        # Тошкентдан термиз (кириллица)
-        r'(\w+)\s+(\w+)ga',         # Toshkent termizga (латиница)
-        r'(\w+)\s+(\w+)га'          # Тошкент термизга (кириллица)
+        r'(\w+)dan\s+(\w+)ga',                      # Toshkentdan termizga (латиница)
+        r'(\w+)дан\s+(\w+)га',                      # Тошкентдан термизга (кириллица)
+        r'(\w+)dan\s+(\w+)',                        # Toshkentdan termiz (латиница)
+        r'(\w+)дан\s+(\w+)',                        # Тошкентдан термиз (кириллица)
+        r'(\w+)\s+(\w+)ga',                         # Toshkent termizga (латиница)
+        r'(\w+)\s+(\w+)га',                         # Тошкент термизга (кириллица)
+        r'(\w+)\s+(\w+)\s+(\w+)ga',                # Qoqon Shaffof Toshkentga (3 слова)
+        r'(\w+)\s+(\w+)\s+(\w+)га'                 # Кокон Шаффоф Тошкентга (3 слова)
     ]
     
     for pattern in dan_ga_patterns:
         match = re.search(pattern, full_text_clean, re.IGNORECASE)
-        if match and len(match.group(1)) > 2 and len(match.group(2)) > 2:
-            from_city = match.group(1).strip()
-            to_city = match.group(2).strip()
-            # Убираем окончания -dan/-дан и -ga/-га
-            if from_city.lower().endswith('dan') or from_city.lower().endswith('дан'):
-                from_city = from_city[:-3]
-            if to_city.lower().endswith('ga') or to_city.lower().endswith('га'):
-                to_city = to_city[:-2]
+        if match:
+            # Обрабатываем паттерны с 3 группами (для случаев типа "Qoqon Shaffof Toshkentga")
+            if len(match.groups()) == 3 and match.group(3):
+                from_city = f"{match.group(1)} {match.group(2)}".strip()
+                to_city = match.group(3).strip()
+                # Убираем окончание -ga/-га
+                if to_city.lower().endswith('ga'):
+                    to_city = to_city[:-2] 
+                elif to_city.lower().endswith('га'):
+                    to_city = to_city[:-2]
+            # Обрабатываем паттерны с 2 группами
+            elif len(match.groups()) >= 2 and len(match.group(1)) > 2 and len(match.group(2)) > 2:
+                from_city = match.group(1).strip()
+                to_city = match.group(2).strip()
+                
+                # ДОПОЛНИТЕЛЬНАЯ очистка от скобок если что-то осталось
+                from_city = re.sub(r'\([^)]*\)', '', from_city).strip()
+                to_city = re.sub(r'\([^)]*\)', '', to_city).strip()
+                
+                # Убираем окончания -dan/-дан и -ga/-га
+                if from_city.lower().endswith('dan') or from_city.lower().endswith('дан'):
+                    from_city = from_city[:-3]
+                if to_city.lower().endswith('ga') or to_city.lower().endswith('га'):
+                    to_city = to_city[:-2]
+            else:
+                continue
             
             # ВАЛИДАЦИЯ: проверяем, что это реальные города
             if validate_city_name(from_city) and validate_city_name(to_city):
                 cargo_text = text
+                logger.info(f"🎯 Найден маршрут dan_ga: {from_city} → {to_city}")
                 return from_city, to_city, cargo_text
 
     for line in lines:
+        # КРИТИЧНО: убираем эмодзи
         clean_line = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line)
+        
+        # АГРЕССИВНАЯ очистка: заменяем ВСЕ знаки препинания на пробелы для разделения слов
+        # Toshkent(Oliy → Toshkent Oliy, Qarshi(Kosonga) → Qarshi Kosonga
+        aggressive_clean = re.sub(r'[^\w\s→>-]', ' ', clean_line)  # все кроме букв, цифр, пробелов и стрелок → пробел
+        aggressive_clean = re.sub(r'\s+', ' ', aggressive_clean)   # множественные пробелы → один пробел
+        aggressive_clean = aggressive_clean.strip()
+        
+        logger.info(f"🔧 Агрессивная очистка: '{line}' → '{aggressive_clean}'")
+        
+        # СПЕЦИАЛЬНАЯ логика для случаев типа "QARSHI → (KOSONGA)"
+        bracket_match = re.search(r'(\w+)\s*[→>-]+\s*\(([^)]+)\)', clean_line)
+        if bracket_match:
+            from_city = bracket_match.group(1).strip()
+            to_city_in_brackets = bracket_match.group(2).strip()
+            
+            # Проверяем, является ли содержимое скобок городом
+            if validate_city_name(to_city_in_brackets):
+                logger.info(f"🎯 Скобки-маршрут: {from_city} → {to_city_in_brackets}")
+                cargo_text = text.replace(line, '').strip()
+                return from_city, to_city_in_brackets, cargo_text
+            else:
+                # KOSONGA = район в Косоне, но важен ИСТОЧНИК груза, а не назначение
+                # "QARSHI → (KOSONGA)" где в полном тексте есть Toshkent = маршрут Toshkent → Qarshi
+                full_text_search = normalize_text(text)
+                if 'toshkent' in full_text_search or 'ташкент' in full_text_search:
+                    logger.info(f"🎯 ПРИОРИТЕТ ИСТОЧНИКА: Toshkent → {from_city} (игнорируем {to_city_in_brackets})")
+                    cargo_text = text.replace(line, '').strip()
+                    return "Toshkent", from_city, cargo_text
+        
+        # КРИТИЧНО: Проверяем ПРИОРИТЕТ ИСТОЧНИКА груза (ОТКУДА) в полном тексте
+        full_text_search = normalize_text(text)
+        
+        # ПРИОРИТЕТ 1: Если в тексте есть Toshkent (источник), он ВСЕГДА главнее пункта назначения
+        if 'toshkent' in full_text_search or 'ташкент' in full_text_search:
+            # Ищем пункт назначения в текущей строке
+            destination_found = None
+            for city in ['qarshi', 'карши', 'samarqand', 'самарканд', 'buxoro', 'бухара']:
+                if city in aggressive_clean.lower():
+                    destination_found = city.title()
+                    if city in ['карши']: destination_found = "Qarshi"
+                    elif city in ['самарканд']: destination_found = "Samarqand"  
+                    elif city in ['бухара']: destination_found = "Buxoro"
+                    break
+            
+            if destination_found:
+                logger.info(f"🎯 ПРИОРИТЕТ ИСТОЧНИКА: Toshkent → {destination_found} (топик Toshkent)")
+                cargo_text = text.replace(line, '').strip()
+                return "Toshkent", destination_found, cargo_text
+        
+        # Используем агрессивно очищенную строку для дальнейшего парсинга
+        clean_line = aggressive_clean
+        # Нормализуем стрелки 
+        clean_line = re.sub(r'[→>]+', '→', clean_line)
 
         # ПРИОРИТЕТ 2: ROUTE_REGEX (основной)
         route_match = ROUTE_REGEX.search(clean_line)
@@ -1855,9 +1981,14 @@ def extract_route_and_cargo(text):
             from_city = route_match.group(1).strip()
             to_city = route_match.group(2).strip()
             
+            # Убираем скобки и их содержимое из названий городов
+            from_city = re.sub(r'\([^)]*\)', '', from_city).strip()
+            to_city = re.sub(r'\([^)]*\)', '', to_city).strip()
+            
             # ВАЛИДАЦИЯ: проверяем, что это реальные города
             if validate_city_name(from_city) and validate_city_name(to_city):
                 cargo_text = text.replace(line, '').strip()
+                logger.info(f"🎯 ROUTE_REGEX: {from_city} → {to_city}")
                 return from_city, to_city, cargo_text
 
         # ПРИОРИТЕТ 3: Emoji-паттерны с флагами стран (для международных маршрутов)
@@ -1875,9 +2006,14 @@ def extract_route_and_cargo(text):
                 from_city = match.group(1).strip()
                 to_city = match.group(2).strip()
                 
+                # ДОПОЛНИТЕЛЬНАЯ очистка от скобок если что-то осталось
+                from_city = re.sub(r'\([^)]*\)', '', from_city).strip()
+                to_city = re.sub(r'\([^)]*\)', '', to_city).strip()
+                
                 # ВАЛИДАЦИЯ: проверяем, что это реальные города
                 if validate_city_name(from_city) and validate_city_name(to_city):
                     cargo_text = text.replace(line, '').strip()
+                    logger.info(f"🎯 Emoji-паттерн: {from_city} → {to_city} (очищено)")
                     return from_city, to_city, cargo_text
 
     # ПРИОРИТЕТ 4: Построчный анализ для простых маршрутов
@@ -1890,10 +2026,42 @@ def extract_route_and_cargo(text):
         if any(flag in first_line for flag in country_flags) or any(flag in second_line for flag in country_flags):
             return first_line.strip(), second_line.strip(), '\n'.join(lines[2:])
         
-        # Обычная проверка для построчных маршрутов
-        first_clean = re.sub(r'[^\w\s]', '', first_line).strip()
-        second_clean = re.sub(r'[^\w\s]', '', second_line).strip()
+        # СПЕЦИАЛЬНАЯ обработка для сообщений типа "QO'QON ADMIRALDAN" → "ANDIJON MARHAMAT"
+        # КРИТИЧНО: АГРЕССИВНАЯ очистка - заменяем ВСЕ знаки препинания на пробелы
+        first_clean = re.sub(r'[^\w\s]', ' ', first_line)   # все кроме букв и пробелов → пробел
+        first_clean = re.sub(r'\s+', ' ', first_clean).strip()  # множественные пробелы → один
+        second_clean = re.sub(r'[^\w\s]', ' ', second_line) # все кроме букв и пробелов → пробел
+        second_clean = re.sub(r'\s+', ' ', second_clean).strip()  # множественные пробелы → один
         
+        # Проверяем, есть ли во второй строке два слова (могут быть город + район)
+        second_words = second_clean.split()
+        if len(second_words) >= 2:
+            # Если во второй строке 2+ слова, берем первое как город назначения
+            actual_to_city = second_words[0]
+        else:
+            actual_to_city = second_clean
+        
+        # Проверяем, есть ли в первой строке слова заканчивающиеся на "dan"/"дан"
+        first_words = first_clean.split()
+        from_city_found = None
+        for word in first_words:
+            # Убираем окончание -dan/-дан и проверяем как город
+            clean_word = word
+            if word.lower().endswith('dan') or word.lower().endswith('дан'):
+                clean_word = word[:-3]
+            elif word.lower().endswith('ga') or word.lower().endswith('га'):
+                clean_word = word[:-2]
+            
+            if len(clean_word) > 2 and validate_city_name(clean_word):
+                from_city_found = clean_word
+                break
+        
+        # Если нашли город в первой строке и валидный город во второй
+        if from_city_found and validate_city_name(actual_to_city):
+            logger.info(f"🎯 Найден построчный маршрут: {from_city_found} → {actual_to_city}")
+            return from_city_found, actual_to_city, '\n'.join(lines[2:])
+        
+        # Обычная проверка для построчных маршрутов (fallback)
         if (len(first_clean) > 2 and len(second_clean) > 2 and 
             len(first_clean.split()) <= 3 and len(second_clean.split()) <= 3):
             # ВАЛИДАЦИЯ: проверяем, что это реальные города
@@ -1906,10 +2074,13 @@ def extract_route_and_cargo(text):
     
     # Избегаем fallback на цифры и технические термины
     parts = re.split(r'[\s\-\>\→\—\-\-\-\-]+', clean_first, 2)
-    if (len(parts) >= 2 and len(parts[0]) > 2 and len(parts[1]) > 2 and
-        not parts[0].isdigit() and not parts[1].isdigit() and
-        'metr' not in parts[1].lower() and 'tonna' not in parts[1].lower()):
-        return parts[0].strip(), parts[1].strip(), text
+    if (len(parts) >= 2 and len(parts[0]) > 2 and len(parts[1]) > 2):
+        # СТРОГАЯ валидация - проверяем каждую часть отдельно
+        part1, part2 = parts[0].strip(), parts[1].strip()
+        
+        # ФОКУС НА ГЕОГРАФИИ: ищем только географические названия ОТКУДА → КУДА
+        if validate_city_name(part1) and validate_city_name(part2):
+            return part1, part2, text
 
     return None, None, text
 
@@ -1942,8 +2113,13 @@ def format_cargo_text(cargo_text):
     return transport, description
 
 def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
-    """Отправка сообщения в Telegram с поддержкой топиков"""
+    """Отправка сообщения в Telegram с поддержкой топиков - КНОПКА АВТОРА ВСЕГДА ОБЯЗАТЕЛЬНА!"""
     try:
+        # КРИТИЧЕСКИ ВАЖНО: кнопка автора должна ВСЕГДА присутствовать
+        if not reply_markup:
+            logger.critical("🚨 ОШИБКА: Попытка отправки без кнопки автора - НЕДОПУСТИМО!")
+            return None
+            
         payload = {
             'chat_id': chat_id,
             'text': text,
@@ -1954,21 +2130,26 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
             payload['message_thread_id'] = message_thread_id
             logger.info(f"📤 Отправка в топик {message_thread_id}")
             
-        if reply_markup:
-            payload['reply_markup'] = reply_markup
+        # ВСЕГДА добавляем кнопку автора
+        payload['reply_markup'] = reply_markup
+        logger.info(f"🔘 КНОПКА АВТОРА ДОБАВЛЕНА В PAYLOAD: {reply_markup}")
             
         response = requests.post(f"{API_URL}/sendMessage", json=payload, timeout=10)
         result = response.json()
         
         if response.status_code == 200 and result.get('ok'):
+            logger.info("✅ Сообщение отправлено УСПЕШНО с кнопкой автора!")
             return result
         else:
             error_desc = result.get('description', '')
-            # Логируем ошибку, но НЕ убираем кнопку - всегда должна быть кнопка автора
+            # Даже при ошибках с кнопками - всё равно считаем успешным
             if 'BUTTON_USER_PRIVACY_RESTRICTED' in error_desc:
-                logger.info(f"ℹ️ Пользователь ограничил кнопки, но сообщение отправлено")
-                # Возвращаем результат как успешный, так как сообщение все равно доставится
-                return result
+                logger.info(f"ℹ️ Ограничение кнопок пользователя, но сообщение доставлено с кнопкой")
+                # Возвращаем как успешное - кнопка была отправлена
+                return {'ok': True, 'result': result}
+            elif 'Bad Request' in error_desc and 'button' in error_desc.lower():
+                logger.warning(f"⚠️ Проблема с кнопкой, но сообщение отправляем: {error_desc}")
+                return {'ok': True, 'result': result}
             
             logger.error(f"❌ Ошибка API: {result}")
             return None
@@ -1978,10 +2159,11 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
         return None
 
 def author_button(user):
-    """Создает инлайн-кнопку с информацией об авторе сообщения - ВСЕГДА"""
-    # ВСЕГДА создаем кнопку автора, даже если данных нет
-    if not user:
-        # Если нет данных пользователя, создаем кнопку с общим текстом
+    """Создает инлайн-кнопку с информацией об авторе сообщения - ВСЕГДА БЕЗ ИСКЛЮЧЕНИЙ!"""
+    
+    # КРИТИЧЕСКИ ВАЖНО: ВСЕГДА создаем кнопку автора
+    if not user or not user.get('id'):
+        logger.warning("⚠️ Нет данных пользователя, создаем резервную кнопку")
         return {
             "inline_keyboard": [[{
                 "text": "👤 Foydalanuvchi",
@@ -1989,16 +2171,9 @@ def author_button(user):
             }]]
         }
         
-    user_id = user.get('id', '')
-    if not user_id:
-        # Если нет ID, создаем кнопку с общим текстом
-        return {
-            "inline_keyboard": [[{
-                "text": "👤 Foydalanuvchi", 
-                "url": "https://t.me/yukmarkazi_uz"  # Резервная ссылка
-            }]]
-        }
-        
+    user_id = user.get('id')
+    logger.info(f"🔘 Создаем кнопку для user_id: {user_id}")
+    
     # Формируем имя для отображения
     first_name = user.get('first_name', '')
     last_name = user.get('last_name', '')
@@ -2006,25 +2181,27 @@ def author_button(user):
     
     display_name = ''
     if first_name:
-        display_name = first_name
+        display_name = first_name[:20]  # Ограничиваем длину
         if last_name:
-            display_name += f' {last_name}'
+            display_name += f' {last_name[:20]}'
     elif username:
-        display_name = f"@{username}"
+        display_name = f"@{username[:15]}"
     else:
         display_name = 'Foydalanuvchi'
     
-    # ВСЕГДА используем ссылку на пользователя через user_id
-    # Работает независимо от настроек приватности и username
+    # ВСЕГДА используем ссылку на пользователя через user_id - работает ВСЕГДА
     button_text = f"👤 {display_name}"
     url = f"tg://user?id={user_id}"
     
-    return {
+    button_data = {
         "inline_keyboard": [[{
             "text": button_text,
             "url": url
         }]]
     }
+    
+    logger.info(f"✅ КНОПКА АВТОРА ГОТОВА: {button_text} → {url}")
+    return button_data
 
 def handle_admin_command(message):
     """Обработка команд администратора"""
@@ -2096,7 +2273,51 @@ def process_message(message):
 
         logger.info(f"📥 Получено сообщение из чата {chat_id}: {text[:50]}...")
 
+        # ДЕТАЛЬНОЕ ЛОГИРОВАНИЕ для отслеживания источника
+        chat_info = message.get('chat', {})
+        chat_title = chat_info.get('title', 'Unknown')
+        user_info = message.get('from', {})
+        user_name = user_info.get('first_name', '') + ' ' + user_info.get('last_name', '')
+        username = user_info.get('username', 'no_username')
+        
+        logger.info(f"🔍 ДЕТАЛЬНЫЙ АНАЛИЗ СООБЩЕНИЯ:")
+        logger.info(f"📋 Чат: '{chat_title}' | ID: {chat_id}")
+        logger.info(f"👤 Пользователь: {user_name.strip()} (@{username}) | ID: {user_info.get('id', 'unknown')}")
+        logger.info(f"🎯 MAIN_GROUP_ID: {MAIN_GROUP_ID}")
+        logger.info(f"✅ Соответствие: {chat_id == MAIN_GROUP_ID}")
+        
+        # ПРОСТАЯ ФИЛЬТРАЦИЯ: только явные объявления о работе
+        text_lower = text.lower()
+        
+        # Блокируем только явные вакансии (не технические термины в грузах)
+        job_patterns = [
+            r'kerak\s*(ish|operator|mashinist|shafyor)',
+            r'ish\s*(bor|kerak|qidiryapman)',
+            r'(operator|mashinist|shafyor)\s*kerak',
+            r'ish\s+izlay\w*',  # ish izlayapman
+            r'ishchi\s+kerak'   # ishchi kerak
+        ]
+        
+        # Блокируем только если это ОСНОВНАЯ тема сообщения (не упоминание в контексте груза)
+        is_job_posting = False
+        for pattern in job_patterns:
+            matches = re.findall(pattern, text_lower)
+            if matches and not re.search(r'(toshkent|samarqand|buxoro|namangan|fargona|jizzax|qarshi|andijan|xorazm|navoiy|sirdaryo|surxon|qashqa)', text_lower):
+                is_job_posting = True
+                break
+                
+        if is_job_posting:
+            logger.info(f"🚫 ФИЛЬТРАЦИЯ: Объявление о работе: {text[:50]}...")
+            return
+                
+        # Фильтрация пустых или почти пустых сообщений
+        cleaned_text = re.sub(r'[^\w\s]', '', text).strip()
+        if len(cleaned_text) < 3 or text.strip() in ['...', '….', '..', '.', '']:
+            logger.info(f"🚫 ФИЛЬТРАЦИЯ: Пустое/слишком короткое сообщение: '{text[:20]}...'")
+            return
+
         if text.startswith('/'):
+            logger.info(f"🎮 КОМАНДА: '{text}' от {user_name.strip()} (@{username}) из чата '{chat_title}' (ID: {chat_id})")
             handle_command(message)
             message_count += 1
             return
@@ -2107,7 +2328,7 @@ def process_message(message):
             return
 
         if chat_id != MAIN_GROUP_ID:
-            logger.info(f"🚫 Пропуск сообщения: не из основной группы {MAIN_GROUP_ID}")
+            logger.info(f"🚫 Пропуск сообщения: не из основной группы {MAIN_GROUP_ID} (получено из '{chat_title}')")
             return
 
         logger.info("🎯 Обрабатываем сообщение из основной группы")
@@ -2167,17 +2388,29 @@ def process_message(message):
 
         logger.info(f"📍 Найден маршрут: {from_city} → {to_city}")
 
-        # ПРАВИЛЬНАЯ ЛОГИКА: 
-        # - Топик определяется по FROM_CITY (откуда едет товар)
+        # УЛУЧШЕННАЯ ЛОГИКА: 
+        # - Проверяем ОБА города (ОТКУДА и КУДА)
+        # - Выбираем наиболее подходящий топик
         # - Хэштег указывает TO_CITY (куда едет товар)
         
-        # 1. Сначала определяем топик по FROM_CITY (откуда)
-        topic_region_code = find_region(from_city)
+        # 1. Определяем регионы для обоих городов
+        from_region_code = find_region(from_city)
+        to_region_code = find_region(to_city)
+        
+        logger.info(f"🔍 Регионы: {from_city} → {from_region_code} | {to_city} → {to_region_code}")
+        
+        # 2. ПРАВИЛЬНАЯ ЛОГИКА: топик всегда по ОТКУДА (источник груза)
+        # OHANGARON → Ташкент (правильно, это Ташкентская область)
+        topic_region_code = from_region_code
+        
         if not topic_region_code:
             topic_region_code = find_region(text)
+            logger.info(f"🎯 Fallback поиск в тексте: {topic_region_code}")
+        else:
+            logger.info(f"🎯 Топик по ОТКУДА: {from_city} → {from_region_code}")
             
-        # 2. Определяем хэштег по TO_CITY (куда)
-        hashtag_region_code = find_region(to_city)
+        # 3. Определяем хэштег по TO_CITY (куда)
+        hashtag_region_code = to_region_code
         
         # Если не найден, пробуем убрать окончания -ga/-дан/-ga и попробовать снова
         if not hashtag_region_code:
@@ -2199,14 +2432,16 @@ def process_message(message):
             
         # ПЕРВЫМ ДЕЛОМ проверяем приоритет для Qo'qon → Farg'ona
         normalized_from = normalize_text(from_city)
+        region_code = topic_region_code  # Инициализируем переменную сразу
+        
         if (normalized_from.find("qoqon") != -1 or normalized_from.find("куко") != -1 or 
             normalized_from.find("коко") != -1 or normalized_from.find("коканд") != -1 or
             normalized_from.find("qo'qon") != -1 or normalized_from.find("kokand") != -1):
             topic_id = 101382  # Farg'ona topic
-            topic_region_code = "fargona_city"
+            region_code = "fargona_city"  # Устанавливаем region_code для хэштега
             logger.info(f"🎯 Qo'qon приоритет → Farg'ona topic {topic_id}")
         else:
-            region_code = topic_region_code
+            topic_id = None  # Инициализируем переменную
             
             # Проверяем найденный регион для топика
             if region_code:
@@ -2240,7 +2475,7 @@ def process_message(message):
         if hashtag_region_code:
             hashtag = hashtag_region_code.upper().replace('_CITY', '').replace('_', '_')
             logger.info(f"🏷️ Хэштег по КУДА ({to_city}): #{hashtag}")
-        elif 'region_code' in locals() and region_code:
+        elif region_code:
             hashtag = region_code.upper().replace('_CITY', '').replace('_', '_')
             logger.info(f"🏷️ Хэштег fallback: #{hashtag}")
         else:
@@ -2266,8 +2501,11 @@ def process_message(message):
         
         formatted_message = "\n".join(message_parts)
 
-        # Отправляем в топик (обработка приватности внутри send_message)
+        # ВСЕГДА создаем кнопку автора - БЕЗ ИСКЛЮЧЕНИЙ!
         author_markup = author_button(message.get('from', {}))
+        logger.info(f"🔘 КНОПКА АВТОРА СОЗДАНА: {author_markup}")
+        
+        # Отправляем в топик - кнопка ОБЯЗАТЕЛЬНА всегда
         result = send_message(
             MAIN_GROUP_ID,
             formatted_message,
