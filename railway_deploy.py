@@ -425,6 +425,7 @@ REGION_KEYWORDS = {
       "andijonda", "andijondan", "andijonga", "andijonlik",
       "andjondan", "andjon", "andjondan",  # Дополнительные варианты написания
       "marhamat", "marhamatga", "marhamatdan", "marhamat tumani",  # Мархамат район
+      "ulu", "uluga", "uludan", "ulu yul",  # УЛУ - это Андижон
       "Андижон", "Андижан", "город Андижан"
     ]
   },
@@ -485,6 +486,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "qorgontepa", "qurghontepa", "qoʻrgʻontepa", "qorgontepa tumani", "kurgan-tepa",
       "qorgontepada", "qorgontepadan", "qorgontepaga",
+      "qõrğon tepaga", "qorғon tepa", "qorğon tepa", "qõrğon tepa",
       "Қўрғонтепа", "Кургантепа", "Кургантепинский район"
     ]
   },
@@ -523,6 +525,7 @@ REGION_KEYWORDS = {
       "qoqonda", "qoqondan", "qoqonga", "qoqonlik",
       "куко", "кукон", "кукондан", "кукон-дан", "кукон дан",
       "коко", "кокон", "кокондан", "кокон-дан", "кокон дан",
+      "kokondan", "kokon", "kokon dan", "kokon-dan",
       "Қўқон", "Коканд"
     ]
   },
@@ -870,14 +873,14 @@ REGION_KEYWORDS = {
   },
 
   "olmos": {
-    "topic_id": 101362,
+    "topic_id": 101383,
     "cyrillic_uz": "Олмос тумани",
     "latin_uz": "Olmos tumani", 
-    "russian": "Алмалыкский район",
+    "russian": "Олмосский район",
     "aliases": [
-      "olmos", "almos", "olmos tumani", "almos rayon",
+      "olmos", "almos", "olmos tumani", "olmos rayon",
       "olmosda", "olmosdan", "olmosga", "olmoslik",
-      "Олмос", "Алмалык", "Алмалыкский район"
+      "Олмос", "Олмосский район"
     ]
   },
 
@@ -1601,6 +1604,7 @@ REGION_KEYWORDS = {
             'vologda', 'vologda İ', 'vologda i', 'волгода', 'вологде', 'вологды',
             'cherepovets', 'cherepovec', 'череповец', 'череповце', 'череповца',
             'sheksna', 'sheksna İ', 'sheksna i', 'шексна', 'шексне', 'шексны',
+            'tomsk', 'tomsk İ', 'tomsk i', 'томск', 'томска', 'томске',
 
             # Украина
             'ukraine', 'ukraina', 'ukraine İ', 'ukraina İ', 'ukraine i', 'ukraina i',
@@ -2399,15 +2403,24 @@ def process_message(message):
         
         logger.info(f"🔍 Регионы: {from_city} → {from_region_code} | {to_city} → {to_region_code}")
         
-        # 2. ПРАВИЛЬНАЯ ЛОГИКА: топик всегда по ОТКУДА (источник груза)
-        # OHANGARON → Ташкент (правильно, это Ташкентская область)
-        topic_region_code = from_region_code
+        # 2. ПРИОРИТЕТ: Коканд ВСЕГДА идет в топик Фергана
+        normalized_from = normalize_text(from_city)
+        is_kokand = (normalized_from.find("qoqon") != -1 or normalized_from.find("куко") != -1 or 
+                    normalized_from.find("коко") != -1 or normalized_from.find("коканд") != -1 or
+                    normalized_from.find("qo'qon") != -1 or normalized_from.find("kokand") != -1 or
+                    normalized_from.find("kokon") != -1)
         
-        if not topic_region_code:
-            topic_region_code = find_region(text)
-            logger.info(f"🎯 Fallback поиск в тексте: {topic_region_code}")
+        if is_kokand:
+            topic_region_code = "kokand"  # Коканд идет в топик Фергана
+            logger.info(f"🎯 ПРИОРИТЕТ КОКАНДA: {from_city} → топик Фергана")
         else:
-            logger.info(f"🎯 Топик по ОТКУДА: {from_city} → {from_region_code}")
+            # Обычная логика по ОТКУДА
+            topic_region_code = from_region_code
+            if not topic_region_code:
+                topic_region_code = find_region(text)
+                logger.info(f"🎯 Fallback поиск в тексте: {topic_region_code}")
+            else:
+                logger.info(f"🎯 Топик по ОТКУДА: {from_city} → {from_region_code}")
             
         # 3. Определяем хэштег по TO_CITY (куда)
         hashtag_region_code = to_region_code
@@ -2430,42 +2443,33 @@ def process_message(message):
             hashtag_region_code = topic_region_code  # fallback только если совсем не найден
             logger.info(f"⚠️ Хэштег fallback: используем топик региона {hashtag_region_code}")
             
-        # ПЕРВЫМ ДЕЛОМ проверяем приоритет для Qo'qon → Farg'ona
-        normalized_from = normalize_text(from_city)
-        region_code = topic_region_code  # Инициализируем переменную сразу
+        # Определяем топик ID
+        topic_id = None
+        region_code = topic_region_code
         
-        if (normalized_from.find("qoqon") != -1 or normalized_from.find("куко") != -1 or 
-            normalized_from.find("коко") != -1 or normalized_from.find("коканд") != -1 or
-            normalized_from.find("qo'qon") != -1 or normalized_from.find("kokand") != -1):
-            topic_id = 101382  # Farg'ona topic
-            region_code = "fargona_city"  # Устанавливаем region_code для хэштега
-            logger.info(f"🎯 Qo'qon приоритет → Farg'ona topic {topic_id}")
-        else:
-            topic_id = None  # Инициализируем переменную
-            
-            # Проверяем найденный регион для топика
-            if region_code:
-                # Для специальных топиков используем их ID напрямую
-                if region_code == 'xalqaro':
-                    topic_id = 101367
-                elif region_code == 'reklama':
-                    topic_id = 101360
-                elif region_code == 'yangiliklar':
-                    topic_id = 101359
-                elif region_code == 'furabozor':
-                    topic_id = 101361
-                elif region_code in REGION_KEYWORDS:
-                    topic_id = REGION_KEYWORDS[region_code]["topic_id"]
-                else:
-                    logger.info(f"❌ Неизвестный код региона: {region_code}")
-                    ask_admin_topic(message, from_city, to_city)
-                    return
-                    
-                logger.info(f"🎯 Топик по ОТКУДА ({from_city}): {region_code} → topic {topic_id}")
+        # Проверяем найденный регион для топика
+        if region_code:
+            # Для специальных топиков используем их ID напрямую
+            if region_code == 'xalqaro':
+                topic_id = 101367
+            elif region_code == 'reklama':
+                topic_id = 101360
+            elif region_code == 'yangiliklar':
+                topic_id = 101359
+            elif region_code == 'furabozor':
+                topic_id = 101361
+            elif region_code in REGION_KEYWORDS:
+                topic_id = REGION_KEYWORDS[region_code]["topic_id"]
             else:
-                logger.info(f"❌ Регион не найден для: {from_city} → {to_city}")
+                logger.info(f"❌ Неизвестный код региона: {region_code}")
                 ask_admin_topic(message, from_city, to_city)
                 return
+                
+            logger.info(f"🎯 Топик по ОТКУДА ({from_city}): {region_code} → topic {topic_id}")
+        else:
+            logger.info(f"❌ Регион не найден для: {from_city} → {to_city}")
+            ask_admin_topic(message, from_city, to_city)
+            return
 
         # Формируем сообщение
         phone = extract_phone_number(text)
