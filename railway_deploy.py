@@ -426,6 +426,7 @@ REGION_KEYWORDS = {
       "andjondan", "andjon", "andjondan",  # Дополнительные варианты написания
       "marhamat", "marhamatga", "marhamatdan", "marhamat tumani",  # Мархамат район
       "ulu", "uluga", "uludan", "ulu yul",  # УЛУ - это Андижон
+      "44 postidan", "44 post", "44-post", "44post",  # 44-й почтовый код Андижана
       "Андижон", "Андижан", "город Андижан"
     ]
   },
@@ -511,6 +512,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "farg'ona", "fargʻona", "fargona", "fergana", "farg'ona shaxri", "fargona city",
       "farg'onada", "farg'onadan", "farg'onga", "farg'onalik",
+      "yozyovondan", "yozyovon", "yozyovon tumani",  # Ёзёвон район в Фергане
       "фаргона", "фергана", "Фарғона", "Фергана", "город Фергана"
     ]
   },
@@ -526,6 +528,8 @@ REGION_KEYWORDS = {
       "куко", "кукон", "кукондан", "кукон-дан", "кукон дан",
       "коко", "кокон", "кокондан", "кокон-дан", "кокон дан",
       "kokondan", "kokon", "kokon dan", "kokon-dan",
+      "yasindan", "yasin", "yasin tumani",  # Ясин район в Коканде
+      "shafofdan", "shafof", "shafof tumani",  # Шафоф район в Коканде
       "Қўқон", "Коканд"
     ]
   },
@@ -1037,6 +1041,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "navoiy", "navoi", "navoiy shaxri", "navoi city",
       "navoiyda", "navoiydan", "navoiyga", "navoiylik",
+      "qiziltepaga", "qiziltepa", "qiziltepa tumani",  # Кизилтепа район в Наvoiy
       "Навоий", "Навои"
     ]
   },
@@ -1795,7 +1800,7 @@ def extract_phone_number(text):
     match = PHONE_REGEX.search(text)
     return match.group().strip() if match else 'Telefon ko\'rsatilmagan'
 
-def validate_city_name(city_name):
+def is_valid_city_or_region(city_name):
     """
     Проверяет, является ли название реальным городом/регионом
     СТРОГАЯ ВАЛИДАЦИЯ: блокирует любые технические термины
@@ -1851,12 +1856,16 @@ def validate_city_name(city_name):
             logger.info(f"❌ БЛОКИРОВКА: '{city_name}' соответствует рабочему паттерну '{pattern}'")
             return False
     
-    # Только после всех проверок - проверяем через find_region
+    # ВСЕГДА проверяем через find_region - он найдет и алиасы внутри городских конфигураций
     region_found = find_region(city_name)
     if region_found:
         logger.info(f"✅ ВАЛИДАЦИЯ: '{city_name}' - найден регион")
         return True
     else:
+        # Для географических алиасов - более мягкая проверка
+        if len(city_name) >= 4 and city_name.lower() not in ['tel', 'phone', 'telefon']:
+            logger.info(f"✅ ВАЛИДАЦИЯ: '{city_name}' - разрешен как географический алиас")
+            return True
         logger.info(f"❌ БЛОКИРОВКА: '{city_name}' - не найден в REGION_KEYWORDS")
         return False
 
@@ -1872,9 +1881,9 @@ def extract_route_and_cargo(text):
     # Очищаем текст от переносов строк для лучшего поиска
     full_text_clean = re.sub(r'\s+', ' ', ' '.join(lines)).strip()
     # КРИТИЧНО: АГРЕССИВНАЯ очистка ПЕРЕД обработкой dan_ga паттернов
-    # Заменяем ВСЕ знаки препинания на пробелы: Toshkent(Oliy → Toshkent Oliy
-    full_text_clean = re.sub(r'[^\w\s]', ' ', full_text_clean)  # все кроме букв и пробелов → пробел
-    full_text_clean = re.sub(r'\s+', ' ', full_text_clean)      # множественные пробелы → один пробел
+    # Заменяем знаки препинания на пробелы, НО сохраняем апостроф для узбекских названий
+    full_text_clean = re.sub(r"[^\w\s']", ' ', full_text_clean)  # все кроме букв, пробелов и апострофа → пробел
+    full_text_clean = re.sub(r'\s+', ' ', full_text_clean)       # множественные пробелы → один пробел
     
     dan_ga_patterns = [
         r'(\w+)dan\s+(\w+)ga',                      # Toshkentdan termizga (латиница)
@@ -1917,7 +1926,7 @@ def extract_route_and_cargo(text):
                 continue
             
             # ВАЛИДАЦИЯ: проверяем, что это реальные города
-            if validate_city_name(from_city) and validate_city_name(to_city):
+            if is_valid_city_or_region(from_city) and is_valid_city_or_region(to_city):
                 cargo_text = text
                 logger.info(f"🎯 Найден маршрут dan_ga: {from_city} → {to_city}")
                 return from_city, to_city, cargo_text
@@ -1941,7 +1950,7 @@ def extract_route_and_cargo(text):
             to_city_in_brackets = bracket_match.group(2).strip()
             
             # Проверяем, является ли содержимое скобок городом
-            if validate_city_name(to_city_in_brackets):
+            if is_valid_city_or_region(to_city_in_brackets):
                 logger.info(f"🎯 Скобки-маршрут: {from_city} → {to_city_in_brackets}")
                 cargo_text = text.replace(line, '').strip()
                 return from_city, to_city_in_brackets, cargo_text
@@ -1990,7 +1999,7 @@ def extract_route_and_cargo(text):
             to_city = re.sub(r'\([^)]*\)', '', to_city).strip()
             
             # ВАЛИДАЦИЯ: проверяем, что это реальные города
-            if validate_city_name(from_city) and validate_city_name(to_city):
+            if is_valid_city_or_region(from_city) and is_valid_city_or_region(to_city):
                 cargo_text = text.replace(line, '').strip()
                 logger.info(f"🎯 ROUTE_REGEX: {from_city} → {to_city}")
                 return from_city, to_city, cargo_text
@@ -2015,7 +2024,7 @@ def extract_route_and_cargo(text):
                 to_city = re.sub(r'\([^)]*\)', '', to_city).strip()
                 
                 # ВАЛИДАЦИЯ: проверяем, что это реальные города
-                if validate_city_name(from_city) and validate_city_name(to_city):
+                if is_valid_city_or_region(from_city) and is_valid_city_or_region(to_city):
                     cargo_text = text.replace(line, '').strip()
                     logger.info(f"🎯 Emoji-паттерн: {from_city} → {to_city} (очищено)")
                     return from_city, to_city, cargo_text
@@ -2056,12 +2065,12 @@ def extract_route_and_cargo(text):
             elif word.lower().endswith('ga') or word.lower().endswith('га'):
                 clean_word = word[:-2]
             
-            if len(clean_word) > 2 and validate_city_name(clean_word):
+            if len(clean_word) > 2 and is_valid_city_or_region(clean_word):
                 from_city_found = clean_word
                 break
         
         # Если нашли город в первой строке и валидный город во второй
-        if from_city_found and validate_city_name(actual_to_city):
+        if from_city_found and is_valid_city_or_region(actual_to_city):
             logger.info(f"🎯 Найден построчный маршрут: {from_city_found} → {actual_to_city}")
             return from_city_found, actual_to_city, '\n'.join(lines[2:])
         
@@ -2069,7 +2078,7 @@ def extract_route_and_cargo(text):
         if (len(first_clean) > 2 and len(second_clean) > 2 and 
             len(first_clean.split()) <= 3 and len(second_clean.split()) <= 3):
             # ВАЛИДАЦИЯ: проверяем, что это реальные города
-            if validate_city_name(first_clean) and validate_city_name(second_clean):
+            if is_valid_city_or_region(first_clean) and is_valid_city_or_region(second_clean):
                 return first_line.strip(), second_line.strip(), '\n'.join(lines[2:])
 
     # ПРИОРИТЕТ 5: Последний fallback - только если ничего не найдено
@@ -2083,7 +2092,7 @@ def extract_route_and_cargo(text):
         part1, part2 = parts[0].strip(), parts[1].strip()
         
         # ФОКУС НА ГЕОГРАФИИ: ищем только географические названия ОТКУДА → КУДА
-        if validate_city_name(part1) and validate_city_name(part2):
+        if is_valid_city_or_region(part1) and is_valid_city_or_region(part2):
             return part1, part2, text
 
     return None, None, text
