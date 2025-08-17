@@ -57,6 +57,7 @@ REGION_KEYWORDS = {
       # Основной город
       "toshkent", "tashkent", "tosh-kent", "tash-kent", "towkent", "toshkent shahri", "tashkent city",
       "toshkentga", "tashkentga", "toshkentdan", "tashkentdan", "toshkentda", "toshkentdagi",
+      "toshkent", "TOSHKENT", # исправляем регистр
       "toshkenga", "toshkentga", "olmosga", "olmosxo'ja", "olmos", "olmoscha",
       "Тошкент", "Ташкент", "ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
       "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy",
@@ -82,7 +83,7 @@ REGION_KEYWORDS = {
       "parkent", "Паркент", "piskent", "Пискент",
       "quyichirchiq", "quyi-chirchiq", "quyi chirchiq", "kuyichirchiq", "Қуйичирчиқ",
       "yuqorichirchiq", "yuqori-chirchiq", "yuqori chirchiq", "yukorichirchiq", "Юқоричирчиқ",
-      "boka", "bo'ka", "Бўка", "xasanboy", "hasanboy", "Хасанбой",
+      "boka", "bo'ka", "Бўка", "xasanboy", "hasanboy", "XASANBOY", "HASANBOY", "Хасанбой",
       "chinaz", "chinz", "chinoz", "Чиназ", "Чиноз",
       "zangiota", "zangi-ota", "zangi ota", "Зангиота",
       "qibray", "kibray", "Қибрай",
@@ -178,7 +179,7 @@ REGION_KEYWORDS = {
     "latin_uz": "Navoiy shahri",
     "russian": "город Навои",
     "aliases": [
-      "navoiy", "navoi", "navoyi", "navoiy shahri", "navoi city",
+      "navoiy", "navoi", "navoyi", "Navoyi", "NAVOYI", "navoiy shahri", "navoi city",
       "navoiyda", "navoiydan", "navoiyga", "navoiylik",
       "qiziltepaga", "qiziltepa", "qiziltepa tumani",
       "g'azg'on", "gazgon", "g'azg'ondan", "gazgondan",
@@ -761,6 +762,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "farg'ona", "fargʻona", "fargona", "fergana", "farg'ona shaxri", "fargona city",
       "farg'onada", "farg'onadan", "farg'onga", "farg'onalik",
+      "farg ona", "farg ona qirgulidan", "fargona qirgulidan",  # исправляем "агрессивную очистку"
       "yozyovondan", "yozyovon", "yozyovon tumani",  # Ёзёвон район в Фергане
       "фаргона", "фергана", "Фарғона", "Фергана", "город Фергана"
     ]
@@ -1204,6 +1206,7 @@ REGION_KEYWORDS = {
     "russian": "Яккабагский район",
     "aliases": [
       "yakkabog", "yakkabog'", "yakka-bog", "yakka-bog'", "yakkabog tumani",
+      "Яккабог", "ЯККАБОГ", "yaqqabog", "YAQQABOG",  # дополнительные варианты
       "yakkabogda", "yakkabogdan", "yakkabogga", "yakkaboglik",
       "Яккабоғ", "Яккабаг", "Яккабагский район"
     ]
@@ -2191,10 +2194,10 @@ def extract_route_and_cargo(text):
         # КРИТИЧНО: убираем эмодзи
         clean_line = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line)
         
-        # АГРЕССИВНАЯ очистка: заменяем ВСЕ знаки препинания на пробелы для разделения слов
-        # Toshkent(Oliy → Toshkent Oliy, Qarshi(Kosonga) → Qarshi Kosonga
-        aggressive_clean = re.sub(r'[^\w\s→>-]', ' ', clean_line)  # все кроме букв, цифр, пробелов и стрелок → пробел
-        aggressive_clean = re.sub(r'\s+', ' ', aggressive_clean)   # множественные пробелы → один пробел
+        # УЛУЧШЕННАЯ очистка: заменяем знаки препинания НО СОХРАНЯЕМ АПОСТРОФЫ для узбекских названий
+        # Toshkent(Oliy → Toshkent Oliy, НО Qo'qon остается Qo'qon, Farg'ona остается Farg'ona
+        aggressive_clean = re.sub(r'[^\w\s→>ʼ\'-]', ' ', clean_line)  # сохраняем апострофы ʼ и '
+        aggressive_clean = re.sub(r'\s+', ' ', aggressive_clean)       # множественные пробелы → один пробел
         aggressive_clean = aggressive_clean.strip()
         
         logger.info(f"🔧 Агрессивная очистка: '{line}' → '{aggressive_clean}'")
