@@ -2421,6 +2421,26 @@ def send_message(chat_id, text, message_thread_id=None, reply_markup=None):
             return result
         else:
             error_desc = result.get('description', '')
+            error_code = result.get('error_code', 0)
+            
+            # Обработка ограничения скорости (429)
+            if error_code == 429:
+                retry_after = result.get('parameters', {}).get('retry_after', 30)
+                logger.warning(f"⏳ Rate limit exceeded, повторная попытка через {retry_after} секунд...")
+                time.sleep(retry_after + 1)  # Добавляем 1 секунду для безопасности
+                
+                # Повторная попытка
+                try:
+                    response = requests.post(f"{API_URL}/sendMessage", json=payload, timeout=10)
+                    result = response.json()
+                    if response.status_code == 200 and result.get('ok'):
+                        logger.info("✅ Сообщение отправлено УСПЕШНО после повтора!")
+                        return result
+                    else:
+                        logger.error(f"❌ Повторная попытка неудачна: {result}")
+                except Exception as retry_error:
+                    logger.error(f"❌ Ошибка повторной попытки: {retry_error}")
+            
             # Даже при ошибках с кнопками - всё равно считаем успешным
             if 'BUTTON_USER_PRIVACY_RESTRICTED' in error_desc:
                 logger.info(f"ℹ️ Ограничение кнопок пользователя, но сообщение доставлено с кнопкой")
