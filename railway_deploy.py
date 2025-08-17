@@ -229,10 +229,18 @@ REGION_KEYWORDS = {
     "latin_uz": "Sirdaryo viloyati",
     "russian": "Сырдарьинская область",
     "aliases": [
-      "sirdaryo", "syrdarya", "sirdaryoga", "sirdaryoda",
-      "guliston", "gulistan", "guliston shahri", "gulistan city",
-      "sirdaryodan", "sirdaryolik", "shirin", "shirindan",
-      "Сирдарйо", "сирдарйо", "Сирдарйодан", "сирдарйодан",  # Добавляем проблемные варианты
+      # Основные варианты Sirdaryo
+      "sirdaryo", "syrdarya", "sirdaryoga", "sirdaryoda", "sirdaryodan", "sirdaryolik",
+      "guliston", "gulistan", "guliston shahri", "gulistan city", "gulistonda", "gulistondan",
+      "shirin", "shirindan", "shirinlik", "shirinda", "shiringa",
+      # Oqoltin - город в Сырдарьинской области (МАКСИМАЛЬНО ВСЕ ВАРИАНТЫ!)
+      "oqoltin", "OQOLTIN", "Oqoltin", "akoltin", "okoltin", "akoltin shahri", "oqoltin city",
+      "оқолтин", "ОҚОЛТИН", "Оқолтин", "околтин", "ОКОЛТИН", "Околтин", 
+      "аколтин", "АКОЛТИН", "Аколтин", "околтин город", "оқолтин шаҳри",
+      "oqoltindan", "oqoltinda", "oqoltinlik", "oqoltinga", 
+      "аколтине", "аколтину", "аколтином", "оқолтинга", "оқолтиндан",
+      # Узбекские варианты
+      "Сирдарйо", "сирдарйо", "Сирдарйодан", "сирдарйодан",
       "Сирдарё", "Сырдарья", "Сырдарьинская область", "Гулистан"
     ]
   },
@@ -1443,17 +1451,7 @@ REGION_KEYWORDS = {
     ]
   },
 
-  "sirdaryo": {
-    "topic_id": 101378,
-    "cyrillic_uз": "Сирдарё вилояти",
-    "latin_uз": "Sirdaryo viloyati",
-    "russian": "Сырдарьинская область",
-    "aliases": [
-      "sirdaryo", "sirdaryo viloyati", "sirdarya oblast", "sirdarya region",
-      "sirdaryoga", "sirdaryodan", "sirdaryoda",
-      "Сирдарё", "Сырдарья", "Сырдарьинская область"
-    ]
-  },
+
 
   "jizzakh_city": {
     "topic_id": 101377,
@@ -2302,6 +2300,22 @@ def extract_route_and_cargo(text):
         if route_match:
             from_city = route_match.group(1).strip()
             to_city = route_match.group(2).strip()
+            
+            # КРИТИЧНО: БЛОКИРУЕМ товарные описания типа "САЛАФАН → РУЛОН"
+            # Это описание товара (пленка в рулонах), а не маршрут между городами!
+            product_descriptions = [
+                'салафан', 'рулон', 'плёнка', 'пленка', 'полиэтилен', 'материал',
+                'товар', 'продукт', 'изделие', 'salafo', 'rulon', 'plyonka', 
+                'тент', 'tent', 'пластик', 'plastik'
+            ]
+            
+            from_lower = from_city.lower()
+            to_lower = to_city.lower()
+            
+            # Если оба "города" являются описанием товара - пропускаем
+            if (from_lower in product_descriptions or to_lower in product_descriptions):
+                logger.info(f"🚫 БЛОКИРОВКА товарного описания: '{from_city} → {to_city}' - это не маршрут!")
+                continue
             
             # Убираем скобки и их содержимое из названий городов
             from_city = re.sub(r'\([^)]*\)', '', from_city).strip()
