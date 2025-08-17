@@ -128,6 +128,7 @@ REGION_KEYWORDS = {
     "russian": "город Наманган",
     "aliases": [
       "namangan", "namagan", "namangan shahri", "namangan city",
+      "naman", "Naman", "NAMAN",  # Добавляем Naman как алиас
       "namanganga", "namangandan", "namanganda", "namanganlik",
       "xaqlabot", "xaqlabad", "Хаклабот", # район в Намангане
       "Наманган", "город Наманган", "Намангана", "Намангане"
@@ -885,6 +886,7 @@ REGION_KEYWORDS = {
     "russian": "город Наманган",
     "aliases": [
       "namangan", "namangan shaxri", "namangan city",
+      "naman", "Naman", "NAMAN",  # Добавляем Naman как алиас
       "namanganda", "namangandan", "namanganga", "namanganlik",
       "xaqlabot", "xaqlabotdan", "xaqlabot tumani",  # Добавляем алиасы для Хаклабота
       "Наманган"
@@ -2072,6 +2074,7 @@ def is_valid_city_or_region(city_name):
     technical_terms = [
         # Основные технические термины
         'metrlik', 'tonna', 'transport', 'fura', 'traller', 'yuk', 'bor', 'kerak', 'kk', 'kg', 'ton',
+        'tent', 'тент', 'chakman', 'тентованный',  # Добавляем tent как технический термин
         'ekskavator', 'shafyor', 'ish', 'talik', 'konteyner', 'pustoy', 'empty', 'driver', 'haydovchi',
         'gaz', 'benzin', 'tel', 'raqam', 'phone', 'telefon', 'qongiroq', 'call',
         
