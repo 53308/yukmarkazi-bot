@@ -257,6 +257,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "qoraqalpogiston", "qoraqalpog'iston", "karakalpakstan", "qoraqalpoqiston",
       "nukus", "nukus shahri", "nukus city", "нукус", "нукусдан", "nukusdan", "Нукус", "НУКУС",
+      "qo'ng'irot", "qong'irot", "qoʻngʻirot", "qo`ng`irot", "kongrat", "irot", "IROT",  # Добавляем все варианты Qo'ng'irot
       "qoraqalpogistonda", "qoraqalpogistondan", "qoraqalpogistonlik",
       "Қорақалпоғистон", "Каракалпакстан", "Республика Каракалпакстан", "Нукус"
     ]
@@ -2037,10 +2038,10 @@ def normalize_text(text):
     # Приведение к нижнему регистру
     text = text.lower()
     
-    # Замены специальных символов
+    # Замены специальных символов (НЕ ТРОГАЕМ апострофы - они важны для узбекских названий!)
     replacements = {
-        'ʼ': "'",   # правый апостроф → обычный апостроф
-        'ʻ': "'",   # левый апостроф → обычный апостроф
+        # 'ʼ': "'",   # правый апостроф → ОСТАВЛЯЕМ как есть для Qo'qon, Farg'ona
+        # 'ʻ': "'",   # левый апостроф → ОСТАВЛЯЕМ как есть
         'ё': 'e',   # ё → e
         'і': 'i',   # і → i
         'ı': 'i',   # ı → i (турецкий)
@@ -2126,7 +2127,7 @@ def is_valid_city_or_region(city_name):
         return True
     else:
         # Для географических алиасов - более мягкая проверка
-        if len(city_name) >= 4 and city_name.lower() not in ['tel', 'phone', 'telefon']:
+        if len(city_name) >= 4 and city_name.lower() not in ['tel', 'phone', 'telefon', 'tent', 'irot']:
             logger.info(f"✅ ВАЛИДАЦИЯ: '{city_name}' - разрешен как географический алиас")
             return True
         logger.info(f"❌ БЛОКИРОВКА: '{city_name}' - не найден в REGION_KEYWORDS")
@@ -2143,10 +2144,10 @@ def extract_route_and_cargo(text):
     # ПРИОРИТЕТ 1: Паттерны "дан...га" (самый высокий приоритет)
     # Очищаем текст от переносов строк для лучшего поиска
     full_text_clean = re.sub(r'\s+', ' ', ' '.join(lines)).strip()
-    # КРИТИЧНО: МЯГКАЯ очистка - сохраняем апострофы для узбекских названий
-    # Заменяем только скобки и некоторые знаки, НО НЕ ТРОГАЕМ апострофы
-    full_text_clean = re.sub(r"[(),.;:!?]", ' ', full_text_clean)  # только основные знаки → пробел
-    full_text_clean = re.sub(r'\s+', ' ', full_text_clean)         # множественные пробелы → один пробел
+    # КРИТИЧНО: ПРАВИЛЬНАЯ очистка - ТОЛЬКО апострофы остаются внутри слов
+    # Qoraqalpoq(Qo'ng'irot) → "Qoraqalpoq Qo'ng'irot" (скобки разделяют слова)
+    full_text_clean = re.sub(r'[^\w\s\'ʼʻ`]', ' ', full_text_clean)  # ТОЛЬКО апострофы ', ʼ, ʻ, ` внутри слов
+    full_text_clean = re.sub(r'\s+', ' ', full_text_clean)           # множественные пробелы → один пробел
     
     dan_ga_patterns = [
         r"(\w+'?\w+)dan\s+(\w+'?\w+)ga",              # G'azg'ondan Qo'qonga (с апострофами)
@@ -2200,14 +2201,39 @@ def extract_route_and_cargo(text):
                 logger.info(f"🎯 Найден маршрут dan_ga: {from_city} → {to_city}")
                 return from_city, to_city, cargo_text
 
+    # ПРИОРИТЕТ 2: Полные названия в скобках (например "🇺🇿Qoraqalpoq (Qo'ng'irot)")
+    country_flag_pattern = r'🇺🇿(\w+)\s*\(([^)]+)\)'
+    for line in lines[:3]:  # Проверяем только первые 3 строки
+        flag_match = re.search(country_flag_pattern, line)
+        if flag_match:
+            region_name = flag_match.group(1).strip()
+            city_in_brackets = flag_match.group(2).strip()
+            # Проверяем оба города
+            if is_valid_city_or_region(region_name) and is_valid_city_or_region(city_in_brackets):
+                # Если найдено 2 строки с флагами - это маршрут
+                next_line_idx = lines.index(line) + 1
+                if next_line_idx < len(lines):
+                    next_flag_match = re.search(country_flag_pattern, lines[next_line_idx])
+                    if next_flag_match:
+                        next_region = next_flag_match.group(1).strip()
+                        next_city = next_flag_match.group(2).strip()
+                        if is_valid_city_or_region(next_region) and is_valid_city_or_region(next_city):
+                            # Используем города из скобок для точности
+                            from_city = city_in_brackets
+                            to_city = next_city
+                            cargo_text = text
+                            logger.info(f"🎯 Найден маршрут по флагам: {from_city} → {to_city}")
+                            return from_city, to_city, cargo_text
+
     for line in lines:
         # КРИТИЧНО: убираем эмодзи
         clean_line = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line)
         
-        # УЛУЧШЕННАЯ очистка: заменяем знаки препинания НО СОХРАНЯЕМ АПОСТРОФЫ для узбекских названий
-        # Toshkent(Oliy → Toshkent Oliy, НО Qo'qon остается Qo'qon, Farg'ona остается Farg'ona
-        aggressive_clean = re.sub(r'[^\w\s→>ʼ\'-]', ' ', clean_line)  # сохраняем апострофы ʼ и '
-        aggressive_clean = re.sub(r'\s+', ' ', aggressive_clean)       # множественные пробелы → один пробел
+        # УЛУЧШЕННАЯ очистка: ТОЛЬКО апострофы остаются внутри слов, ВСЕ остальное разделяет
+        # Qoraqalpoq(Qo'ng'irot) → "Qoraqalpoq Qo'ng'irot" (скобки разделяют)
+        # Qo'qon остается Qo'qon (апостроф внутри слова)
+        aggressive_clean = re.sub(r'[^\w\s\'ʼʻ`]', ' ', clean_line)  # ТОЛЬКО апострофы ', ʼ, ʻ, ` внутри слов
+        aggressive_clean = re.sub(r'\s+', ' ', aggressive_clean)     # множественные пробелы → один пробел
         aggressive_clean = aggressive_clean.strip()
         
         logger.info(f"🔧 Агрессивная очистка: '{line}' → '{aggressive_clean}'")
@@ -2309,11 +2335,11 @@ def extract_route_and_cargo(text):
             return first_line.strip(), second_line.strip(), '\n'.join(lines[2:])
         
         # СПЕЦИАЛЬНАЯ обработка для сообщений типа "QO'QON ADMIRALDAN" → "ANDIJON MARHAMAT"
-        # КРИТИЧНО: АГРЕССИВНАЯ очистка - заменяем ВСЕ знаки препинания на пробелы
-        first_clean = re.sub(r'[^\w\s]', ' ', first_line)   # все кроме букв и пробелов → пробел
-        first_clean = re.sub(r'\s+', ' ', first_clean).strip()  # множественные пробелы → один
-        second_clean = re.sub(r'[^\w\s]', ' ', second_line) # все кроме букв и пробелов → пробел
-        second_clean = re.sub(r'\s+', ' ', second_clean).strip()  # множественные пробелы → один
+        # КРИТИЧНО: ТОЛЬКО апострофы остаются внутри слов, всё остальное разделяет
+        first_clean = re.sub(r'[^\w\s\'ʼʻ`]', ' ', first_line)   # ТОЛЬКО апострофы ', ʼ, ʻ, ` внутри слов
+        first_clean = re.sub(r'\s+', ' ', first_clean).strip()   # множественные пробелы → один
+        second_clean = re.sub(r'[^\w\s\'ʼʻ`]', ' ', second_line) # ТОЛЬКО апострофы ', ʼ, ʻ, ` внутри слов
+        second_clean = re.sub(r'\s+', ' ', second_clean).strip() # множественные пробелы → один
         
         # Проверяем, есть ли во второй строке два слова (могут быть город + район)
         second_words = second_clean.split()
@@ -2354,8 +2380,9 @@ def extract_route_and_cargo(text):
     first_line = lines[0] if lines else text
     clean_first = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', first_line)
     
-    # Избегаем fallback на цифры и технические термины
-    parts = re.split(r'[\s\-\>\→\—\-\-\-\-]+', clean_first, 2)
+    # Избегаем fallback на цифры и технические термины  
+    # КРИТИЧНО: Разделяем по ВСЕМ символам кроме букв, цифр, пробелов и ТОЛЬКО апострофов
+    parts = re.split(r'[^\w\s\'ʼʻ`]+', clean_first, 2)  # разделяем по всему кроме букв и апострофов
     if (len(parts) >= 2 and len(parts[0]) > 2 and len(parts[1]) > 2):
         # СТРОГАЯ валидация - проверяем каждую часть отдельно
         part1, part2 = parts[0].strip(), parts[1].strip()
@@ -2850,12 +2877,33 @@ def normalize_text_legacy(s: str) -> str:
     s = re.sub(r"\s+", " ", s).strip()
     return s
 
+def normalize_apostrophes_for_search(text):
+    """
+    Нормализует только апострофы для поиска, не меняя оригинальный текст
+    """
+    if not text:
+        return text
+    
+    # Заменяем все типы апострофов на обычный ' для унифицированного поиска
+    apostrophe_replacements = {
+        'ʼ': "'",   # правый апостроф → обычный апостроф
+        'ʻ': "'",   # левый апостроф → обычный апостроф  
+        '`': "'",   # обратный апостроф → обычный апостроф
+    }
+    
+    for old, new in apostrophe_replacements.items():
+        text = text.replace(old, new)
+    
+    return text
+
 def find_region(text: str) -> str | None:
     """Универсальный поиск региона по ВСЕМ данным: aliases, keywords, названиям."""
     if not text:
         return None
     
-    text_norm = normalize_text(text)
+    # Сначала нормализуем апострофы, потом весь текст
+    text_normalized_apostrophes = normalize_apostrophes_for_search(text)
+    text_norm = normalize_text(text_normalized_apostrophes)
     
     # КРИТИЧЕСКИ ВАЖНО: Проверяем международные маршруты с флагами стран
     # Флаги стран (🇷🇺🇰🇿🇺🇦🇹🇷 и др.) указывают на международный маршрут
@@ -2866,14 +2914,18 @@ def find_region(text: str) -> str | None:
     # 1. Поиск в REGION_KEYWORDS (aliases)
     for code, data in REGION_KEYWORDS.items():
         for kw in data.get('aliases', []):
-            kw_norm = normalize_text(kw)
+            # Нормализуем алиас тоже с апострофами
+            kw_normalized_apostrophes = normalize_apostrophes_for_search(kw)
+            kw_norm = normalize_text(kw_normalized_apostrophes)
             if kw_norm in text_norm or re.search(rf"\b{re.escape(kw_norm)}\b", text_norm):
                 return code
                 
         # Также проверяем основные названия
         for field in ['cyrillic_uz', 'latin_uz', 'russian']:
             if field in data:
-                field_norm = normalize_text(data[field])
+                # Нормализуем поля тоже с апострофами
+                field_normalized_apostrophes = normalize_apostrophes_for_search(data[field])
+                field_norm = normalize_text(field_normalized_apostrophes)
                 if field_norm in text_norm:
                     return code
     
