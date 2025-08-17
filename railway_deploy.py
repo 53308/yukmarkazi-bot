@@ -21,10 +21,10 @@ from flask import Flask, request, jsonify
 import requests
 
 # ========== Настройки ==========
-BOT_TOKEN     = os.environ.get('TELEGRAM_BOT_TOKEN')
+BOT_TOKEN     = '8098291030:AAFTt4SLrOz95Hfq8TKdvgnv8j5ojEnirYg'  # Принудительно новый токен
 MAIN_GROUP_ID = int(os.environ.get('MAIN_GROUP_ID', '-1002259378109'))
 ADMIN_USER_ID = int(os.environ.get('ADMIN_USER_ID', '8101326669'))
-BOT_USERNAME  = os.getenv("BOT_USERNAME", "yukmarkazi_bot")  # без @
+BOT_USERNAME  = os.getenv("BOT_USERNAME", "ym_logistics_bot")  # без @
 API_URL       = f"https://api.telegram.org/bot{BOT_TOKEN}" if BOT_TOKEN else None
 # ========== Глобальные переменные ==========
 last_update_id = 0
@@ -45,35 +45,284 @@ def init_logging():
         ]
     )
 
-# ========== REGION_KEYWORDS ==========
+# ========== ТОЛЬКО 17 АКТИВНЫХ ТОПИКОВ ==========
 REGION_KEYWORDS = {
+  # 1. Toshkent (101362) - объединяет все районы Ташкента и Ташкентскую область
   "tashkent_city": {
     "topic_id": 101362,
     "cyrillic_uz": "Тошкент шаҳри",
-    "latin_uz": "Toshkent shahri",
+    "latin_uz": "Toshkent shahri", 
     "russian": "город Ташкент",
     "aliases": [
+      # Основной город
       "toshkent", "tashkent", "tosh-kent", "tash-kent", "towkent", "toshkent shahri", "tashkent city",
       "toshkentga", "tashkentga", "toshkentdan", "tashkentdan", "toshkentda", "toshkentdagi",
-      "toshkenga", "toshkentga",  # Дополнительные варианты для "куда"
-      "olmosga", "olmosxo'ja", "olmos", "olmoscha",  # Олмос - район Ташкента
+      "toshkenga", "toshkentga", "olmosga", "olmosxo'ja", "olmos", "olmoscha",
       "Тошкент", "Ташкент", "ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
-      "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy"
+      "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy",
+      # ВСЕ РАЙОНЫ ТАШКЕНТА
+      "yunusobod", "yunusabad", "yunus-obod", "yunus obod", "Юнусобод", "Юнусабад",
+      "mirzo-ulugbek", "mirzo ulugbek", "mirzoulugbek", "mirzo ulug'bek", "Мирзо-Улуғбек", "Мирзо Улуғбек",
+      "yashnobod", "yashnabad", "yashno-bod", "Яшнобод", "Яшнабад",
+      "olmazor", "olma-zor", "olma zor", "almazar", "Олмазор", "Алмазар",
+      "uchtepa", "uch-tepa", "uch tepa", "Учтепа", "Уч-Тепа",
+      "shayxontohur", "shayxontoxur", "shaykhontohur", "Шайхонтоҳур", "Шайхантаур",
+      "chilonzor", "chilon-zor", "chilon zor", "Чилонзор", "Чиланзар",
+      "sergeli", "sergili", "Сергели",
+      "yakkasaroy", "yakkasaray", "yakka-saroy", "yakka saroy", "Яккасарай",
+      "mirobod", "mirabad", "miro-bod", "Мирабод", "Мирабад",
+      "bektemir", "bek-temir", "Бектемир",
+      # ТАШКЕНТСКАЯ ОБЛАСТЬ
+      "toshkent viloyati", "tashkent oblast", "toshkent region", "Тошкент вилояти", "Ташкентская область",
+      "bekobod", "bekabad", "Бекобод", "Бекабад",
+      "angren", "angiren", "Ангрен", "Ангирен",
+      "olmaliq", "olmalik", "almalyk", "almalik", "Олмалиқ", "Алмалык",
+      "ohangaron", "axangaron", "ohan'garon", "Оҳангарон", "Ахангаран",
+      "yangiyul", "yangiyo'l", "Янгиюл", "Янгиюль",
+      "parkent", "Паркент", "piskent", "Пискент",
+      "quyichirchiq", "quyi-chirchiq", "quyi chirchiq", "kuyichirchiq", "Қуйичирчиқ",
+      "yuqorichirchiq", "yuqori-chirchiq", "yuqori chirchiq", "yukorichirchiq", "Юқоричирчиқ",
+      "boka", "bo'ka", "Бўка", "xasanboy", "hasanboy", "Хасанбой",
+      "chinaz", "chinz", "chinoz", "Чиназ", "Чиноз",
+      "zangiota", "zangi-ota", "zangi ota", "Зангиота",
+      "qibray", "kibray", "Қибрай",
+      "nurafshon", "nurafshan", "Нурафшон",
+      "gazalkent", "gazal-kent", "Газалкент"
     ]
   },
 
-  "yunusobod": {
-    "topic_id": 101362,
-    "cyrillic_uz": "Юнусобод тумани",
-    "latin_uz": "Yunusobod tumani",
-    "russian": "Юнусабадский район",
+  # 2. Farg'ona (101382)
+  "fargona_city": {
+    "topic_id": 101382,
+    "cyrillic_uz": "Фарғона шаҳри",
+    "latin_uz": "Farg'ona shahri",
+    "russian": "город Фергана",
     "aliases": [
-      "yunusobod", "yunusabad", "yunus-obod", "yunus obod", "yunusobod tumani", "yunusobod rayon",
-      "yunusobodda", "yunusoboddan", "yunusobodga", "yunusobodlik",
-      "Юнусобод", "Юнусабад", "Юнус-Абад", "Юнусабадский район"
+      "fargona", "farg'ona", "fargana", "fergana", "fargona shahri", "fargona city",
+      "fargonaga", "fargonadan", "fargonada", "fargonali",
+      "Фарғона", "Фергана", "город Фергана", "Ферганы", "Фергане"
     ]
   },
 
+  # 3. Kokand (101382) - приоритет Фергана
+  "kokand": {
+    "topic_id": 101382,  # Фергана топик
+    "cyrillic_uz": "Қўқон шаҳри", 
+    "latin_uz": "Qo'qon shahri",
+    "russian": "город Коканд",
+    "aliases": [
+      "qoqon", "qo'qon", "kokand", "qo'qon shahri", "qoqon city",
+      "qo'qonga", "qo'qondan", "qo'qonda", "qoqonlik",
+      "Қўқон", "Коканд", "город Коканд"
+    ]
+  },
+
+  # 4. Namangan (101383)
+  "namangan_city": {
+    "topic_id": 101383,
+    "cyrillic_uz": "Наманган шаҳри",
+    "latin_uz": "Namangan shahri", 
+    "russian": "город Наманган",
+    "aliases": [
+      "namangan", "namagan", "namangan shahri", "namangan city",
+      "namanganga", "namangandan", "namanganda", "namanganlik",
+      "xaqlabot", "xaqlabad", "Хаклабот", # район в Намангане
+      "Наманган", "город Наманган", "Намангана", "Намангане"
+    ]
+  },
+
+  # 5. Andijan (101387)  
+  "andijon_city": {
+    "topic_id": 101387,
+    "cyrillic_uz": "Андижон шаҳри",
+    "latin_uz": "Andijon shahri",
+    "russian": "город Андижан", 
+    "aliases": [
+      "andijon", "andijan", "andijon shahri", "andijon city",
+      "andijonga", "andijondan", "andijonda", "andijonlik",
+      "marhamat", "marhamatga", # район в Андижане
+      "Андижон", "Андижан", "город Андижан", "Андижана", "Андижане"
+    ]
+  },
+
+  # 6. Samarqand (101369)
+  "samarkand_city": {
+    "topic_id": 101369,
+    "cyrillic_uz": "Самарқанд шаҳри",
+    "latin_uz": "Samarqand shahri",
+    "russian": "город Самарканд",
+    "aliases": [
+      "samarqand", "samarkand", "samarqand shahri", "samarkand city",
+      "samarqandga", "samarqanddan", "samarqandda", "samarqandlik",
+      "Самарқанд", "Самарканд", "город Самарканд", "Самарканда", "Самарканде"
+    ]
+  },
+
+  # 7. Buxoro (101372)
+  "bukhara_city": {
+    "topic_id": 101372,
+    "cyrillic_uz": "Бухоро шаҳри",
+    "latin_uz": "Buxoro shahri", 
+    "russian": "город Бухара",
+    "aliases": [
+      "buxoro", "bukhara", "buxoro shahri", "bukhara city",
+      "buxoroga", "buxorodan", "buxoroda", "buxorolik",
+      "Бухоро", "Бухара", "город Бухара", "Бухары", "Бухаре"
+    ]
+  },
+
+  # 8. Navoiy (101379)
+  "navoi_city": {
+    "topic_id": 101379,
+    "cyrillic_uz": "Навоий шаҳри",
+    "latin_uz": "Navoiy shahri",
+    "russian": "город Навои",
+    "aliases": [
+      "navoiy", "navoi", "navoyi", "navoiy shahri", "navoi city",
+      "navoiyda", "navoiydan", "navoiyga", "navoiylik",
+      "qiziltepaga", "qiziltepa", "qiziltepa tumani",
+      "g'azg'on", "gazgon", "g'azg'ondan", "gazgondan",
+      "Навоий", "Навои"
+    ]
+  },
+
+  # 9. Qashqadaryo (101380)
+  "qashqadaryo_region": {
+    "topic_id": 101380,
+    "cyrillic_uz": "Қашқадарё вилояти",
+    "latin_uz": "Qashqadaryo viloyati", 
+    "russian": "Кашкадарьинская область",
+    "aliases": [
+      "qashqadaryo", "qashqadaryoga", "qashqadarya", "kashkadarya",
+      "qarshi", "karshi", "qarshi shahri", "karshi city",
+      "qashqadaryoda", "qashqadaryodan", "qashqadaryolik",
+      "kosonga", "kosonda", "koson",
+      "Қашқадарё", "Кашкадарья", "Кашкадарьинская область", "Карши"
+    ]
+  },
+
+  # 10. Surxondaryo (101363)
+  "surkhandarya_region": {
+    "topic_id": 101363,
+    "cyrillic_uz": "Сурхондарё вилояти",
+    "latin_uz": "Surxondaryo viloyati",
+    "russian": "Сурхандарьинская область", 
+    "aliases": [
+      "surxondaryo", "surkhandarya", "surxondaryoga", "surxondaryoda",
+      "termiz", "termez", "termiz shahri", "termez city",
+      "surxondaryodan", "surxondaryolik",
+      "Сурхондарё", "Сурхандарья", "Сурхандарьинская область", "Термез"
+    ]
+  },
+
+  # 11. Sirdaryo (101378)
+  "sirdaryo_region": {
+    "topic_id": 101378,
+    "cyrillic_uz": "Сирдарё вилояти",
+    "latin_uz": "Sirdaryo viloyati",
+    "russian": "Сырдарьинская область",
+    "aliases": [
+      "sirdaryo", "syrdarya", "sirdaryoga", "sirdaryoda",
+      "guliston", "gulistan", "guliston shahri", "gulistan city",
+      "sirdaryodan", "sirdaryolik", "shirin", "shirindan",
+      "Сирдарё", "Сырдарья", "Сырдарьинская область", "Гулистан"
+    ]
+  },
+
+  # 12. Jizzax (101377)
+  "jizzakh_region": {
+    "topic_id": 101377,
+    "cyrillic_uz": "Жиззах вилояти",
+    "latin_uz": "Jizzax viloyati",
+    "russian": "Джизакская область",
+    "aliases": [
+      "jizzax", "jizzakh", "jizakh", "jizzaq", "djizak",
+      "jizzaxga", "jizzaxdan", "jizzaxda", "jizzaxlik",
+      "Жиззах", "Джизак", "Джизакская область"
+    ]
+  },
+
+  # 13. Qoraqalpogʻiston (101381)
+  "karakalpakstan_region": {
+    "topic_id": 101381,
+    "cyrillic_uz": "Қорақалпоғистон Республикаси",
+    "latin_uz": "Qoraqalpog'iston Respublikasi",
+    "russian": "Республика Каракалпакстан",
+    "aliases": [
+      "qoraqalpogiston", "qoraqalpog'iston", "karakalpakstan", "qoraqalpoqiston",
+      "nukus", "nukus shahri", "nukus city",
+      "qoraqalpogistonda", "qoraqalpogistondan", "qoraqalpogistonlik",
+      "Қорақалпоғистон", "Каракалпакстан", "Республика Каракалпакстан", "Нукус"
+    ]
+  },
+
+  # 14. Xorazm (101660)
+  "khorezm_region": {
+    "topic_id": 101660,
+    "cyrillic_uz": "Хоразм вилояти",
+    "latin_uz": "Xorazm viloyati",
+    "russian": "Хорезмская область",
+    "aliases": [
+      "xorazm", "khorezm", "xorazmga", "xorazmdan", "xorazmda",
+      "urganch", "urgench", "urganch shahri", "urgench city",
+      "xorazmlik", "yasin", "yasindan", "shafof", "shafofdan",
+      "Хоразм", "Хорезм", "Хорезмская область", "Ургенч"
+    ]
+  },
+
+  # 15. Xalqaro yuklar (101367)
+  "international": {
+    "topic_id": 101367,
+    "cyrillic_uz": "Халқаро юклар",
+    "latin_uz": "Xalqaro yuklar",
+    "russian": "Международные грузы",
+    "aliases": [
+      "xalqaro", "international", "халқаро", "международные",
+      "russia", "rossiya", "moscow", "moskva", "petersburg", "spb",
+      "belarus", "minsk", "kazakhstan", "almaty", "astana", "nur-sultan",
+      "turkey", "turkiye", "istanbul", "ankara", "iran", "tehran",
+      "Россия", "Москва", "Петербург", "СПб", "Беларусь", "Минск",
+      "Казахстан", "Алматы", "Астана", "Нур-Султан", "Турция", "Стамбул", "Анкара"
+    ]
+  },
+
+  # 16. REKLAMA (101360)
+  "advertising": {
+    "topic_id": 101360, 
+    "cyrillic_uz": "Реклама",
+    "latin_uz": "Reklama",
+    "russian": "Реклама",
+    "aliases": [
+      "reklama", "advertising", "ads", "реклама", "рекламное",
+      "elon", "e'lon", "объявление", "объявления"
+    ]
+  },
+
+  # 17. Yangiliklar (101359)
+  "news": {
+    "topic_id": 101359,
+    "cyrillic_uz": "Янгиликлар", 
+    "latin_uz": "Yangiliklar",
+    "russian": "Новости",
+    "aliases": [
+      "yangiliklar", "news", "янгиликлар", "новости", "новость",
+      "xabar", "xabarlar", "известия", "сводка"
+    ]
+  },
+
+  # 18. Fura bozor (101361) - СПЕЦИАЛЬНЫЙ ТОПИК
+  "market": {
+    "topic_id": 101361,
+    "cyrillic_uz": "Фура бозор",
+    "latin_uz": "Fura bozor", 
+    "russian": "Рынок фур",
+    "aliases": [
+      "fura bozor", "fura bazar", "fura market", "фура бозор", "рынок фур",
+      "fura sotuv", "fura sotish", "продажа фур", "покупка фур"
+    ]
+  },
+
+  # ========== ДОПОЛНИТЕЛЬНЫЕ РАЙОНЫ ТАШКЕНТА (все идут в топик 101362) ==========
   "mirzo_ulugbek": {
     "topic_id": 101362,
     "cyrillic_uz": "Мирзо-Улуғбек тумани",
@@ -1039,9 +1288,10 @@ REGION_KEYWORDS = {
     "latin_uz": "Navoiy shahri",
     "russian": "город Навои",
     "aliases": [
-      "navoiy", "navoi", "navoiy shaxri", "navoi city",
+      "navoiy", "navoi", "navoyi", "navoiy shaxri", "navoi city",
       "navoiyda", "navoiydan", "navoiyga", "navoiylik",
       "qiziltepaga", "qiziltepa", "qiziltepa tumani",  # Кизилтепа район в Наvoiy
+      "g'azg'on", "gazgon", "g'azg'ondan", "gazgondan",  # Газгон - район в Наvoiy
       "Навоий", "Навои"
     ]
   },
@@ -1880,20 +2130,26 @@ def extract_route_and_cargo(text):
     # ПРИОРИТЕТ 1: Паттерны "дан...га" (самый высокий приоритет)
     # Очищаем текст от переносов строк для лучшего поиска
     full_text_clean = re.sub(r'\s+', ' ', ' '.join(lines)).strip()
-    # КРИТИЧНО: АГРЕССИВНАЯ очистка ПЕРЕД обработкой dan_ga паттернов
-    # Заменяем знаки препинания на пробелы, НО сохраняем апостроф для узбекских названий
-    full_text_clean = re.sub(r"[^\w\s']", ' ', full_text_clean)  # все кроме букв, пробелов и апострофа → пробел
-    full_text_clean = re.sub(r'\s+', ' ', full_text_clean)       # множественные пробелы → один пробел
+    # КРИТИЧНО: МЯГКАЯ очистка - сохраняем апострофы для узбекских названий
+    # Заменяем только скобки и некоторые знаки, НО НЕ ТРОГАЕМ апострофы
+    full_text_clean = re.sub(r"[(),.;:!?]", ' ', full_text_clean)  # только основные знаки → пробел
+    full_text_clean = re.sub(r'\s+', ' ', full_text_clean)         # множественные пробелы → один пробел
     
     dan_ga_patterns = [
-        r'(\w+)dan\s+(\w+)ga',                      # Toshkentdan termizga (латиница)
-        r'(\w+)дан\s+(\w+)га',                      # Тошкентдан термизга (кириллица)
-        r'(\w+)dan\s+(\w+)',                        # Toshkentdan termiz (латиница)
-        r'(\w+)дан\s+(\w+)',                        # Тошкентдан термиз (кириллица)
-        r'(\w+)\s+(\w+)ga',                         # Toshkent termizga (латиница)
-        r'(\w+)\s+(\w+)га',                         # Тошкент термизга (кириллица)
-        r'(\w+)\s+(\w+)\s+(\w+)ga',                # Qoqon Shaffof Toshkentga (3 слова)
-        r'(\w+)\s+(\w+)\s+(\w+)га'                 # Кокон Шаффоф Тошкентга (3 слова)
+        r"(\w+'?\w+)dan\s+(\w+'?\w+)ga",              # G'azg'ondan Qo'qonga (с апострофами)
+        r"(\w+'?\w+)дан\s+(\w+'?\w+)га",              # Г'азг'ондан Ко'конга (с апострофами)
+        r'(\w+)dan\s+(\w+)ga',                        # Toshkentdan termizga (латиница)
+        r'(\w+)дан\s+(\w+)га',                        # Тошкентдан термизга (кириллица)
+        r"(\w+'?\w+)dan\s+(\w+'?\w+)",                # G'azg'ondan Qo'qon (с апострофами)
+        r"(\w+'?\w+)дан\s+(\w+'?\w+)",                # Г'азг'ондан Ко'кон (с апострофами)
+        r'(\w+)dan\s+(\w+)',                          # Toshkentdan termiz (латиница)
+        r'(\w+)дан\s+(\w+)',                          # Тошкентдан термиз (кириллица)
+        r"(\w+'?\w+)\s+(\w+'?\w+)ga",                 # G'azg'on Qo'qonga (с апострофами)
+        r"(\w+'?\w+)\s+(\w+'?\w+)га",                 # Г'азг'он Ко'конга (с апострофами)
+        r'(\w+)\s+(\w+)ga',                           # Toshkent termizga (латиница)
+        r'(\w+)\s+(\w+)га',                           # Тошкент термизга (кириллица)
+        r"(\w+'?\w+)\s+(\w+'?\w+)\s+(\w+'?\w+)ga",    # Qoqon G'azg'on Toshkentga (3 слова с апострофами)
+        r"(\w+'?\w+)\s+(\w+'?\w+)\s+(\w+'?\w+)га"     # Кокон Г'азг'он Тошкентга (3 слова с апострофами)
     ]
     
     for pattern in dan_ga_patterns:
