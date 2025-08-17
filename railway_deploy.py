@@ -1856,7 +1856,9 @@ REGION_KEYWORDS = {
             'москва', 'московская', 'москва обл', 'московская область',
             'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i',
             'спб', 'санкт-петербург', 'питер', 'ленинград',
-            'krasnodar', 'krasnodar İ', 'krasnodar i', 'voronej', 'воронеж', 'qazoq', 'казахстан', 'irkutsk', 'иркутск',
+            'krasnodar', 'krasnodar İ', 'krasnodar i', 'краснодар', 'краснода', 'краскова', 'красков',  # Добавляем опечатки
+            'astrakhan', 'astrakhan İ', 'astrakhan i', 'астрахан', 'астрахань', 'астархан',  # Добавляем Астрахан
+            'voronej', 'воронеж', 'qazoq', 'казахстан', 'irkutsk', 'иркутск',
             'rostov', 'rostov-na-donu', 'rostov İ', 'rostov i',
             'volgograd', 'volgograd İ', 'volgograd i',
             'kazan', 'kazan İ', 'kazan i',
@@ -1949,7 +1951,9 @@ REGION_KEYWORDS = {
             'import', 'export', 'import İ', 'export İ', 'import i', 'export i', 'russia', 'rosiya', 'russia İ', 'rosiya İ', 'russia i', 'rosiya i',
             'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', "moskva'", 'москва', 'москваga', 'москваdan',
             'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i', 'спб', 'санкт-петербург', 'питер', 'ленинград',
-            'krasnodar', 'krasnodar İ', 'krasnodar i', 'voronej', 'воронеж', 'krasnodarga', 'krasnadardan',
+            'krasnodar', 'krasnodar İ', 'krasnodar i', 'краснодар', 'краснода', 'краскова', 'красков',  # Опечатки
+            'astrakhan', 'astrakhan İ', 'astrakhan i', 'астрахан', 'астрахань', 'астархан',  # Астрахан
+            'voronej', 'воронеж', 'krasnodarga', 'krasnadardan', 'astrakhanga', 'astrakhandan',
             'rostov', 'rostov-na-donu', 'rostov İ', 'rostov i', 'rostovga', 'rostovdan', 'tomsk', 'tomsk shahardan', 'tomskdan', 'tomskga',
             'volgograd', 'volgograd İ', 'volgograd i', 'volgogradga', 'volgograddan',
             'kazan', 'kazan İ', 'kazan i', 'kazanga', 'kazandan',
@@ -2312,7 +2316,11 @@ def extract_route_and_cargo(text):
                 # Служебная информация
                 'профилда', 'гурух', 'профиль', 'группа', 'чат', 'канал', 'бот',
                 'profildan', 'guruh', 'guruhda', 'profile', 'group', 'chat', 'channel',
-                'профилде', 'группе', 'чате', 'канале', 'боте', 'сайт', 'site'
+                'профилде', 'группе', 'чате', 'канале', 'боте', 'сайт', 'site',
+                # Временные и логистические термины (НЕ города!)
+                'керак', 'kerak', 'нужно', 'надо', 'требуется', 'срочно', 'сурочни',
+                'ерталаб', 'ertalab', 'утром', 'утру', 'завтра', 'сегодня', 'вчера',
+                'келаси', 'kelasi', 'следующий', 'прошлый', 'этот', 'тот'
             ]
             
             from_lower = from_city.lower()
