@@ -61,6 +61,7 @@ REGION_KEYWORDS = {
       "toshkenga", "toshkentga", "olmosga", "olmosxo'ja", "olmos", "olmoscha",
       "Тошкент", "Ташкент", "ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
       "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy",
+      "Maskva", "MASKVA", "maskva", "москва", "Москва", "МОСКВА",  # Добавляем Москву
       # ВСЕ РАЙОНЫ ТАШКЕНТА
       "yunusobod", "yunusabad", "yunus-obod", "yunus obod", "Юнусобод", "Юнусабад",
       "mirzo-ulugbek", "mirzo ulugbek", "mirzoulugbek", "mirzo ulug'bek", "Мирзо-Улуғбек", "Мирзо Улуғбек",
@@ -88,7 +89,8 @@ REGION_KEYWORDS = {
       "zangiota", "zangi-ota", "zangi ota", "Зангиота",
       "qibray", "kibray", "Қибрай",
       "nurafshon", "nurafshan", "Нурафшон",
-      "gazalkent", "gazal-kent", "Газалкент"
+      "gazalkent", "gazal-kent", "Газалкент",
+      "oʻrtasaroy", "o'rtasaroy", "ortasaroy", "Oʻrtasaroy", "O'rtasaroy", "Ўртасарой"  # Ўртасарой район
     ]
   },
 
@@ -167,8 +169,9 @@ REGION_KEYWORDS = {
     "russian": "город Бухара",
     "aliases": [
       "buxoro", "bukhara", "buxoro shahri", "bukhara city",
-      "buxoroga", "buxorodan", "buxoroda", "buxorolik",
-      "Бухоро", "Бухара", "город Бухара", "Бухары", "Бухаре"
+      "buxoroga", "buxorodan", "buxoroda", "buxorolik", 
+      "Бухоро", "бухоро", "Бухородан", "бухородан",  # Проблемные варианты из логов
+      "Бухара", "город Бухара", "Бухары", "Бухаре"
     ]
   },
 
@@ -226,6 +229,7 @@ REGION_KEYWORDS = {
       "sirdaryo", "syrdarya", "sirdaryoga", "sirdaryoda",
       "guliston", "gulistan", "guliston shahri", "gulistan city",
       "sirdaryodan", "sirdaryolik", "shirin", "shirindan",
+      "Сирдарйо", "сирдарйо", "Сирдарйодан", "сирдарйодан",  # Добавляем проблемные варианты
       "Сирдарё", "Сырдарья", "Сырдарьинская область", "Гулистан"
     ]
   },
@@ -280,9 +284,12 @@ REGION_KEYWORDS = {
     "aliases": [
       "xalqaro", "international", "халқаро", "международные",
       "russia", "rossiya", "moscow", "moskva", "petersburg", "spb",
+      "Maskva", "MASKVA", "maskva", "Москва", "МОСКВА", "москва",  # Проблемные варианты Москвы
+      "Samara", "SAMARA", "samara", "Самара", "самара",  # Проблемные варианты Самары
       "belarus", "minsk", "kazakhstan", "almaty", "astana", "nur-sultan",
+      "kyrgyzstan", "bishkek", "Киргизистон", "киргизистон", "Киргизистондан", "киргизистондан",
       "turkey", "turkiye", "istanbul", "ankara", "iran", "tehran",
-      "Россия", "Москва", "Петербург", "СПб", "Беларусь", "Минск",
+      "Россия", "Петербург", "СПб", "Беларусь", "Минск",
       "Казахстан", "Алматы", "Астана", "Нур-Султан", "Турция", "Стамбул", "Анкара"
     ]
   },
