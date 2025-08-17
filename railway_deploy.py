@@ -79,7 +79,10 @@ REGION_KEYWORDS = {
       "bekobod", "bekabad", "Бекобод", "Бекабад",
       "angren", "angiren", "Ангрен", "Ангирен",
       "olmaliq", "olmalik", "almalyk", "almalik", "Олмалиқ", "Алмалык",
-      "ohangaron", "axangaron", "ohan'garon", "Оҳангарон", "Ахангаран",
+      # Максимальные варианты Охангарона
+      "ohangaron", "oxangaron", "ohan'garon", "oxan'garon", "ochangaron", "ochongaron", 
+      "ахангаран", "АХАНГАРАН", "Ахангаран", "ахангарон", "АХАНГАРОН", "охангарон", "ОХАНГАРОН", "Охангарон",
+      "оҳангарон", "ОҲАНГАРОН", "Оҳангарон", "ahangaran", "AHANGARAN", "Ahangaran", "ahangaron", "AHANGARON",
       "yangiyul", "yangiyo'l", "Янгиюл", "Янгиюль",
       "parkent", "Паркент", "piskent", "Пискент",
       "quyichirchiq", "quyi-chirchiq", "quyi chirchiq", "kuyichirchiq", "Қуйичирчиқ",
@@ -128,7 +131,6 @@ REGION_KEYWORDS = {
     "russian": "город Наманган",
     "aliases": [
       "namangan", "namagan", "namangan shahri", "namangan city",
-      "naman", "Naman", "NAMAN",  # Добавляем Naman как алиас
       "namanganga", "namangandan", "namanganda", "namanganlik",
       "xaqlabot", "xaqlabad", "Хаклабот", # район в Намангане
       "Наманган", "город Наманган", "Намангана", "Намангане"
@@ -509,9 +511,22 @@ REGION_KEYWORDS = {
     "latin_uz": "Ohangaron tumani",
     "russian": "Ахангаранский район",
     "aliases": [
-      "ohangaron", "axangaron", "ohan'garon", "ohangaron tumani", "ahangaran rayon",
-      "ohangaronda", "ohangarondan", "ohangaronga",
-      "Оҳангарон", "Ахангаран"
+      # Латиница (узбекский)
+      "ohangaron", "oxangaron", "ohan'garon", "oxan'garon", "ochangaron", "ochongaron",
+      "ohangaron tumani", "oxangaron tumani", "ohangaron shahri", "oxangaron city",
+      "ohangaronda", "ohangarondan", "ohangaronga", "ohangaronlik", "ohangarondan",
+      "oxangaronda", "oxangarondan", "oxangaronga", "oxangaronlik",
+      # Кириллица (узбекский)
+      "оҳангарон", "ОҲАНГАРОН", "Оҳангарон", "оҳангарон шаҳри", "Оҳангарон шаҳри",
+      "оҳангарон тумани", "Оҳангарон тумани", "оҳангарондан", "оҳангаронда", "оҳангаронга",
+      # Русский
+      "ахангаран", "АХАНГАРАН", "Ахангаран", "ахангарон", "АХАНГАРОН", "охангарон", "ОХАНГАРОН", "Охангарон",
+      "ахангаранский", "ахангаранский район", "Ахангаранский район", "город Ахангаран",
+      "ахангарана", "ахангаране", "ахангарану", "ахангараном", "ахангарандан", "ахангаранда",
+      "охангарона", "охангароне", "охангарону", "охангароном", "охангарондан", "охангаронда",
+      # Альтернативные написания  
+      "ahangaran", "AHANGARAN", "Ahangaran", "ahangaron", "AHANGARON", "Ahangaron",
+      "aхангаран", "aхангарон", "охaнгарон", "ахaнгарон"
     ]
   },
 
@@ -886,8 +901,7 @@ REGION_KEYWORDS = {
     "latin_uz": "Namangan shahri",
     "russian": "город Наманган",
     "aliases": [
-      "namangan", "namangan shaxri", "namangan city",
-      "naman", "Naman", "NAMAN",  # Добавляем Naman как алиас
+      "namangan", "namangan shaxri", "namangan city",  
       "namanganda", "namangandan", "namanganga", "namanganlik",
       "xaqlabot", "xaqlabotdan", "xaqlabot tumani",  # Добавляем алиасы для Хаклабота
       "Наманган"
@@ -2749,6 +2763,11 @@ def process_message(message):
             
         # 3. Определяем хэштег по TO_CITY (куда)
         hashtag_region_code = to_region_code
+        
+        # СПЕЦИАЛЬНАЯ ОБРАБОТКА: "НАМАН" как сокращение для Namangan (только для хэштега!)
+        if not hashtag_region_code and to_city.upper() in ['НАМАН', 'NAMAN']:
+            hashtag_region_code = 'namangan_city'
+            logger.info(f"🔍 Специальная обработка: '{to_city}' → Namangan для хэштега")
         
         # Если не найден, пробуем убрать окончания -ga/-дан/-ga и попробовать снова
         if not hashtag_region_code:
