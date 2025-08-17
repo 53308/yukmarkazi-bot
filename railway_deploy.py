@@ -255,7 +255,7 @@ REGION_KEYWORDS = {
     "russian": "Республика Каракалпакстан",
     "aliases": [
       "qoraqalpogiston", "qoraqalpog'iston", "karakalpakstan", "qoraqalpoqiston",
-      "nukus", "nukus shahri", "nukus city",
+      "nukus", "nukus shahri", "nukus city", "нукус", "нукусдан", "nukusdan", "Нукус", "НУКУС",
       "qoraqalpogistonda", "qoraqalpogistondan", "qoraqalpogistonlik",
       "Қорақалпоғистон", "Каракалпакстан", "Республика Каракалпакстан", "Нукус"
     ]
@@ -1501,9 +1501,9 @@ REGION_KEYWORDS = {
   },
 
   "arnasoy": {
-    "topic_id": 101377,
-    "cyrillic_uз": "Арнасой тумани",
-    "latin_uз": "Arnasoy tumani",
+    "topic_id": 101382,  # Изменен с 101377 на 101382 (Фергана)
+    "cyrillic_uz": "Арнасой тумани",
+    "latin_uz": "Arnasoy tumani",
     "russian": "Арнасайский район",
     "aliases": [
       "arnasoy", "arnasay", "arnasoy tumani", "arnasay rayon",
