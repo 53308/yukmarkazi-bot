@@ -87,7 +87,11 @@ REGION_KEYWORDS = {
       "parkent", "Паркент", "piskent", "Пискент",
       "quyichirchiq", "quyi-chirchiq", "quyi chirchiq", "kuyichirchiq", "Қуйичирчиқ",
       "yuqorichirchiq", "yuqori-chirchiq", "yuqori chirchiq", "yukorichirchiq", "Юқоричирчиқ",
-      "boka", "bo'ka", "Бўка", "xasanboy", "hasanboy", "XASANBOY", "HASANBOY", "Хасанбой",
+      "boka", "bo'ka", "Бўка", "xasanboy", "hasanboy", "XASANBOY", "HASANBOY", "Хасанбой", "XASANBOYDAN",
+      # Дополнительные районы Ташкента
+      "yasin", "yasindan", "YASIN", "YASINDAN", "Yasin", "Yasindan", "ясин", "ясиндан",
+      "shafof", "shafofdan", "SHAFOF", "SHAFOFDAN", "Shafof", "Shafofdan", "шафоф", "шафофдан",
+      "toshken", "TOSHKEN", "Toshken", "toshkenden", "тошкен", "тошкендан",
       "chinaz", "chinz", "chinoz", "Чиназ", "Чиноз",
       "zangiota", "zangi-ota", "zangi ota", "Зангиота",
       "qibray", "kibray", "Қибрай",
@@ -106,6 +110,8 @@ REGION_KEYWORDS = {
     "aliases": [
       "fargona", "farg'ona", "fargana", "fergana", "fargona shahri", "fargona city",
       "fargonaga", "fargonadan", "fargonada", "fargonali",
+      # Сокращения из логов
+      "farg", "FARG", "Farg", "фарг", "ФАРГ", "Фарг",
       "Фарғона", "Фергана", "город Фергана", "Ферганы", "Фергане"
     ]
   },
@@ -187,8 +193,10 @@ REGION_KEYWORDS = {
     "aliases": [
       "navoiy", "navoi", "navoyi", "Navoyi", "NAVOYI", "navoiy shahri", "navoi city",
       "navoiyda", "navoiydan", "navoiyga", "navoiylik",
-      "qiziltepaga", "qiziltepa", "qiziltepa tumani",
-      "g'azg'on", "gazgon", "g'azg'ondan", "gazgondan",
+      "qiziltepaga", "qiziltepa", "qiziltepa tumani", "QIZILTEPA", "Qiziltepa", "qiziltepadan", "qiziltepanda",
+      "g'azg'on", "gazgon", "g'azg'ondan", "gazgondan", "G'azg'on", "G'azg'ondan", "GAZGON", "GAZGONDAN",
+      # Дополнительные варианты из логов для G'azg'on
+      "azg", "ondan", "qon", "qonga", "Navoyi G'azg'ondan", "navoyi gazgon",
       "Навоий", "Навои"
     ]
   },
@@ -298,6 +306,7 @@ REGION_KEYWORDS = {
       "russia", "rossiya", "moscow", "moskva", "petersburg", "spb",
       "Maskva", "MASKVA", "maskva", "Москва", "МОСКВА", "москва",  # Проблемные варианты Москвы
       "Samara", "SAMARA", "samara", "Самара", "самара",  # Проблемные варианты Самары
+      # Дополнительные российские города из логов (убираем ошибочные)
       "belarus", "minsk", "kazakhstan", "almaty", "astana", "nur-sultan",
       "kyrgyzstan", "bishkek", "Киргизистон", "киргизистон", "Киргизистондан", "киргизистондан",
       "turkey", "turkiye", "istanbul", "ankara", "iran", "tehran",
@@ -796,6 +805,8 @@ REGION_KEYWORDS = {
       "farg'onada", "farg'onadan", "farg'onga", "farg'onalik",
       "farg ona", "farg ona qirgulidan", "fargona qirgulidan",  # исправляем "агрессивную очистку"
       "yozyovondan", "yozyovon", "yozyovon tumani",  # Ёзёвон район в Фергане
+      # Сокращения и части из логов
+      "farg", "FARG", "Farg", "фарг", "ФАРГ", "Фарг",
       "фаргона", "фергана", "Фарғона", "Фергана", "город Фергана"
     ]
   },
@@ -839,6 +850,8 @@ REGION_KEYWORDS = {
       "quvasoyda", "quvasoydan", "quvasoylik",
       "кувадан", "кува", "кувада", "кувасой", "кувасойдан", "кувасай", "кувган", "кувга",
       "кувасойга", "кувасойда", "кувасоймен", "кувларга", "кувсой", "quvadan", "quvga", "quvada",
+      # Дополнительные варианты Кувасой
+      "kuvasoy", "KUVASOY", "Kuvasoy", "кувасойли", "кувасойским", "кувасойский",
       "Қувасой", "Кувасай", "Кува"
     ]
   },
@@ -936,6 +949,9 @@ REGION_KEYWORDS = {
     "aliases": [
       "chust", "chust tumani", "chust rayon",
       "chustda", "chustdan", "chustga", "chustlik",
+      # Дополнительные варианты Чуст
+      "CHUST", "Chust", "ЧУСТ", "чуст", "чустдан", "чустга", "чустда",
+      "чустли", "чустский", "чустцы", "chustli", "chusty", "chustli",
       "Чуст", "Чустский район"
     ]
   },
@@ -985,6 +1001,9 @@ REGION_KEYWORDS = {
     "aliases": [
       "buxoro", "buxara", "bukhara", "buxoro shaxri", "buxoro city",
       "buxoroda", "buxorodan", "buxoroga", "buxorolik",
+      # Дополнительные варианты Бухары и Водия
+      "водий", "водийга", "водийдан", "водийда", "vodiy", "ВОДИЙ", "Водий",
+      "водийли", "водийский", "водийцы", "vodiyli", "vodiyga", "vodiydan",
       "Бухоро", "Бухара", "город Бухара"
     ]
   },
@@ -1399,6 +1418,9 @@ REGION_KEYWORDS = {
     "aliases": [
       "guliston", "gulistan", "guliston shaxri", "guliston city",
       "gulistonda", "gulistondan", "gulistonga", "gulistonlik",
+      # Дополнительные варианты Сирдарьё области
+      "сирдарйодан", "сирдарйо", "сирдарьё", "сирдарьёдан", "sirdaryo", "sirdarya",
+      "СИРДАРЙО", "Сирдарйо", "СИРДАРЬЁ", "Сирдарьё", "SIRDARYO", "SIRDARYA",
       "Гулистон", "Гулистан"
     ]
   },
@@ -1463,6 +1485,9 @@ REGION_KEYWORDS = {
       "jizzaq", "jizzaq zomin", "jizzaq zomindan",  # Альтернативное написание
       "jizzaxda", "jizzaxdan", "jizzaxga", "jizzaxlik",
       "гагарин", "gagarin", "гагариндан", "gagarindan",  # Гагарин = Жиззах
+      # Добавляем Пишагар (PISHAHAR) для Жиззах области
+      "pishahar", "pishagar", "pishagardan", "pishahardan", "PISHAHAR", "PISHAGAR", "Pishahar", "Pishagar",
+      "pishaharга", "pishagarга", "pishaharда", "pishagarда", "pishaharли", "pishagarли",
       "Жиззах", "Джизак"
     ]
   },
@@ -2121,6 +2146,30 @@ def is_valid_city_or_region(city_name):
             logger.info(f"❌ БЛОКИРОВКА: '{city_name}' содержит технический термин '{term}'")
             return False
     
+    # ДОПОЛНИТЕЛЬНЫЕ БЛОКИРОВКИ для временных терминов и НЕ географических
+    time_terms = ['керак', 'kerak', 'ерталаб', 'ertalab', 'эрталаб', 'утром', 'утру', 'завтра', 'сегодня']
+    # POSTI/POST и НАМАН/NAMAN не являются географическими названиями
+    non_geo_terms = ['posti', 'POSTI', 'Posti', 'пости', 'ПОСТИ', 'Пости', 'постидан', 'постига', 
+                     'post', 'POST', 'Post', 'пост', 'ПОСТ', 'Пост',
+                     'наман', 'НАМАН', 'Наман', 'naman', 'NAMAN', 'Naman', 'намандан', 'наманга']
+    for term in time_terms:
+        if term in city_lower:
+            logger.info(f"❌ БЛОКИРОВКА: '{city_name}' содержит временной термин '{term}'")
+            return False
+    
+    # БЛОКИРУЕМ НЕ географические термины (POSTI, POST и т.д.)
+    for term in non_geo_terms:
+        # Точное совпадение или если это отдельное слово (не часть другого слова)
+        if (term.lower() == city_lower or 
+            (len(term) >= 4 and term.lower() in city_lower and city_lower == term.lower())):
+            logger.info(f"❌ БЛОКИРОВКА: '{city_name}' содержит не географический термин '{term}'")
+            return False
+    
+    # БЛОКИРУЕМ строки с номерами телефонов
+    if re.search(r'\d{7,}', city_name):
+        logger.info(f"❌ БЛОКИРОВКА: '{city_name}' содержит номер телефона")
+        return False
+    
     # БЛОКИРУЕМ профессиональные конструкции
     job_patterns = [
         r'\d+\s*talik',        # "140 talik", "140talik" 
@@ -2142,12 +2191,30 @@ def is_valid_city_or_region(city_name):
         logger.info(f"✅ ВАЛИДАЦИЯ: '{city_name}' - найден регион")
         return True
     else:
-        # Для географических алиасов - более мягкая проверка
-        if len(city_name) >= 4 and city_name.lower() not in ['tel', 'phone', 'telefon', 'tent', 'irot']:
-            logger.info(f"✅ ВАЛИДАЦИЯ: '{city_name}' - разрешен как географический алиас")
-            return True
+        # СТРОГАЯ ВАЛИДАЦИЯ: только реальные географические названия
+        # Больше НЕ разрешаем неизвестные термины как "географические алиасы"
         logger.info(f"❌ БЛОКИРОВКА: '{city_name}' - не найден в REGION_KEYWORDS")
         return False
+
+def find_known_cities_in_text(text):
+    """
+    Находит все известные города в тексте из REGION_KEYWORDS
+    Возвращает список найденных городов
+    """
+    found_cities = []
+    text_normalized = normalize_text(text)
+    
+    # Проходим по всем регионам и их алиасам
+    for region_code, region_data in REGION_KEYWORDS.items():
+        if 'aliases' in region_data:
+            for alias in region_data['aliases']:
+                alias_normalized = normalize_text(alias)
+                if alias_normalized in text_normalized and len(alias_normalized) >= 3:
+                    found_cities.append((alias, region_code))
+    
+    # Сортируем по длине (самые длинные сначала для точности)
+    found_cities.sort(key=lambda x: len(x[0]), reverse=True)
+    return found_cities
 
 def extract_route_and_cargo(text):
     """
@@ -2156,6 +2223,30 @@ def extract_route_and_cargo(text):
     """
     lines = [re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line).strip()
              for line in text.strip().split('\n') if line.strip()]
+
+    # ПРИОРИТЕТ 0: СТРОГИЙ поиск ТОЛЬКО известных городов
+    known_cities = find_known_cities_in_text(text)
+    logger.info(f"🔍 Найденные известные города: {[city for city, region in known_cities]}")
+    
+    if len(known_cities) >= 2:
+        # Берем первые 2 самых длинных известных города
+        city1, region1 = known_cities[0]
+        city2, region2 = known_cities[1]
+        
+        # Проверяем, что оба города действительно есть в тексте и не пересекаются
+        first_lines = ' '.join(lines[:3]).lower()
+        city1_pos = first_lines.find(city1.lower())
+        city2_pos = first_lines.find(city2.lower())
+        
+        if city1_pos != -1 and city2_pos != -1 and city1_pos != city2_pos:
+            # Определяем порядок по позиции в тексте
+            if city1_pos < city2_pos:
+                from_city, to_city = city1, city2
+            else:
+                from_city, to_city = city2, city1
+                
+            logger.info(f"🎯 СТРОГИЙ поиск известных городов: {from_city} → {to_city}")
+            return from_city, to_city, text
 
     # ПРИОРИТЕТ 1: Паттерны "дан...га" (самый высокий приоритет)
     # Очищаем текст от переносов строк для лучшего поиска
@@ -2211,11 +2302,14 @@ def extract_route_and_cargo(text):
             else:
                 continue
             
-            # ВАЛИДАЦИЯ: проверяем, что это реальные города
-            if is_valid_city_or_region(from_city) and is_valid_city_or_region(to_city):
+            # СТРОГАЯ ВАЛИДАЦИЯ: ТОЛЬКО если оба найдены в REGION_KEYWORDS
+            if find_region(from_city) and find_region(to_city):
                 cargo_text = text
                 logger.info(f"🎯 Найден маршрут dan_ga: {from_city} → {to_city}")
                 return from_city, to_city, cargo_text
+            else:
+                logger.info(f"❌ Отклонен dan_ga: {from_city} или {to_city} не найдены в REGION_KEYWORDS")
+                continue
 
     # ПРИОРИТЕТ 2: Полные названия в скобках (например "🇺🇿Qoraqalpoq (Qo'ng'irot)")
     country_flag_pattern = r'🇺🇿(\w+)\s*\(([^)]+)\)'
@@ -2244,6 +2338,29 @@ def extract_route_and_cargo(text):
     for line in lines:
         # КРИТИЧНО: убираем эмодзи
         clean_line = re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line)
+        
+        # СПЕЦИАЛЬНАЯ ОБРАБОТКА для >>> паттернов ПЕРЕД агрессивной очисткой
+        # "Фаргона Кувасой>>> Самарканд" → "Фаргона → Самарканд" (убираем промежуточные города)
+        triple_arrow_match = re.search(r'(.+?)>>>\s*(.+)', clean_line)
+        if triple_arrow_match:
+            left_part = triple_arrow_match.group(1).strip()
+            right_part = triple_arrow_match.group(2).strip()
+            
+            # Извлекаем первый город из левой части и первый город из правой части
+            left_words = left_part.split()
+            right_words = right_part.split()
+            
+            if left_words and right_words:
+                # Берем первый город слева и первый город справа
+                from_candidate = left_words[0].strip()
+                to_candidate = right_words[0].strip()
+                
+                # Проверяем валидность обоих городов
+                if (is_valid_city_or_region(from_candidate) and 
+                    is_valid_city_or_region(to_candidate)):
+                    logger.info(f"🎯 СПЕЦИАЛЬНЫЙ >>> маршрут: {from_candidate} → {to_candidate}")
+                    cargo_text = text.replace(line, '').strip()
+                    return from_candidate, to_candidate, cargo_text
         
         # УЛУЧШЕННАЯ очистка: ТОЛЬКО апострофы остаются внутри слов, ВСЕ остальное разделяет
         # Qoraqalpoq(Qo'ng'irot) → "Qoraqalpoq Qo'ng'irot" (скобки разделяют)
@@ -2296,6 +2413,7 @@ def extract_route_and_cargo(text):
         
         # Используем агрессивно очищенную строку для дальнейшего парсинга
         clean_line = aggressive_clean
+        
         # Нормализуем стрелки 
         clean_line = re.sub(r'[→>]+', '→', clean_line)
 
@@ -2335,11 +2453,14 @@ def extract_route_and_cargo(text):
             from_city = re.sub(r'\([^)]*\)', '', from_city).strip()
             to_city = re.sub(r'\([^)]*\)', '', to_city).strip()
             
-            # ВАЛИДАЦИЯ: проверяем, что это реальные города
-            if is_valid_city_or_region(from_city) and is_valid_city_or_region(to_city):
+            # СТРОГАЯ ВАЛИДАЦИЯ: ТОЛЬКО если оба найдены в REGION_KEYWORDS
+            if find_region(from_city) and find_region(to_city):
                 cargo_text = text.replace(line, '').strip()
                 logger.info(f"🎯 ROUTE_REGEX: {from_city} → {to_city}")
                 return from_city, to_city, cargo_text
+            else:
+                logger.info(f"❌ Отклонен ROUTE_REGEX: {from_city} или {to_city} не найдены в REGION_KEYWORDS")
+                continue
 
         # ПРИОРИТЕТ 3: Emoji-паттерны с флагами стран (для международных маршрутов)
         emoji_patterns = [
@@ -2792,10 +2913,7 @@ def process_message(message):
         # 3. Определяем хэштег по TO_CITY (куда)
         hashtag_region_code = to_region_code
         
-        # СПЕЦИАЛЬНАЯ ОБРАБОТКА: "НАМАН" как сокращение для Namangan (только для хэштега!)
-        if not hashtag_region_code and to_city.upper() in ['НАМАН', 'NAMAN']:
-            hashtag_region_code = 'namangan_city'
-            logger.info(f"🔍 Специальная обработка: '{to_city}' → Namangan для хэштега")
+        # Специальная обработка убрана - НАМАН/NAMAN не являются географическими терминами
         
         # Если не найден, пробуем убрать окончания -ga/-дан/-ga и попробовать снова
         if not hashtag_region_code:
