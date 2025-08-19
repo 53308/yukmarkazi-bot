@@ -2140,9 +2140,11 @@ def is_valid_city_or_region(city_name):
         logger.info(f"❌ БЛОКИРОВКА: '{city_name}' - начинается с цифры")
         return False
     
-    # БЛОКИРУЕМ технические термины (точное совпадение или вхождение)
+    # БЛОКИРУЕМ технические термины (ТОЛЬКО как отдельные слова, не как части слов)
+    city_words = city_lower.split()
     for term in technical_terms:
-        if term in city_lower or city_lower == term:
+        # Проверяем точное совпадение слова или вхождение как отдельное слово
+        if city_lower == term or term in city_words:
             logger.info(f"❌ БЛОКИРОВКА: '{city_name}' содержит технический термин '{term}'")
             return False
     
@@ -2224,7 +2226,37 @@ def extract_route_and_cargo(text):
     lines = [re.sub(r'[🇺🇿🇰🇿🇮🇷🚚📦⚖️💵\U0001F1FA-\U0001F1FF\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', '', line).strip()
              for line in text.strip().split('\n') if line.strip()]
 
-    # ПРИОРИТЕТ 0: СТРОГИЙ поиск ТОЛЬКО известных городов
+    # ПРИОРИТЕТ 0: Флаги стран с городами в скобках (высший приоритет для точного парсинга)
+    # Ищем все флаги 🇺🇿 с городами в ИСХОДНОМ тексте (с эмодзи)
+    flag_pattern = r'🇺🇿(\w+)(?:\(([^)]+)\))?'
+    flag_matches = []
+    
+    # Собираем все совпадения с флагами из ИСХОДНОГО текста
+    original_lines = text.strip().split('\n')
+    for line in original_lines[:5]:  # Проверяем первые 5 строк с эмодзи
+        matches = re.findall(flag_pattern, line)
+        for match in matches:
+            city_name = match[0].strip()  # Основной город
+            district_name = match[1].strip() if match[1] else None  # Район в скобках
+            
+            # Приоритет основному городу (не району)
+            if is_valid_city_or_region(city_name):
+                flag_matches.append(city_name)
+                logger.info(f"🏗️ ФЛАГ найден: {city_name}")
+            # Если основной город не найден, проверяем район
+            elif district_name and is_valid_city_or_region(district_name):
+                flag_matches.append(district_name)
+                logger.info(f"🏗️ ФЛАГ найден (район): {district_name}")
+    
+    # Если найдено 2+ валидных города с флагами - это маршрут
+    if len(flag_matches) >= 2:
+        from_city = flag_matches[0]
+        to_city = flag_matches[1]
+        cargo_text = text
+        logger.info(f"🎯 Найден маршрут по флагам: {from_city} → {to_city}")
+        return from_city, to_city, cargo_text
+
+    # ПРИОРИТЕТ 1: СТРОГИЙ поиск ТОЛЬКО известных городов (если флаги не сработали)
     known_cities = find_known_cities_in_text(text)
     logger.info(f"🔍 Найденные известные города: {[city for city, region in known_cities]}")
     
@@ -2248,17 +2280,17 @@ def extract_route_and_cargo(text):
             logger.info(f"🎯 СТРОГИЙ поиск известных городов: {from_city} → {to_city}")
             return from_city, to_city, text
 
-    # ПРИОРИТЕТ 1: Паттерны "дан...га" (самый высокий приоритет)
+    # ПРИОРИТЕТ 2: Паттерны "дан...га"
     # Очищаем текст от переносов строк для лучшего поиска
     full_text_clean = re.sub(r'\s+', ' ', ' '.join(lines)).strip()
-    # КРИТИЧНО: ПРАВИЛЬНАЯ очистка - ТОЛЬКО апострофы остаются внутри слов
-    # Qoraqalpoq(Qo'ng'irot) → "Qoraqalpoq Qo'ng'irot" (скобки разделяют слова)
-    full_text_clean = re.sub(r'[^\w\s\'ʼʻ`]', ' ', full_text_clean)  # ТОЛЬКО апострофы ', ʼ, ʻ, ` внутри слов
+    # КРИТИЧНО: ПРАВИЛЬНАЯ очистка - знаки препинания становятся пробелами, апострофы остаются
+    # Qoraqalpoq(Qo'ng'irot) → "Qoraqalpoq Qo'ng'irot" (скобки разделяют, апострофы остаются)
+    full_text_clean = re.sub(r'[^\w\s\'ʼʻ`]', ' ', full_text_clean)  # Апострофы ОСТАЮТСЯ
     full_text_clean = re.sub(r'\s+', ' ', full_text_clean)           # множественные пробелы → один пробел
     
     dan_ga_patterns = [
-        r"(\w+'?\w+)dan\s+(\w+'?\w+)ga",              # G'azg'ondan Qo'qonga (с апострофами)
-        r"(\w+'?\w+)дан\s+(\w+'?\w+)га",              # Г'азг'ондан Ко'конга (с апострофами)
+        r"(\w+)dan\s+(\w+)ga",                       # Очищенные названия без апострофов
+        r"(\w+)дан\s+(\w+)га",                       # Очищенные названия без апострофов
         r'(\w+)dan\s+(\w+)ga',                        # Toshkentdan termizga (латиница)
         r'(\w+)дан\s+(\w+)га',                        # Тошкентдан термизга (кириллица)
         r"(\w+'?\w+)dan\s+(\w+'?\w+)",                # G'azg'ondan Qo'qon (с апострофами)
@@ -2311,29 +2343,7 @@ def extract_route_and_cargo(text):
                 logger.info(f"❌ Отклонен dan_ga: {from_city} или {to_city} не найдены в REGION_KEYWORDS")
                 continue
 
-    # ПРИОРИТЕТ 2: Полные названия в скобках (например "🇺🇿Qoraqalpoq (Qo'ng'irot)")
-    country_flag_pattern = r'🇺🇿(\w+)\s*\(([^)]+)\)'
-    for line in lines[:3]:  # Проверяем только первые 3 строки
-        flag_match = re.search(country_flag_pattern, line)
-        if flag_match:
-            region_name = flag_match.group(1).strip()
-            city_in_brackets = flag_match.group(2).strip()
-            # Проверяем оба города
-            if is_valid_city_or_region(region_name) and is_valid_city_or_region(city_in_brackets):
-                # Если найдено 2 строки с флагами - это маршрут
-                next_line_idx = lines.index(line) + 1
-                if next_line_idx < len(lines):
-                    next_flag_match = re.search(country_flag_pattern, lines[next_line_idx])
-                    if next_flag_match:
-                        next_region = next_flag_match.group(1).strip()
-                        next_city = next_flag_match.group(2).strip()
-                        if is_valid_city_or_region(next_region) and is_valid_city_or_region(next_city):
-                            # Используем города из скобок для точности
-                            from_city = city_in_brackets
-                            to_city = next_city
-                            cargo_text = text
-                            logger.info(f"🎯 Найден маршрут по флагам: {from_city} → {to_city}")
-                            return from_city, to_city, cargo_text
+
 
     for line in lines:
         # КРИТИЧНО: убираем эмодзи
@@ -2362,10 +2372,10 @@ def extract_route_and_cargo(text):
                     cargo_text = text.replace(line, '').strip()
                     return from_candidate, to_candidate, cargo_text
         
-        # УЛУЧШЕННАЯ очистка: ТОЛЬКО апострофы остаются внутри слов, ВСЕ остальное разделяет
-        # Qoraqalpoq(Qo'ng'irot) → "Qoraqalpoq Qo'ng'irot" (скобки разделяют)
-        # Qo'qon остается Qo'qon (апостроф внутри слова)
-        aggressive_clean = re.sub(r'[^\w\s\'ʼʻ`]', ' ', clean_line)  # ТОЛЬКО апострофы ', ʼ, ʻ, ` внутри слов
+        # УЛУЧШЕННАЯ очистка: скобки и знаки препинания превращаются в пробелы
+        # Qoraqalpoq(Qo'ng'irot) → "Qoraqalpoq Qo'ng'irot" (скобки разделяют, апострофы ОСТАЮТСЯ)  
+        # Важно: апострофы СОХРАНЯЮТСЯ, чтобы не разбивать названия городов типа Qoraqalpogʻiston
+        aggressive_clean = re.sub(r'[^\w\s\'ʼʻ`]', ' ', clean_line)  # Апострофы ОСТАЮТСЯ
         aggressive_clean = re.sub(r'\s+', ' ', aggressive_clean)     # множественные пробелы → один пробел
         aggressive_clean = aggressive_clean.strip()
         
@@ -2411,13 +2421,36 @@ def extract_route_and_cargo(text):
                 cargo_text = text.replace(line, '').strip()
                 return "Toshkent", destination_found, cargo_text
         
+        # ПРИОРИТЕТ 0: СТРОГИЙ поиск известных городов в ИСХОДНОЙ строке (сохраняет апострофы)
+        original_line = [l for l in text.strip().split('\n') if line.replace(' ', '') in l.replace(' ', '')][0] if any(line.replace(' ', '') in l.replace(' ', '') for l in text.strip().split('\n')) else line
+        known_cities_in_line = find_known_cities_in_text(original_line)
+        
+        if len(known_cities_in_line) >= 2:
+            city1, region1 = known_cities_in_line[0]
+            city2, region2 = known_cities_in_line[1]
+            
+            # Определяем порядок по позиции в строке
+            line_lower = original_line.lower()
+            city1_pos = line_lower.find(city1.lower())
+            city2_pos = line_lower.find(city2.lower())
+            
+            if city1_pos != -1 and city2_pos != -1 and city1_pos != city2_pos:
+                if city1_pos < city2_pos:
+                    from_city, to_city = city1, city2
+                else:
+                    from_city, to_city = city2, city1
+                    
+                logger.info(f"🎯 СТРОГИЙ поиск в строке: {from_city} → {to_city}")
+                cargo_text = text.replace(line, '').strip()
+                return from_city, to_city, cargo_text
+
         # Используем агрессивно очищенную строку для дальнейшего парсинга
         clean_line = aggressive_clean
         
         # Нормализуем стрелки 
         clean_line = re.sub(r'[→>]+', '→', clean_line)
 
-        # ПРИОРИТЕТ 2: ROUTE_REGEX (основной)
+        # ПРИОРИТЕТ 1: ROUTE_REGEX (основной, только если строгий поиск не сработал)
         route_match = ROUTE_REGEX.search(clean_line)
         if route_match:
             from_city = route_match.group(1).strip()
