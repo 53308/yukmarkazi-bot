@@ -57,7 +57,7 @@ REGION_KEYWORDS = {
       # Основной город
       "toshkent", "tashkent", "tosh-kent", "tash-kent", "towkent", "toshkent shahri", "tashkent city",
       "toshkentga", "tashkentga", "toshkentdan", "tashkentdan", "toshkentda", "toshkentdagi",
-      "toshkent", "TOSHKENT", # исправляем регистр
+      "toshkent", "TOSHKENT", "узб тошкент", "УЗБ ТОШКЕНТ", "uzb toshkent", "UZB TOSHKENT", # исправляем регистр + УЗБ
       "toshkenga", "toshkentga", "olmosga", "olmosxo'ja", "olmos", "olmoscha",
       "Тошкент", "Ташкент", "ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
       "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy",
@@ -92,6 +92,7 @@ REGION_KEYWORDS = {
       "yasin", "yasindan", "YASIN", "YASINDAN", "Yasin", "Yasindan", "ясин", "ясиндан",
       "shafof", "shafofdan", "SHAFOF", "SHAFOFDAN", "Shafof", "Shafofdan", "шафоф", "шафофдан",
       "toshken", "TOSHKEN", "Toshken", "toshkenden", "тошкен", "тошкендан",
+      "towken", "towkendan", "towkent", "towkentdan", "towkentga",  # Проблемные варианты из логов
       "chinaz", "chinz", "chinoz", "Чиназ", "Чиноз",
       "zangiota", "zangi-ota", "zangi ota", "Зангиота",
       "qibray", "kibray", "Қибрай",
@@ -974,10 +975,11 @@ REGION_KEYWORDS = {
     "latin_uz": "Yangiqoʻrgʻon tumani",
     "russian": "Янги-Курганский район",
     "aliases": [
-      "yangiqorgon", "yangikurgan", "yangiqoʻrgʻon", "yangiqurgan",
-      "yangiqorgon tumani", "yangikurgan rayon",
+      "yangiqorgon", "yangikurgan", "yangiqoʻrgʻon", "yangiqurgan", "yangiyol", "yangiyo'l",  # Добавляем Yangiyol
+      "yangiqorgon tumani", "yangikurgan rayon", "yangiyol tumani",
       "yangiqorgonda", "yangiqorgondan", "yangiqorgonga", "yangiqorgonlik",
-      "Янгикўрган", "Янги-Курган", "Янги-Курганский район"
+      "yangiyolda", "yangiyoldan", "yangiyolga", "yangiyollik",
+      "Янгикўрган", "Янги-Курган", "Янги-Курганский район", "Янгийўл"
     ]
   },
 
@@ -1001,6 +1003,7 @@ REGION_KEYWORDS = {
     "aliases": [
       "buxoro", "buxara", "bukhara", "buxoro shaxri", "buxoro city",
       "buxoroda", "buxorodan", "buxoroga", "buxorolik",
+      "узб бухоро", "УЗБ БУХОРО", "uzb buxoro", "UZB BUXORO", # Добавляем УЗБ варианты
       # Дополнительные варианты Бухары и Водия
       "водий", "водийга", "водийдан", "водийда", "vodiy", "ВОДИЙ", "Водий",
       "водийли", "водийский", "водийцы", "vodiyli", "vodiyga", "vodiydan",
@@ -1038,7 +1041,7 @@ REGION_KEYWORDS = {
     "latin_uz": "Romitan tumani",
     "russian": "Ромитанский район",
     "aliases": [
-      "romitan", "romitan tumani", "romitan rayon",
+      "romitan", "romiton", "romitan tumani", "romitan rayon",  # Добавляем "romiton"
       "romitanda", "romitandan", "romitanga", "romitanlik",
       "Ромитан", "Ромитанский район"
     ]
@@ -3111,6 +3114,12 @@ def find_region(text: str) -> str | None:
     
     # 1. Поиск в REGION_KEYWORDS (aliases)
     for code, data in REGION_KEYWORDS.items():
+        # БЛОКИРОВКА служебных топиков - бот НЕ должен отправлять туда сообщения
+        topic_id = data.get('topic_id')
+        BLOCKED_TOPICS = [101361, 101360, 101359]  # Fura bozor, REKLAMA, Yangiliklar
+        if topic_id in BLOCKED_TOPICS:
+            continue  # Пропускаем служебные топики
+            
         for kw in data.get('aliases', []):
             # Нормализуем алиас тоже с апострофами
             kw_normalized_apostrophes = normalize_apostrophes_for_search(kw)
@@ -3134,20 +3143,18 @@ def find_region(text: str) -> str | None:
                     'belarus', 'беларусь', 'минск', 'minsk', 'borisov', 'борисов', 'vitebsk', 'витебск',
                     'ukraina', 'украина', 'kiev', 'киев', 'odessa', 'одесса', 'lvov', 'львов',
                     'turkiya', 'турция', 'istanbul', 'стамбул', 'ankara', 'анкара',
-                    'import', 'eksport', 'экспорт', 'импорт', 'cis', 'снг', 'europa', 'европа'],
-        'reklama': ['reklama', 'реклама', 'sotiladi', 'sotuvda', 'продается', 'продаю'],
-        'yangiliklar': ['yangilik', 'yangiliklar', 'новости', 'news', 'xabar'],
-        'furabozor': ['furabozor', 'fura bozor', 'фурабозор', 'рынок фур']
+                    'import', 'eksport', 'экспорт', 'импорт', 'cis', 'снг', 'europa', 'европа',
+                    # Российские города из логов
+                    'електрогорск', 'eketerinburg', 'екатеринбург', 'электрогорск', 'пермь', 'дачная', 'алапаевск']
+        # ЗАБЛОКИРОВАНЫ: reklama, yangiliklar, furabozor - бот НЕ должен отправлять туда сообщения
     }
     
     for code, keywords in special_mappings.items():
         for kw in keywords:
             kw_norm = normalize_text(kw)
             if kw_norm in text_norm:
-                # Для международных маршрутов: ключевые слова ИЛИ флаги стран
+                # Только международные маршруты разрешены
                 if code == 'xalqaro':
-                    return code
-                else:
                     return code
     
     # Проверка только флагов для международных маршрутов (если ключевые слова не найдены)
