@@ -3386,15 +3386,39 @@ def block_noise():
         return "", 204  # молча отклоняем всё лишнее
 # ==============================================
 
-# Инициализация при импорте для Gunicorn
-if BOT_TOKEN:
-    init_logging()
-    logger.info("🚀 Инициализация автономного бота для Gunicorn...")
+# АВТОНОМНЫЙ ЗАПУСК БОТА ДЛЯ RENDER/GUNICORN
+if BOT_TOKEN and not globals().get('_bot_started'):
+    globals()['_bot_started'] = True  # Защита от повторного запуска
     
-    # Запуск бота в отдельном потоке при старте приложения
-    bot_thread = threading.Thread(target=bot_main_loop, daemon=False)  # НЕ daemon - АВТОНОМНЫЙ!
+    init_logging()
+    logger.info("🚀 RENDER: Инициализация автономного бота...")
+    
+    # Обязательная инициализация переменных  
+    globals()['bot_start_time'] = datetime.now()
+    globals()['last_activity'] = datetime.now()
+    globals()['message_count'] = 0
+    globals()['bot_status'] = "АКТИВЕН"
+    globals()['stop_polling'] = False
+    globals()['last_update_id'] = 0
+    
+    # Запуск бота в отдельном потоке
+    bot_thread = threading.Thread(target=bot_main_loop, daemon=False)
     bot_thread.start()
-    logger.info("✅ Бот запущен в АВТОНОМНОМ потоке")
+    logger.info("✅ RENDER: Автономный бот запущен в независимом потоке!")
+    
+    # Уведомление админу о запуске
+    def notify_startup():
+        time.sleep(2)  # Небольшая задержка
+        try:
+            requests.post(f"{API_URL}/sendMessage", json={
+                "chat_id": ADMIN_USER_ID,
+                "text": "🎉 БОТ ЗАПУЩЕН НА RENDER!\n\n✅ Полностью автономный\n✅ НЕ зависит от Replit\n🚀 Работает 24/7"
+            }, timeout=5)
+        except:
+            pass
+    
+    # Уведомление в отдельном потоке
+    threading.Thread(target=notify_startup, daemon=True).start()
 
 @app.route('/')
 def home():
