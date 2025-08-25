@@ -102,7 +102,7 @@ REGION_KEYWORDS = {
       "zangiota", "zangi-ota", "zangi ota", "Зангиота",
       "qibray", "kibray", "Қибрай",
       "nurafshon", "nurafshan", "Нурафшон",
-      "gazalkent", "gazal-kent", "gazalket", "gazalketga", "Газалкент", "Газалкет", "газалкет", "газалкетга",
+      "gazalkent", "gazal-kent", "gazalket", "gazalketga", "Газалкент", "Газалкет", "газалкет", "газалкетга", "газалкетта", "gazalketta",
       "oʻrtasaroy", "o'rtasaroy", "ortasaroy", "Oʻrtasaroy", "O'rtasaroy", "Ўртасарой"  # Ўртасарой район
     ]
   },
@@ -2796,10 +2796,12 @@ def handle_command(message):
     elif text == '/status':
         if user_id == ADMIN_USER_ID:
             # Детальная статистика для админа
-            response = f"🤖 Статус бота:\n✅ Активен и работает\n📊 Обработано сообщений: {message_count}\n🕐 Время: {datetime.now().strftime('%H:%M:%S')}\n🌐 Сервер: Render\n💚 UptimeRobot мониторинг активен"
+            uptime = datetime.now() - bot_start_time
+            h, m = divmod(int(uptime.total_seconds() // 60), 60)
+            response = f"🤖 АВТОНОМНЫЙ БОТ v2.0\n✅ Статус: {bot_status}\n📊 Сообщений: {message_count}\n⏰ Uptime: {h}ч {m}м\n🔥 ПОЛНОСТЬЮ НЕЗАВИСИМЫЙ!\n💓 Heartbeat активен\n🕐 {datetime.now().strftime('%H:%M:%S')}"
         else:
             # Простой статус для всех
-            response = f"🤖 Бот активен\n🕐 {datetime.now().strftime('%H:%M:%S')}"
+            response = f"🤖 Автономный бот активен\n✅ Работаю 24/7\n🕐 {datetime.now().strftime('%H:%M:%S')}"
         send_telegram_message(chat_id, response)
 
 def process_message(message):
@@ -3381,9 +3383,9 @@ if BOT_TOKEN:
     logger.info("🚀 Инициализация автономного бота для Gunicorn...")
     
     # Запуск бота в отдельном потоке при старте приложения
-    bot_thread = threading.Thread(target=bot_main_loop, daemon=True)
+    bot_thread = threading.Thread(target=bot_main_loop, daemon=False)  # НЕ daemon - АВТОНОМНЫЙ!
     bot_thread.start()
-    logger.info("✅ Бот запущен в фоновом потоке")
+    logger.info("✅ Бот запущен в АВТОНОМНОМ потоке")
 
 @app.route('/')
 def home():
@@ -3443,7 +3445,9 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, shutdown_handler)
     
     # Запуск автономного бота
-    threading.Thread(target=bot_main_loop, daemon=True).start()
+    bot_thread = threading.Thread(target=bot_main_loop, daemon=False)  # НЕ daemon!
+    bot_thread.start()
+    logger.info("🚀 АВТОНОМНЫЙ БОТ ЗАПУЩЕН - НЕ ЗАВИСИТ ОТ WORKFLOW!")
     
     # Уведомление о запуске
     try:
