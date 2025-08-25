@@ -21,7 +21,7 @@ from flask import Flask, request, jsonify
 import requests
 
 # ========== Настройки ==========
-BOT_TOKEN     = '8098291030:AAFTt4SLrOz95Hfq8TKdvgnv8j5ojEnirYg'  # Принудительно новый токен
+BOT_TOKEN     = os.environ.get('NEW_TELEGRAM_BOT_TOKEN', '8098291030:AAFTt4SLrOz95Hfq8TKdvgnv8j5ojEnirYg')  # Используем новый безопасный токен
 MAIN_GROUP_ID = int(os.environ.get('MAIN_GROUP_ID', '-1002259378109'))
 ADMIN_USER_ID = int(os.environ.get('ADMIN_USER_ID', '8101326669'))
 BOT_USERNAME  = os.getenv("BOT_USERNAME", "ym_logistics_bot")  # без @
@@ -61,6 +61,7 @@ REGION_KEYWORDS = {
       "toshkenga", "toshkentga", "olmosga", "olmosxo'ja", "olmos", "olmoscha",
       "Тошкент", "Ташкент", "ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
       "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy",
+      "Maskva", "MASKVA", "maskva", "москва", "Москва", "МОСКВА",  # Добавляем Москву
       # ВСЕ РАЙОНЫ ТАШКЕНТА
       "yunusobod", "yunusabad", "yunus-obod", "yunus obod", "Юнусобод", "Юнусабад",
       "mirzo-ulugbek", "mirzo ulugbek", "mirzoulugbek", "mirzo ulug'bek", "Мирзо-Улуғбек", "Мирзо Улуғбек",
@@ -86,6 +87,11 @@ REGION_KEYWORDS = {
       "parkent", "Паркент", "piskent", "Пискент",
       "quyichirchiq", "quyi-chirchiq", "quyi chirchiq", "kuyichirchiq", "Қуйичирчиқ",
       "yuqorichirchiq", "yuqori-chirchiq", "yuqori chirchiq", "yukorichirchiq", "Юқоричирчиқ",
+      # Варианты просто Chirchiq (город в Ташкентской области)
+      "chirchiq", "chirchik", "circiq", "circik", "CHIRCHIQ", "CHIRCHIK", "CIRCIQ", "CIRCIK",
+      "Chirchiq", "Chirchik", "Circiq", "Circik", "чирчик", "чирчиқ", "Чирчик", "Чирчиқ",
+      "platina bozori", "platina bozoridan", "платина бозори", "платина бозоридан", # Платина бозор
+      "vodiy", "vodiydan", "vodiyga", "водий", "водийдан", "Водий", "Водийдан", # Водий
       "boka", "bo'ka", "Бўка", "xasanboy", "hasanboy", "XASANBOY", "HASANBOY", "Хасанбой", "XASANBOYDAN",
       # Дополнительные районы Ташкента
       "yasin", "yasindan", "YASIN", "YASINDAN", "Yasin", "Yasindan", "ясин", "ясиндан",
@@ -96,7 +102,7 @@ REGION_KEYWORDS = {
       "zangiota", "zangi-ota", "zangi ota", "Зангиота",
       "qibray", "kibray", "Қибрай",
       "nurafshon", "nurafshan", "Нурафшон",
-      "gazalkent", "gazal-kent", "Газалкент",
+      "gazalkent", "gazal-kent", "gazalket", "gazalketga", "Газалкент", "Газалкет", "газалкет", "газалкетга",
       "oʻrtasaroy", "o'rtasaroy", "ortasaroy", "Oʻrtasaroy", "O'rtasaroy", "Ўртасарой"  # Ўртасарой район
     ]
   },
@@ -139,6 +145,7 @@ REGION_KEYWORDS = {
       "namangan", "namagan", "namangan shahri", "namangan city",
       "namanganga", "namangandan", "namanganda", "namanganlik",
       "xaqlabot", "xaqlabad", "Хаклабот", # район в Намангане
+      "pop", "pop semenit", "pop zavodi", "Поп", "Поп семент", "Поп заводан", # Поп семент завод
       "Наманган", "город Наманган", "Намангана", "Намангане"
     ]
   },
@@ -153,6 +160,7 @@ REGION_KEYWORDS = {
       "andijon", "andijan", "andijon shahri", "andijon city",
       "andijonga", "andijondan", "andijonda", "andijonlik",
       "marhamat", "marhamatga", # район в Андижане
+      "joxon", "joxon bozor", "joxon bozorga", "жохон", "жохон бозор", # Жохон бозор
       "Андижон", "Андижан", "город Андижан", "Андижана", "Андижане"
     ]
   },
@@ -306,6 +314,9 @@ REGION_KEYWORDS = {
       "russia", "rossiya", "moscow", "moskva", "petersburg", "spb",
       "Maskva", "MASKVA", "maskva", "Москва", "МОСКВА", "москва",  # Проблемные варианты Москвы
       "Samara", "SAMARA", "samara", "Самара", "самара",  # Проблемные варианты Самары
+      # Новые российские города из логов
+      "volgoda", "волгода", "Волгода", "sheksna", "шексна", "Шексна",
+      "cherepovets", "череповец", "Череповец", "новосибирск", "novosibirsk", "омск", "omsk",
       # Дополнительные российские города из логов (убираем ошибочные)
       "belarus", "minsk", "kazakhstan", "almaty", "astana", "nur-sultan",
       "kyrgyzstan", "bishkek", "Киргизистон", "киргизистон", "Киргизистондан", "киргизистондан",
@@ -1879,7 +1890,7 @@ REGION_KEYWORDS = {
         'keywords': [
             # Россия
             'russia', 'rosiya', 'russia İ', 'rosiya İ', 'russia i', 'rosiya i',
-            'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', "moskva'", "Maskva", "MASKVA", "maskva", "москва", "Москва", "МОСКВА",  # Добавляем Москву
+            'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', "moskva'",
             'москва', 'московская', 'москва обл', 'московская область',
             'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i',
             'спб', 'санкт-петербург', 'питер', 'ленинград',
