@@ -1494,13 +1494,62 @@ REGION_KEYWORDS = {
     "latin_uз": "Jizzax shahri",
     "russian": "город Джизак",
     "aliases": [
-      "jizzax", "jizzakh", "jizzax shaxri", "jizzax city",
+      "jizzax", "jizzakh", "jizzax shaxri", "jizzax city", 
       "jizzaq", "jizzaq zomin", "jizzaq zomindan",  # Альтернативное написание
-      "jizzaxda", "jizzaxdan", "jizzaxga", "jizzaxlik",
+      "jizzaxda", "jizzaxdan", "jizzaxga", "jizzaxlik", "Арнасай", "Арнасой", "Арнасой тумани",
+    "Арнасайский", "Арнасайский район",
+    "Arnasay", "Arnasoy", "Arnasay tumani", "Arnasoyda", "Arnasoydan", "Arnasoylik",
+    "arnasay", "arnasoy", "arnasay tumani", "arnasoyda", "arnasoydan", "arnasoylik",
+
+    "Бахмал", "Бахмаль", "Бахмал тумани",
+    "Бахмальский", "Бахмальский район",
+    "Baxmal", "Bahmal", "Baxmal tumani", "Baxmalda", "Baxmaldan", "Baxmallik",
+    "baxmal", "bahmal", "baxmal tumani", "baxmalda", "baxmaldan", "baxmallik",
+
+    "Галлаорол", "Галлаарал", "Галлаорол тумани",
+    "Галлааральский", "Галлааральский район",
+    "Gallaorol", "Gallaarol", "Gallaorol tumani", "Gallaorolda", "Gallaoroldan", "Gallaorollik",
+    "gallaorol", "gallaarol", "gallaorol tumani", "gallaorolda", "gallaoroldan", "gallaorollik",
+
+    "Заамин", "Зомин", "Заамин тумани",
+    "Зааминский", "Зааминский район",
+    "Zomin", "Zaamin", "Zomin tumani", "Zominda", "Zomindan", "Zominlik",
+    "zomin", "zaamin", "zomin tumani", "zominda", "zomindan", "zominlik",
+
+    "Зарбдор", "Зарбдар", "Зарбдор тумани", "Зарбда",
+    "Зарбдорский", "Зарбдорский район",
+    "Zarbdor", "Zarbador", "Zarbdor tumani", "Zarbdorda", "Zarbdordan", "Zarbdorlik",
+    "zarbdor", "zarbador", "zarbdor tumani", "zarbdorda", "zarbdordan", "zarbdorlik",
+
+    "Мирзачўл", "Мирзачул", "Мирзачуль", "Мирзачўл тумани",
+    "Мирзачульский", "Мирзачульский район",
+    "Mirzachul", "Mirzacho'l", "Mirzachul tumani", "Mirzachulda", "Mirzachuldan", "Mirzachullik",
+    "mirzachul", "mirzacho'l", "mirzachul tumani", "mirzachulda", "mirzachuldan", "mirzachullik",
+    "mirzachol", "mirzachol", "mirzachul tumani", "mirzachulda", "mirzachuldan", "mirzachullik",
+
+    "Пахтакор", "Пахтакор тумани",
+    "Пахтакорский", "Пахтакорский район",
+    "Paxtakor", "Pahtakor", "Paxtakor tumani", "Paxtakorda", "Paxtakordan", "Paxtakorlik",
+    "paxtakor", "pahtakor", "paxtakor tumani", "paxtakorda", "paxtakordan", "paxtakorlik",
+
+    "Фориш", "Фориш тумани",
+    "Форишский", "Форишский район",
+    "Forish", "Forish tumani", "Forishda", "Forishdan", "Forishlik",
+    "forish", "forish tumani", "forishda", "forishdan", "forishlik",
+
+    "Янгиқўрғон", "Янгикурган", "Янгиқўрғон тумани",
+    "Янгикурганский", "Янгикурганский район",
+    "Yangiqurgon", "Yangikurgon", "Yangiqorgon", "Yangiqurgon tumani", "Yangiqurgonda", "Yangiqurgondan", "Yangiqurgonlik",
+    "yangiqurgon", "yangikurgon", "yangiqorgon", "yangiqurgon tumani", "yangiqurgonda", "yangiqurgondan", "yangiqurgonlik",
+
+    "Зиёд", "Зияд", "Зиёд тумани",
+    "Зиёдовский", "Зиёдовский район",
+    "Ziyod", "Ziyo", "Ziyod tumani", "Ziyodda", "Ziyoddan", "Ziyodlik",
+    "ziyod", "ziyo", "ziyod tumani", "ziyodda", "ziyoddan", "ziyodlik",
       "гагарин", "gagarin", "гагариндан", "gagarindan",  # Гагарин = Жиззах
       # Добавляем Пишагар (PISHAHAR) для Жиззах области
       "pishahar", "pishagar", "pishagardan", "pishahardan", "PISHAHAR", "PISHAGAR", "Pishahar", "Pishagar",
-      "pishaharга", "pishagarга", "pishaharда", "pishagarда", "pishaharли", "pishagarли",
+      "pishaharга", "pishagarга", "pishaharда", "pishagarда", "pishaharли", "pishagarли", 
       "Жиззах", "Джизак"
     ]
   },
