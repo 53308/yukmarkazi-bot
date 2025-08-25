@@ -2776,12 +2776,21 @@ def ask_admin_topic(message, from_city, to_city):
 def send_telegram_message(chat_id, text):
     """Отправка сообщения через Telegram API"""
     try:
-        requests.post(f"{API_URL}/sendMessage", json={
+        response = requests.post(f"{API_URL}/sendMessage", json={
             "chat_id": chat_id,
             "text": text
         }, timeout=10)
+        
+        if response.status_code == 200:
+            logger.info(f"✅ Сообщение отправлено успешно в чат {chat_id}")
+            return True
+        else:
+            logger.error(f"❌ Ошибка отправки: {response.status_code} - {response.text}")
+            return False
+            
     except Exception as e:
-        logger.error(f"Ошибка отправки сообщения: {e}")
+        logger.error(f"❌ Ошибка отправки сообщения: {e}")
+        return False
 
 def handle_command(message):
     """Обработка команд бота"""
