@@ -61,7 +61,6 @@ REGION_KEYWORDS = {
       "toshkenga", "toshkentga", "olmosga", "olmosxo'ja", "olmos", "olmoscha",
       "Тошкент", "Ташкент", "ташкент", "Тош-Кент", "Таш-Кент", "Товкент", "Тошкент шаҳри", "город Ташкент",
       "Ташкента", "Ташкенте", "Ташкенту", "Ташкентский", "Ташкент-Сити", "toshkent'skiy",
-      "Maskva", "MASKVA", "maskva", "москва", "Москва", "МОСКВА",  # Добавляем Москву
       # ВСЕ РАЙОНЫ ТАШКЕНТА
       "yunusobod", "yunusabad", "yunus-obod", "yunus obod", "Юнусобод", "Юнусабад",
       "mirzo-ulugbek", "mirzo ulugbek", "mirzoulugbek", "mirzo ulug'bek", "Мирзо-Улуғбек", "Мирзо Улуғбек",
@@ -1880,7 +1879,7 @@ REGION_KEYWORDS = {
         'keywords': [
             # Россия
             'russia', 'rosiya', 'russia İ', 'rosiya İ', 'russia i', 'rosiya i',
-            'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', "moskva'",
+            'moskva', 'moscow', 'moskva İ', 'moskvaʼ', 'moskva i', "moskva'", "Maskva", "MASKVA", "maskva", "москва", "Москва", "МОСКВА",  # Добавляем Москву
             'москва', 'московская', 'москва обл', 'московская область',
             'spb', 'sankt-peterburg', 'piter', 'saint-petersburg', 'spb İ', 'spb i',
             'спб', 'санкт-петербург', 'питер', 'ленинград',
